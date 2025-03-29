@@ -73,7 +73,7 @@ const SuccessStories = () => {
               key={story.id} 
               className="bg-white rounded-2xl overflow-hidden shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
             >
-              {/* Image Container */}
+            
               <div className="relative h-64 overflow-hidden">
                 <img 
                   src={story.coupleImage}
@@ -87,7 +87,7 @@ const SuccessStories = () => {
                 </div>
               </div>
 
-              {/* Content */}
+            
               <div className="p-6">
                 <h3 className="text-lg font-bold text-gray-800 mb-2">
                   {story.groomName} <span className="text-red-600">&</span> {story.brideName}

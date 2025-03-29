@@ -104,7 +104,7 @@ const PlanSection = () => {
   ];
 
   return (
-    <div className="py-6 bg-gradient-to-b from-white to-red-50 relative">
+    <div className="py-4 sm:py-6 bg-gradient-to-b from-white to-red-50 relative w-full">
       <style jsx>{`
         @keyframes scroll {
           0% { transform: translateY(0); }
@@ -118,7 +118,7 @@ const PlanSection = () => {
         }
       `}</style>
       
-      <div className="absolute inset-0 opacity-10 overflow-hidden">
+      <div className="absolute inset-0 opacity-10 overflow-hidden w-full">
         <div 
           className="h-full w-full bg-center bg-no-repeat bg-cover"
           style={{ 
@@ -130,40 +130,40 @@ const PlanSection = () => {
         ></div>
       </div>
       
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16 relative">
-          <div className="absolute left-1/2 -translate-x-1/2 top-0 w-24 h-24 bg-red-100 rounded-full opacity-20"></div>
+        <div className="text-center mb-8 md:mb-16 relative">
+          <div className="absolute left-1/2 -translate-x-1/2 top-0 w-16 md:w-24 h-16 md:h-24 bg-red-100 rounded-full opacity-20"></div>
           <div className="relative">
             <div className="flex justify-center mb-4">
               <div className="relative">
-                <div className="absolute -inset-4 bg-red-100 rounded-full animate-pulse opacity-20"></div>
+                <div className="absolute -inset-3 md:-inset-4 bg-red-100 rounded-full animate-pulse opacity-20"></div>
                 <img 
                   src="/ring.png" 
                   alt="Wedding Rings" 
-                  className="w-12 h-12 object-contain relative z-10"
+                  className="w-8 h-8 md:w-12 md:h-12 object-contain relative z-10"
                 />
               </div>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-2 md:mb-4">
               पंजीकरण • समाचार • संगीत
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg italic">
+            <p className="text-gray-600 max-w-2xl mx-auto text-base md:text-lg italic px-2">
               Join our community and stay connected with Gahoi Samaj
             </p>
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full">
           {categories.map((category, index) => (
-            <div key={index} className="h-[400px]">
-              <div className="bg-white rounded-2xl overflow-hidden shadow-lg border border-red-100 h-full flex flex-col">
-                <div className="w-full bg-red-800 py-3 px-6 min-h-[60px] flex items-center justify-center">
-                  <h3 className="font-bold text-white text-center text-xl">{category.title}</h3>
+            <div key={index} className="h-[350px] sm:h-[400px] w-full">
+              <div className="bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-lg border border-red-100 h-full flex flex-col w-full">
+                <div className="w-full bg-red-800 py-2 md:py-3 px-4 md:px-6 min-h-[50px] md:min-h-[60px] flex items-center justify-center">
+                  <h3 className="font-bold text-white text-center text-lg md:text-xl">{category.title}</h3>
                 </div>
-                <div className="p-6 flex-1">
+                <div className="p-4 md:p-6 flex-1 w-full">
                   {typeof category.description === 'string' ? (
-                    <p className="text-gray-600 text-center whitespace-pre-line leading-relaxed">
+                    <p className="text-gray-600 text-center whitespace-pre-line leading-relaxed text-sm md:text-base">
                       {category.description}
                     </p>
                   ) : (
@@ -176,10 +176,10 @@ const PlanSection = () => {
         </div>
 
         {/* Decorative Bottom Element */}
-        <div className="flex justify-center mt-16">
+        <div className="flex justify-center mt-8 md:mt-16">
           <div className="relative">
             <div className="absolute inset-0 bg-red-100 rounded-full animate-ping opacity-20"></div>
-            <div className="w-16 h-1 bg-red-200 rounded-full"></div>
+            <div className="w-12 md:w-16 h-1 bg-red-200 rounded-full"></div>
           </div>
         </div>
       </div>

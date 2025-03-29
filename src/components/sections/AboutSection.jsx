@@ -4,6 +4,7 @@ const AboutSection = () => {
   return (
     <div className="relative py-16 bg-gradient-to-b from-white to-red-50">
       <div className="container mx-auto px-4">
+
         <div className="flex flex-col md:flex-row items-center justify-between">
           {/* Left Content */}
           <div className="w-full md:w-1/2 mb-8 md:mb-0 pr-0 md:pr-8">
@@ -28,21 +29,21 @@ const AboutSection = () => {
           {/* Right Images */}
           <div className="w-full md:w-1/2 relative">
             <div className="relative w-full h-[400px]">
-              {/* First Image */}
+           
               <div className="absolute top-0 left-0 w-3/4 h-3/4 transform rotate-[-5deg] shadow-xl rounded-lg overflow-hidden z-10">
                 <img 
-                  src="/about-01.jpg" 
-                  alt="Bride Portrait" 
-                  className="w-full h-full object-cover"
+                  src="/about-02.webp" 
+                  alt="Wedding Hands " 
+                  className="w-full h-full object-cover object-[0%_80%]"
                 />
               </div>
               
-              {/* Second Image */}
+            
               <div className="absolute bottom-0 right-0 w-2/3 h-2/3 transform rotate-[5deg] shadow-xl rounded-lg overflow-hidden z-20">
                 <img 
-                  src="/about-02.jpg" 
-                  alt="Wedding Hands" 
-                  className="w-full h-full object-cover"
+                  src="/about-01.webp" 
+                  alt="Bride Portrait" 
+                  className="w-full h-full object-cover object-[50%_10%]"
                 />
               </div>
 

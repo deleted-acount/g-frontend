@@ -154,7 +154,7 @@ const Header = () => {
           </button>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-4 lg:space-x-6 items-center" ref={dropdownRef}>
+          <div className="hidden md:flex space-x-2 lg:space-x-4 items-center" ref={dropdownRef}>
             {menuItems.map((item) => (
               <div 
                 key={item.to}
@@ -164,7 +164,7 @@ const Header = () => {
               >
                 <Link
                   to={item.to}
-                  className="text-white hover:text-yellow-200 transition-colors drop-shadow-lg text-sm lg:text-base"
+                  className="text-white hover:text-yellow-200 transition-colors drop-shadow-lg text-[11px] lg:text-sm px-1 lg:px-2 whitespace-nowrap"
                 >
                   {item.label}
                 </Link>
@@ -172,7 +172,7 @@ const Header = () => {
                 {/* Dropdown Menu */}
                 {item.dropdown && activeDropdown === item.label && (
                   <div 
-                    className="absolute top-full left-0 mt-2 w-64 bg-yellow-100 rounded-lg shadow-lg py-2 z-50"
+                    className="absolute top-full left-0 mt-1 w-56 bg-yellow-100 rounded-lg shadow-lg py-1 z-50"
                     onMouseEnter={() => handleMouseEnter(item.label)}
                     onMouseLeave={handleMouseLeave}
                   >
@@ -180,7 +180,7 @@ const Header = () => {
                       <Link
                         key={subItem.to}
                         to={subItem.to}
-                        className="block px-4 py-2 text-gray-800 hover:bg-red-700 hover:text-white transition-colors whitespace-nowrap"
+                        className="block px-3 py-1.5 text-sm text-gray-800 hover:bg-red-700 hover:text-white transition-colors whitespace-nowrap"
                         onClick={() => setActiveDropdown(null)}
                       >
                         {subItem.label}
@@ -190,12 +190,12 @@ const Header = () => {
                 )}
               </div>
             ))}
-            <Link 
+            {/* <Link 
               to="/registration" 
-              className="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800 transition-colors font-semibold border border-red-600 shadow-lg hover:shadow-red-900/30 text-sm lg:text-base"
+              className="bg-red-700 text-white px-3 py-1.5 rounded-lg hover:bg-red-800 transition-colors font-semibold border border-red-600 shadow-lg hover:shadow-red-900/30 text-xs lg:text-sm"
             >
               Register
-            </Link>
+            </Link> */}
           </div>
         </div>
 
@@ -205,23 +205,23 @@ const Header = () => {
             isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
           } overflow-hidden`}
         >
-          <div className="px-2 pt-2 pb-3 space-y-1 bg-black/80 backdrop-blur-sm rounded-lg mt-2">
+          <div className="px-2 pt-2 pb-3 space-y-0.5 bg-black/80 backdrop-blur-sm rounded-lg mt-2">
             {menuItems.map((item) => (
               <div key={item.to}>
                 <Link
                   to={item.to}
-                  className="block px-3 py-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+                  className="block px-3 py-1.5 text-sm text-white hover:bg-white/10 rounded-lg transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.label}
                 </Link>
                 {item.dropdown && (
-                  <div className="pl-4 space-y-1">
+                  <div className="pl-4 space-y-0.5">
                     {item.dropdown.map((subItem) => (
                       <Link
                         key={subItem.to}
                         to={subItem.to}
-                        className="block px-3 py-2 text-yellow-200 hover:bg-red-700 hover:text-white rounded-lg transition-colors whitespace-nowrap"
+                        className="block px-3 py-1.5 text-xs text-yellow-200 hover:bg-red-700 hover:text-white rounded-lg transition-colors whitespace-nowrap"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         {subItem.label}
@@ -233,7 +233,7 @@ const Header = () => {
             ))}
             <Link 
               to="/registration" 
-              className="block px-3 py-2 bg-red-700 text-white rounded-lg hover:bg-red-800 transition-colors font-semibold text-center"
+              className="block px-3 py-1.5 bg-red-700 text-white rounded-lg hover:bg-red-800 transition-colors font-semibold text-center text-sm mt-1"
               onClick={() => setIsMenuOpen(false)}
             >
               Register
