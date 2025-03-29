@@ -101,7 +101,7 @@ const BridesandGroom = () => {
                 />
               </div>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-red-800 mb-4">
               Brides And Grooms
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg italic">

@@ -3,6 +3,7 @@ import PhotoUpload from './PhotoUpload';
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
+    formNumber: '',
     name: '',
     mobileNumber: '',
     whatsappNumber: '',
@@ -144,15 +145,15 @@ const RegistrationForm = () => {
 
   return (
     <div 
-      className="min-h-screen py-4 sm:py-6 md:py-8"
+      className="min-h-screen py-4 sm:py-6 md:py-8 bg-red-800"
 
-      style={{ 
-        backgroundImage: "url('/header-texture.jpg')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed',
-      }}
+      // style={{ 
+      //   backgroundImage: "url('/header-texture.jpg')",
+      //   backgroundSize: 'cover',
+      //   backgroundPosition: 'center',
+      //   backgroundRepeat: 'no-repeat',
+      //   backgroundAttachment: 'fixed',
+      // }}
    
     >
       <div className="max-w-5xl mx-auto border border-blue-800 bg-white/95 backdrop-blur-sm mt-20">
@@ -179,7 +180,15 @@ const RegistrationForm = () => {
           {/* Form Number */}
           <div className="p-2 border-b border-blue-800">
             <div className="flex">
-              <div className="text-left text-sm sm:text-base">फॉर्म क्रमांक : <span className="inline-block w-20 sm:w-32 border-b border-black"></span></div>
+              <div className="text-left text-sm sm:text-base">फॉर्म क्रमांक : 
+                <input
+                  type="text"
+                  name="formNumber"
+                  value={formData.formNumber}
+                  onChange={handleInputChange}
+                  className="inline-block w-20 sm:w-32 border-b border-black focus:outline-none text-sm sm:text-base ml-1"
+                />
+              </div>
             </div>
           </div>
           
@@ -196,7 +205,6 @@ const RegistrationForm = () => {
             
             <div className="flex flex-col md:flex-row">
         {/* Photo Upload Component */}
-           
            <PhotoUpload />
               
               <div className="flex-1">

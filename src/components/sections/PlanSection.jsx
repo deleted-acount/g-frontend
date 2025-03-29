@@ -145,7 +145,7 @@ const PlanSection = () => {
                 />
               </div>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-2 md:mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-red-800 mb-2 md:mb-4">
               पंजीकरण • समाचार • संगीत
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-base md:text-lg italic px-2">

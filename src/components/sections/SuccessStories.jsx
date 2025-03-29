@@ -4,7 +4,7 @@ const SuccessStories = () => {
   const successStories = [
     {
       id: 1,
-      coupleImage: 'story-4.jpg',
+      coupleImage: 'story-4.webp',
       groomName: 'Rahul Gahoi',
       brideName: 'Priya Gupta',
       date: 'Married on Dec 15, 2023',
@@ -13,7 +13,7 @@ const SuccessStories = () => {
     },
     {
       id: 2,
-      coupleImage: '/story-5.jpg',
+      coupleImage: '/story-5.webp',
       groomName: 'Aditya Neekhra',
       brideName: 'Sneha Gahoi',
       date: 'Married on Nov 20, 2023',
@@ -22,7 +22,7 @@ const SuccessStories = () => {
     },
     {
       id: 3,
-      coupleImage: '/story-3.jpg',
+      coupleImage: '/story-3.webp',
       groomName: 'Vikram Gahoi',
       brideName: 'Nisha Gupta',
       date: 'Married on Oct 5, 2023',
@@ -31,7 +31,7 @@ const SuccessStories = () => {
     },
     {
       id: 4,
-      coupleImage: '/story-2.jpg',
+      coupleImage: '/story-2.webp',
       groomName: 'Ankit Gupta',
       brideName: 'Riya Gahoi',
       date: 'Married on Sept 12, 2023',
@@ -57,7 +57,7 @@ const SuccessStories = () => {
                 />
               </div>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-red-800 mb-4">
               Success Stories
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg italic">

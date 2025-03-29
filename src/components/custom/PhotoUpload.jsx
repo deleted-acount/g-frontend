@@ -20,7 +20,7 @@ const PhotoUpload = () => {
   };
   
   const handleDeletePhoto = (e) => {
-    e.stopPropagation(); // Prevent triggering file upload
+    e.stopPropagation(); 
     setSelectedImage(null);
   };
   
