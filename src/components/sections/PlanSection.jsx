@@ -17,7 +17,7 @@ const DhwajGeetMarquee = () => {
   ];
 
   return (
-    <div className="marquee-container h-[175px] overflow-hidden relative rounded-xl bg-white shadow-inner">
+    <div className="marquee-container h-[175px] overflow-hidden relative rounded-xl bg-white ">
       <div className="marquee-content animate-scroll">
         {lyrics.map((lyric, index) => (
           <div 
@@ -50,11 +50,13 @@ const LatestNewsMarquee = () => {
   ];
 
   return (
-    <div className="marquee-container h-[175px] overflow-hidden relative rounded-xl bg-white shadow-inner">
+    <div className="marquee-container h-[175px] overflow-hidden relative rounded-xl bg-white ">
       <div className="marquee-content animate-scroll">
         {newsItems.map((item) => (
           <div key={item.id} className="py-2 flex items-center px-4 hover:bg-red-50 transition-colors">
-            <i className="fas fa-hand-point-right text-red-600 mr-3"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 mr-3 text-red-600 flex-shrink-0" viewBox="0 0 512 512">
+              <path fill="currentColor" d="M512 199.652c0 23.625-20.65 43.826-44.8 43.826h-99.851c16.34 17.048 18.346 49.766-6.299 70.944 14.288 22.829 2.147 53.017-16.45 62.315C353.574 425.878 322.654 448 272 448c-2.746 0-13.276-.203-16-.195-61.971.168-76.894-31.065-123.731-38.315C120.596 407.683 112 397.599 112 385.786V214.261l.002-.001c.011-18.366 10.607-35.889 28.464-43.845 28.886-12.994 95.413-49.038 107.534-77.323 7.797-18.194 21.384-29.084 40-29.084 34.222 0 57.752 35.098 44.119 66.908-3.583 8.359-8.312 16.67-14.153 24.918H467.2c23.45 0 44.8 20.543 44.8 43.826z"/>
+            </svg>
             <a 
               href={`/LatestNews?RID=${item.id}`}
               className="text-gray-700 hover:text-red-600 transition-colors duration-200"
@@ -76,7 +78,24 @@ const PlanSection = () => {
     },
     {
       title: "Online Registration",
-      description: "• गहोई बंधु सदस्यता\n• महासभा सदस्यता\n• वरिष्ठ संघ सदस्यता\n• नव युवक मण्डल सदस्यता\n• महिला सभा सदस्यता"
+      description: (
+        <div className="space-y-4">
+          {[
+            "गहोई बंधु सदस्यता",
+            "महासभा सदस्यता",
+            "वरिष्ठ संघ सदस्यता",
+            "नव युवक मण्डल सदस्यता",
+            "महिला सभा सदस्यता"
+          ].map((item, index) => (
+            <div key={index} className="flex items-center group hover:bg-red-50 p-2 rounded-lg transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 mr-3 text-red-600 flex-shrink-0" viewBox="0 0 512 512">
+                <path fill="currentColor" d="M512 199.652c0 23.625-20.65 43.826-44.8 43.826h-99.851c16.34 17.048 18.346 49.766-6.299 70.944 14.288 22.829 2.147 53.017-16.45 62.315C353.574 425.878 322.654 448 272 448c-2.746 0-13.276-.203-16-.195-61.971.168-76.894-31.065-123.731-38.315C120.596 407.683 112 397.599 112 385.786V214.261l.002-.001c.011-18.366 10.607-35.889 28.464-43.845 28.886-12.994 95.413-49.038 107.534-77.323 7.797-18.194 21.384-29.084 40-29.084 34.222 0 57.752 35.098 44.119 66.908-3.583 8.359-8.312 16.67-14.153 24.918H467.2c23.45 0 44.8 20.543 44.8 43.826z"/>
+              </svg>
+              <span className="text-gray-700 group-hover:text-red-600 transition-colors duration-300">{item}</span>
+            </div>
+          ))}
+        </div>
+      )
     },
     {
       title: "ताज़ा खबर",
@@ -85,7 +104,7 @@ const PlanSection = () => {
   ];
 
   return (
-    <div className="py-16 bg-gradient-to-b from-white to-red-50 relative">
+    <div className="py-6 bg-gradient-to-b from-white to-red-50 relative">
       <style jsx>{`
         @keyframes scroll {
           0% { transform: translateY(0); }
@@ -137,12 +156,12 @@ const PlanSection = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {categories.map((category, index) => (
-            <div key={index} className="h-[300px]">
+            <div key={index} className="h-[400px]">
               <div className="bg-white rounded-2xl overflow-hidden shadow-lg border border-red-100 h-full flex flex-col">
-                <div className="w-full bg-gradient-to-r from-red-700 to-red-800 py-3 px-6 min-h-[60px] flex items-center justify-center">
+                <div className="w-full bg-red-800 py-3 px-6 min-h-[60px] flex items-center justify-center">
                   <h3 className="font-bold text-white text-center text-xl">{category.title}</h3>
                 </div>
-                <div className="p-6 flex-1 overflow-hidden">
+                <div className="p-6 flex-1">
                   {typeof category.description === 'string' ? (
                     <p className="text-gray-600 text-center whitespace-pre-line leading-relaxed">
                       {category.description}

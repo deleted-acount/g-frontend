@@ -26,16 +26,17 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative h-screen w-full overflow-hidden">
+    <section className="relative h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen w-full overflow-hidden">
       <div 
         className="absolute inset-0 bg-center bg-no-repeat transition-all duration-1000"
         style={{ 
           backgroundImage: `url("${bannerImages[currentImageIndex]}")`,
-          backgroundSize: 'cover',
+          backgroundSize: '100% 100%',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           height: '100%',
-          width: '100%'
+          width: '100%',
+          objectFit: 'cover'
         }}
       >
         {/* Overlay */}
