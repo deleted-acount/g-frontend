@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PhotoUpload from './PhotoUpload';
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -194,12 +195,9 @@ const RegistrationForm = () => {
             </div>
             
             <div className="flex flex-col md:flex-row">
-              {/* Photo Upload Section */}
-              <div className="w-full md:w-48 p-3 flex justify-center items-start order-first md:order-last">
-                <div className="bg-purple-200 w-32 h-40 flex justify-center items-center border border-gray-400">
-                  <span className="text-center">फोटो लगाए</span>
-                </div>
-              </div>
+        {/* Photo Upload Component */}
+           
+           <PhotoUpload />
               
               <div className="flex-1">
                 <table className="w-full border-collapse">
@@ -642,3 +640,4 @@ const RegistrationForm = () => {
 };
 
 export default RegistrationForm;
+

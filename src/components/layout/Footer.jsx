@@ -12,7 +12,7 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4 text-yellow-100">Quick Links</h4>
             <ul className="space-y-2">
-              <li><Link to="/about" className="text-red-200 hover:text-yellow-100">About Us</Link></li>
+              <li><Link to="/about" className="text-red-100 hover:text-yellow-100">About Us</Link></li>
               <li><Link to="/plans" className="text-red-200 hover:text-yellow-100">Our Plans</Link></li>
               <li><Link to="/team" className="text-red-200 hover:text-yellow-100">Our Team</Link></li>
               <li><Link to="/registration" className="text-red-200 hover:text-yellow-100">Register</Link></li>
