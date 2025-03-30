@@ -26,12 +26,12 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen w-full overflow-hidden">
-      {/* Mobile Banner Image (768px and below) */}
+    <section className="relative h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[70vh] w-full overflow-hidden">
+      {/* Mobile Banner */}
       <div 
         className="md:hidden absolute inset-0 bg-center bg-no-repeat bg-cover"
         style={{ 
-          backgroundImage: `url("/banner-mobile.webp")`,
+          backgroundImage: `url("banner-mobile.webp")`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           height: '100%',
