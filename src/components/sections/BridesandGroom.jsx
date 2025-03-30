@@ -4,7 +4,7 @@ const BridesandGroom = () => {
   const members = [
     {
       id: 1,
-      image: '/01.jpg',
+      image: '/01.webp',
       BrideId: 99398715,
       title: 'Pratibha Neekhra',
       Age: 31,
@@ -14,7 +14,7 @@ const BridesandGroom = () => {
     },
     {
       id: 2,
-      image: '/02.jpg',
+      image: '/02.webp',
       BrideId: 99398716,
       title: 'Rahul Bhrijpuria',
       role: 'Groom',
@@ -24,7 +24,7 @@ const BridesandGroom = () => {
     },
     {
       id: 3,
-      image: '/03.jpg',
+      image: '/03.webp',
       BrideId: 99398717,
       title: 'Deeksha Gupta',
       role: 'Bride',
@@ -34,7 +34,7 @@ const BridesandGroom = () => {
     },
     {
       id: 4,
-      image: '/04.jpg',
+      image: '/04.webp',
       BrideId: 99398718,
       title: 'Pooja Gupta',
       role: 'Bride',
@@ -44,7 +44,7 @@ const BridesandGroom = () => {
     },
     {
       id: 5,
-      image: '/05.jpg',
+      image: '/05.webp',
       BrideId: 99398719,
       title: 'Sachin Gupta',
       role: 'Groom',
@@ -54,7 +54,7 @@ const BridesandGroom = () => {
     },
     {
       id: 6,
-      image: '/06.jpg',
+      image: '/06.webp',
       BrideId: 99398720,
       title: 'Shruti Gupta',
       role: 'Bride',
@@ -64,7 +64,7 @@ const BridesandGroom = () => {
     },
     {
       id: 7,
-      image: '/07.jpg',
+      image: '/07.webp',
       BrideId: 99398721,
       title: 'Lakhan Gupta',
       role: 'Groom',
@@ -74,7 +74,7 @@ const BridesandGroom = () => {
     },
     {
       id: 8,
-      image: '/08.jpg',
+      image: '/08.webp',
       BrideId: 99398722,
       title: 'Prerna Gupta',
       role: 'Bride',
