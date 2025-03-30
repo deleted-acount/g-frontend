@@ -55,12 +55,12 @@ const BridesandGroom = () => {
     {
       id: 6,
       image: '/06.webp',
-      BrideId: 99398720,
-      title: 'Shruti Gupta',
+      BrideId: 99398782,
+      title: 'Priyanshi Gupta',
       role: 'Bride',
-      Age: 26,
-      Education: 'BBA',
-      Height: '5feet 3inches (160.02 cm)'
+      Age: 20,
+      Education: 'B.Com',
+      Height: '5 feet 6 inches(167.64)'
     },
     {
       id: 7,
