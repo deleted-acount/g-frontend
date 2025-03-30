@@ -27,8 +27,23 @@ const HeroSection = () => {
 
   return (
     <section className="relative h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen w-full overflow-hidden">
+      {/* Mobile Banner Image (768px and below) */}
       <div 
-        className="absolute inset-0 bg-center bg-no-repeat transition-all duration-1000"
+        className="md:hidden absolute inset-0 bg-center bg-no-repeat bg-cover"
+        style={{ 
+          backgroundImage: `url("/banner-mobile.webp")`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          height: '100%',
+          width: '100%'
+        }}
+      >
+        <div className="absolute inset-0 bg-black/20"></div>
+      </div>
+
+      {/* Desktop Carousel (above 768px) */}
+      <div 
+        className="hidden md:block absolute inset-0 bg-center bg-no-repeat transition-all duration-1000"
         style={{ 
           backgroundImage: `url("${bannerImages[currentImageIndex]}")`,
           backgroundSize: '100% 100%',
@@ -39,12 +54,11 @@ const HeroSection = () => {
           objectFit: 'cover'
         }}
       >
-        {/* Overlay */}
         <div className="absolute inset-0 bg-black/20"></div>
       </div>
 
-      {/* Carousel Dots */}
-      <div className="absolute right-2 sm:right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-20 flex flex-col space-y-2 sm:space-y-3 md:space-y-4">
+      {/* Carousel Dots - Only show on desktop */}
+      <div className="hidden md:flex absolute right-2 sm:right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-20 flex-col space-y-2 sm:space-y-3 md:space-y-4">
         {bannerImages.map((_, index) => (
           <button
             key={index}
