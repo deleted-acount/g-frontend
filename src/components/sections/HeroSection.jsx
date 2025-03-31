@@ -3,13 +3,51 @@ import { useState, useEffect } from 'react';
 
 const HeroSection = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   const bannerImages = [
-    '/Banner-1.webp',
-    '/Banner-2.webp',
-    '/Banner-3.webp',
-    '/Banner-4.webp'
+    {
+      desktop: '/Banner-1.webp',
+      mobile: '/banner-1-phone.webp',
+      title: 'Welcome to',
+      subtitle: 'GAHOI SHAKTI JAN KALYAN SAMITI',
+      titleColor: 'text-white',
+      subtitleColor: 'text-yellow-300'
+    },
+    {
+      desktop: '/Banner-2.webp',
+      mobile: '/banner-2-phone.webp',
+      title: 'Find Your Perfect Match',
+      subtitle: 'WHERE HEARTS UNITE AND NEW BEGINNINGS START',
+      titleColor: 'text-white',
+      subtitleColor: 'text-yellow-300'
+    },
+    {
+      desktop: '/Banner-3.webp',
+      mobile: '/banner-3-phone.webp',
+      title: 'Trusted Matches',
+      subtitle: 'FOR A LIFETIME OF HAPPINESS',
+      titleColor: 'text-white',
+      subtitleColor: 'text-yellow-300'
+    },
+    {
+      desktop: '/Banner-4.webp',
+      mobile: '/banner-4-phone.webp',
+      title: 'Making Wedding',
+      subtitle: 'DREAM COME TRUE',
+      titleColor: 'text-white',
+      subtitleColor: 'text-yellow-300'
+    }
   ];
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -25,47 +63,46 @@ const HeroSection = () => {
     setCurrentImageIndex(index);
   };
 
+  const currentBanner = bannerImages[currentImageIndex];
+  const imagePath = isMobile ? currentBanner.mobile : currentBanner.desktop;
+
   return (
-    <section className="relative h-[36vh] sm:h-[40vh] md:h-[80vh] lg:h-screen w-full overflow-hidden">
-      {/* Mobile Banner */}
+    <section className="relative h-[40vh] sm:h-[50vh] md:h-[80vh] lg:h-screen w-full overflow-hidden">
+      {/* Carousel for all screens */}
       <div 
-        className="md:hidden absolute inset-0 bg-center bg-no-repeat bg-cover"
+        className="absolute inset-0 bg-center bg-no-repeat transition-all duration-1000"
         style={{ 
-          backgroundImage: `url("banner-mobile.webp")`,
+          backgroundImage: `url("${imagePath}")`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           height: '100%',
           width: '100%'
         }}
       >
-        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60"></div>
       </div>
 
-      {/* Desktop Carousel (above 768px) */}
-      <div 
-        className="hidden md:block absolute inset-0 bg-center bg-no-repeat transition-all duration-1000"
-        style={{ 
-          backgroundImage: `url("${bannerImages[currentImageIndex]}")`,
-          backgroundSize: '100% 100%',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          height: '100%',
-          width: '100%',
-          objectFit: 'cover'
-        }}
-      >
-        <div className="absolute inset-0 bg-black/20"></div>
+      {/* Text - Mobile Only */}
+      <div className="md:hidden absolute inset-0 flex items-center justify-center z-10">
+        <div className="text-center px-4">
+          <h2 className={`text-2xl sm:text-3xl font-cursive mb-2 sm:mb-3 ${currentBanner.titleColor} drop-shadow-lg`}>
+            {currentBanner.title}
+          </h2>
+          <p className={`text-sm sm:text-xl font-bold ${currentBanner.subtitleColor} drop-shadow-lg tracking-wider`}>
+            {currentBanner.subtitle}
+          </p>
+        </div>
       </div>
 
-      {/* Carousel Dots - Only show on desktop */}
-      <div className="hidden md:flex absolute right-2 sm:right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-20 flex-col space-y-2 sm:space-y-3 md:space-y-4">
+      {/* Carousel Dots */}
+      <div className="flex absolute right-2 sm:right-4 md:right-8 top-[65%] md:top-1/2 transform -translate-y-1/2 z-20 flex-col space-y-1.5 sm:space-y-2 md:space-y-4">
         {bannerImages.map((_, index) => (
           <button
             key={index}
             onClick={() => handleDotClick(index)}
-            className={`w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-full transition-all duration-300 ${
+            className={`w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-4 md:h-4 rounded-full transition-all duration-300 ${
               index === currentImageIndex 
-                ? 'bg-white scale-125' 
+                ? 'bg-yellow-300 scale-125' 
                 : 'bg-white/40 hover:bg-white/60'
             }`}
             aria-label={`Go to slide ${index + 1}`}
@@ -73,33 +110,7 @@ const HeroSection = () => {
         ))}
       </div>
 
-      <div className="container mx-auto px-4 relative z-10 h-full">
-        <div className="flex flex-col justify-center items-center h-full">
-          {/* <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6 drop-shadow-lg">
-              Welcome to <br />
-              <span className="text-yellow-100">श्री गहोई शक्ति फाउंडेशन</span>
-            </h1>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl mb-6 sm:mb-8 text-white/90 max-w-2xl mx-auto drop-shadow-lg px-4">
-              Connecting and empowering our community through tradition, culture, and mutual support. Join us in preserving our rich heritage and building a stronger future together.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-4 md:space-x-6 px-4">
-              <Link
-                to="/registration"
-                className="w-full sm:w-auto bg-red-700 backdrop-blur-sm text-white px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-lg font-semibold hover:bg-red-800 transition-all duration-300 inline-block border border-white/50 text-center text-sm sm:text-base"
-              >
-                Register Now
-              </Link>
-              <Link
-                to="/about"
-                className="w-full sm:w-auto bg-white/10 backdrop-blur-sm text-white px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-lg font-semibold hover:bg-white/20 transition-all duration-300 inline-block border border-white/50 text-center text-sm sm:text-base"
-              >
-                Learn More
-              </Link>
-            </div>
-          </div> */}
-        </div>
-      </div>
+   
     </section>
   );
 };

@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           <div className="text-center sm:text-left">
-            <h3 className="text-xl font-bold mb-4 text-yellow-100">गहोई समाज इंडिया</h3>
+            <h3 className="text-xl font-bold mb-4 text-yellow-100">गहोई शक्ति जन कल्याण समिति</h3>
             <p className="text-red-200">Empowering our community through unity, tradition, and mutual support.</p>
           </div>
           <div className="text-center sm:text-left">
@@ -58,7 +58,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="border-t border-red-800 mt-8 pt-8 text-center text-red-200">
-          <p className="text-sm sm:text-base">&copy; {new Date().getFullYear()} Gahoi Samaj India 2025. All rights reserved.</p>
+          <p className="text-sm sm:text-base">&copy; {new Date().getFullYear()} Gahoi Shakti Jan Kalyan Samiti India 2025. All rights reserved.</p>
         </div>
       </div>
     </footer>
