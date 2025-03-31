@@ -26,7 +26,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative h-[30vh] sm:h-[40vh] md:h-[80vh] lg:h-screen w-full overflow-hidden">
+    <section className="relative h-[36vh] sm:h-[40vh] md:h-[80vh] lg:h-screen w-full overflow-hidden">
       {/* Mobile Banner */}
       <div 
         className="md:hidden absolute inset-0 bg-center bg-no-repeat bg-cover"
