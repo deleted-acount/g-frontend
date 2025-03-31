@@ -169,9 +169,10 @@ const Header = () => {
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center space-x-3">
             <img 
-              src="/logo.png" 
+              src="/logo.png
+             " 
               alt="Gahoi Logo" 
-              className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto object-contain"
+              className="h-20 sm:h-14 md:h-16 lg:h-28 w-auto object-contain"
             />
           </Link>
 
