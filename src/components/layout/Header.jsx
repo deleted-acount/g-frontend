@@ -95,7 +95,7 @@ const Header = () => {
       label: 'Business Listing',
       dropdown: [
         { to: '/business_login', label: 'Login' },
-        { to: '/free_listing', label: 'Free Listing' },
+        { to: '/freelisting', label: 'Free Listing' },
         { to: '/business_search', label: 'Search' }
       ]
     },
@@ -107,8 +107,8 @@ const Header = () => {
           to: '/gallery/photos', 
           label: 'महासभा Central Assembly',
           subDropdown: [
-            { to: '/gallery/photos/assembly1', label: 'पुरानी महासभा Central Assembly ' },
-            { to: '/gallery/photos/assembly2', label: 'महासभा 2015' }
+            { to: '/CentralAssembly', label: 'पुरानी महासभा Central Assembly ' },
+            { to: '/Mahasabha2015', label: 'महासभा 2015' }
           ]
         },
         { to: '/RegionalAssembly', label: 'क्षेत्रीय सभायें Regional Assembly' },

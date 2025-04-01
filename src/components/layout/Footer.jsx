@@ -19,7 +19,7 @@ const Footer = () => {
               <li className="w-1/2 mb-2"><Link to="/LatestNews" className="text-red-200 hover:text-yellow-100 transition-colors">Latest News</Link></li>
               <li className="w-1/2 mb-2"><Link to="/SocialFlagSong" className="text-red-200 hover:text-yellow-100 transition-colors">Social Flag Song</Link></li>
               <li className="w-1/2 mb-2"><Link to="/Video" className="text-red-200 hover:text-yellow-100 transition-colors">Video</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/PrivacyPolicy" className="text-red-200 hover:text-yellow-100 transition-colors">Rite</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/Rite " className="text-red-200 hover:text-yellow-100 transition-colors">Rite</Link></li>
               <li className="w-1/2 mb-2"><Link to="/contact" className="text-red-100 hover:text-yellow-100 transition-colors">Contact</Link></li>
               <li className="w-1/2 mb-2"><Link to="/login" className="text-red-100 hover:text-yellow-100 transition-colors">Login</Link></li>
             </ul>
