@@ -69,7 +69,7 @@ const Header = () => {
       dropdown: [
         { to: '/registration', label: 'पंजीकरण Registration' },
         { to: '/matrimonialsearch', label: 'खोजना Search' },
-        { to: '/Change', label: 'परिर्वतन Change / लॉग इन Login' },
+        { to: '/login', label: 'परिर्वतन Change / लॉग इन Login' },
       ]
     },
     { 
@@ -78,7 +78,7 @@ const Header = () => {
       dropdown: [
         { to: '/registration', label: 'पंजीकरण Registration' },
         { to: '/Familyssearch', label: 'खोजना Search' },
-        { to: '/FamilyChange', label: 'परिर्वतन Change / लॉग इन Login' },
+        { to: '/login', label: 'परिर्वतन Change / लॉग इन Login' },
       ]
     },
     { 

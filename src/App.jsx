@@ -3,6 +3,7 @@ import './App.css'
 import Layout from './components/layout/Layout'
 import Home from './pages/Home'
 import Registration from './components/custom/Registration'
+import Login from './components/custom/Login'
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/registration" element={<Registration />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/about" element={<div>About Page</div>} />
         <Route path="/plans" element={<div>Our Plans</div>} />
         <Route path="/team" element={<div>Our Team</div>} />
