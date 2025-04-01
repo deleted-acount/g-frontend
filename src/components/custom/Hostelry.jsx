@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Hostelry = () => {
   const [activeFilter, setActiveFilter] = useState("ALL");
@@ -6,6 +6,20 @@ const Hostelry = () => {
   const [showGwaliorLocations, setShowGwaliorLocations] = useState(false);
   const [showDatiaLocations, setShowDatiaLocations] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+
+  // Add useEffect to control body scroll
+  useEffect(() => {
+    if (selectedImage !== null) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    // Cleanup function to reset overflow when component unmounts
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedImage]);
 
   const handleBhindClick = () => {
     setActiveFilter("Bhind");
