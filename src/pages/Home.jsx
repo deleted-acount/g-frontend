@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet';
 import HeroSection from '../components/sections/HeroSection';
 import AboutSection from '../components/sections/AboutSection';
 import PlanSection from '../components/sections/PlanSection';
@@ -9,17 +10,24 @@ import StayConnected from '../components/sections/StayConnected';
 import ContactusSection from '../components/sections/ContactusSection';
 
 const Home = () => {
+
+
   return (
     <>
-      <HeroSection />
-      <PlanSection />
-      <BridesandGroom />
-      <AboutSection />
-      <SuccessStories />
-      <TestimonialSection />
-      <SuggestionSection />
-      <StayConnected />
-      <ContactusSection />
+     <Helmet>
+       
+        <title>श्री गहोई शक्ति जन कल्याण समिति</title>
+        <link rel="icon" href="/favicon.ico" />
+        </Helmet>
+        <HeroSection />
+        <PlanSection />
+        <BridesandGroom />
+        <AboutSection />
+        <SuccessStories />
+        <TestimonialSection />
+        <SuggestionSection />
+        <StayConnected />
+        <ContactusSection />
     </>
   );
 };
