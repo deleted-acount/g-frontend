@@ -111,10 +111,10 @@ const Contact = () => {
                       </a>
                     </div>
                     <div className="space-y-1">
-                      <a href="mailto:Gahoiramesh@gmail.com" className="text-red-600 hover:text-red-700 block">
+                      <a href="mailto:wwww@gmail.com" className="text-red-600 hover:text-red-700 block">
                         www@gmail.com
                       </a>
-                      <a href="mailto:Rameshbabugupta@yahoo.co.in" className="text-red-600 hover:text-red-700 block">
+                      <a href="mailto:wwwww@yahoo.co.in" className="text-red-600 hover:text-red-700 block">
                         www@yahoo.co.in
                       </a>
                     </div>
@@ -129,7 +129,7 @@ const Contact = () => {
                   <h3 className="text-xl font-semibold text-red-800 mb-4">संपर्क 2</h3>
                   <div className="space-y-3">
                     <p className="font-medium text-gray-800">Mr. wwwww www</p>
-                    <p className="text-gray-600">302, 3rd Floor, G6 wwwww wwww</p>
+                    <p className="text-gray-600">www, 3rd ww, G6 wwwww wwww</p>
                     <p className="text-gray-600">www Maya ww, City Center</p>
                     <p className="text-gray-600">ww (M.P.)</p>
                     <div className="pt-2">
