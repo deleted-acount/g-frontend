@@ -94,13 +94,22 @@ const Login = () => {
     <div 
       className="min-h-screen py-4 sm:py-6 md:py-8 relative"
       style={{
-        background: `linear-gradient(45deg, #991b1b 25%, transparent 25%),
-                    linear-gradient(-45deg, #991b1b 25%, transparent 25%),
-                    linear-gradient(45deg, transparent 75%, #991b1b 75%),
-                    linear-gradient(-45deg, transparent 75%, #991b1b 75%)`,
-        backgroundSize: '40px 40px',
-        backgroundPosition: '0 0, 0 20px, 20px -20px, -20px 0px',
-        backgroundColor: '#7f1d1d',
+        // background: `linear-gradient(45deg, #991b1b 25%, transparent 25%),
+        //             linear-gradient(-45deg, #991b1b 25%, transparent 25%),
+        //             linear-gradient(45deg, transparent 75%, #991b1b 75%),
+        //             linear-gradient(-45deg, transparent 75%, #991b1b 75%)`,
+        // backgroundSize: '40px 40px',
+        // backgroundPosition: '0 0, 0 20px, 20px -20px, -20px 0px',
+        // backgroundColor: '#7f1d1d',
+     
+      
+          backgroundImage: 'url("/decorative-bg.jpg")',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundColor: '#991b1b',
+      
+    
       }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-red-900/90 to-red-800/90"></div>
@@ -110,9 +119,7 @@ const Login = () => {
           <div className="relative p-4 text-center border-b border-red-200">
             <div className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-900 opacity-90"></div>
             <div className="relative z-10">
-              <h1 className="text-2xl sm:text-3xl font-bold text-red-800 mb-4">
-                श्री गहोई शक्ति फाउंडेशन
-              </h1>
+             
               <div className="inline-block bg-red-800/50 backdrop-blur-sm px-6 py-2 rounded-full border border-yellow-500/30">
                 <p className="text-yellow-100 text-lg font-medium">
                   {showForgotPassword ? (showOtpInput ? 'OTP सत्यापन' : 'पासवर्ड रीसेट') : 'लॉगिन'}

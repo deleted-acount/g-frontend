@@ -104,8 +104,17 @@ const BusinessSearch = () => {
   ];
 
   return (
-    <div className="min-h-screen py-2 sm:py-4 md:py-6 relative bg-red-800">
-      <div className="absolute inset-0 bg-gradient-to-b from-red-900/70 to-red-800/70"></div>
+    <div 
+      className="min-h-screen py-2 sm:py-4 md:py-6 relative"
+      style={{
+        backgroundImage: 'url("/decorative-bg.jpg")',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundColor: '#991b1b',
+      }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-b from-red-900/80 to-red-800/80"></div>
       <div className="relative max-w-6xl mx-auto bg-white/95 backdrop-blur-sm rounded-lg shadow-xl mt-28 sm:mt-20 md:mt-24 border-2 border-red-200/50">
         <div className="bg-white/90 rounded-lg overflow-hidden">
           {/* Header */}

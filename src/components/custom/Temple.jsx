@@ -74,7 +74,7 @@ const Temple = () => {
     setSelectedImage(null);
   };
 
-  // Add useEffect to control body scroll
+ 
   useEffect(() => {
     if (selectedImage !== null) {
       document.body.style.overflow = 'hidden';
@@ -82,31 +82,38 @@ const Temple = () => {
       document.body.style.overflow = 'unset';
     }
     
-    // Cleanup function to reset overflow when component unmounts
+   
     return () => {
       document.body.style.overflow = 'unset';
     };
   }, [selectedImage]);
 
   return (
-    <div className="min-h-screen py-2 sm:py-4 md:py-6 relative bg-red-800">
+    <div 
+      className="min-h-screen py-2 sm:py-4 md:py-6 relative"
+      style={{
+        backgroundImage: 'url("/decorative-bg.jpg")',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundColor: '#991b1b',
+      }}
+    >
       <Helmet>
-        <title>Temple - Gahoi Samaj India | धर्मशाला अ.भा.गहोई धर्मशाला मंदिर ट्रष्ट</title>
+        <title>Temple - Gahoi Shakti</title>
         <meta name="description" content="Explore our temples across different locations. View images and information about our sacred places of worship." />
         <meta name="keywords" content="Gahoi Temples, Temple Images, Religious Places, Sacred Temples, Temple Trust" />
       </Helmet>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-red-900/70 to-red-800/70"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-red-900/80 to-red-800/80"></div>
       <div className="relative w-full max-w-6xl mx-auto bg-white/95 backdrop-blur-sm rounded-lg shadow-xl border-2 border-red-200/50 mx-4 mt-28 sm:mt-20 md:mt-24">
         <div className="bg-white/90 rounded-lg overflow-hidden">
           {/* Header */}
-          <div className="relative p-6 text-center border-b border-red-200">
+          <div className="relative p-3 sm:p-4 text-center border-b border-red-200 mb-3 sm:mb-4 md:mb-6">
             <div className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-900 opacity-90"></div>
             <div className="relative z-10">
              
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-red-800 mb-4 bg-gradient-to-r from-yellow-200 to-yellow-500 bg-clip-text">
-                धर्मशाला अ.भा.गहोई धर्मशाला मंदिर ट्रष्ट, अयोध्या (उ.प्र.)
-              </h1>
+            
               <div className="inline-block bg-red-800/50 backdrop-blur-sm px-4 sm:px-6 py-1.5 sm:py-2 rounded-full border border-yellow-500/30">
                
                   

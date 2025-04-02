@@ -7,7 +7,7 @@ const Hostelry = () => {
   const [showDatiaLocations, setShowDatiaLocations] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  // Add useEffect to control body scroll
+
   useEffect(() => {
     if (selectedImage !== null) {
       document.body.style.overflow = 'hidden';
@@ -15,7 +15,7 @@ const Hostelry = () => {
       document.body.style.overflow = 'unset';
     }
     
-    // Cleanup function to reset overflow when component unmounts
+    
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -123,62 +123,62 @@ const Hostelry = () => {
     // Bhind Gohad Images
     {
       src: "/resources/bhind-gohad-1.webp",
-      category: "भिंड-गोहद"
+      category: "भिंड-गोहद",
     },
     {
       src: "/resources/bhind-gohad-2.webp",
-      category: "भिंड-गोहद"
+      category: "भिंड-गोहद",
     },
     {
       src: "/resources/bhind-gohad-3.webp",
-      category: "भिंड-गोहद"
+      category: "भिंड-गोहद",
     },
     {
       src: "/resources/bhind-gohad-4.webp",
-      category: "भिंड-गोहद"
+      category: "भिंड-गोहद",
     },
     {
       src: "/resources/bhind-gohad-5.webp",
-      category: "भिंड-गोहद"
+      category: "भिंड-गोहद",
     },
     // Bhind Dabho Images
     {
       src: "/resources/bhind-dabho-1.webp",
-      category: "भिंड-दबोह"
+      category: "भिंड-दबोह",
     },
     {
       src: "/resources/bhind-dabho-2.webp",
-      category: "भिंड-दबोह"
+      category: "भिंड-दबोह",
     },
     // Bhind Mihona Images
     {
       src: "/resources/bhind-mihona-1.webp",
-      category: "भिंड-मिहोना"
+      category: "भिंड-मिहोना",
     },
     {
       src: "/resources/bhind-mihona-2.webp",
-      category: "भिंड-मिहोना"
+      category: "भिंड-मिहोना",
     },
     {
       src: "/resources/bhind-mihona-3.webp",
-      category: "भिंड-मिहोना"
+      category: "भिंड-मिहोना",
     },
     // Bhind Lahar Images
     {
       src: "/resources/bhind-lahar-1.webp",
-      category: "भिंड-लहार"
+      category: "भिंड-लहार",
     },
     {
       src: "/resources/bhind-lahar-2.webp",
-      category: "भिंड-लहार"
+      category: "भिंड-लहार",
     },
     {
       src: "/resources/bhind-lahar-3.webp",
-      category: "भिंड-लहार"
+      category: "भिंड-लहार",
     },
     {
       src: "/resources/bhind-lahar-4.webp",
-      category: "भिंड-लहार"
+      category: "भिंड-लहार",
     },
 
     // Gwalior Dabra Images
@@ -358,9 +358,9 @@ const Hostelry = () => {
                 सभी
               </button>
               <button
-                onClick={() => handleOtherFilters("Ayodhya")}
+                onClick={() => handleOtherFilters("अयोध्या")}
                 className={`flex-1 sm:flex-initial px-6 py-2.5 rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center text-base sm:text-lg whitespace-nowrap ${
-                  activeFilter === "Ayodhya"
+                  activeFilter === "अयोध्या"
                     ? "bg-red-700 text-white"
                     : "bg-red-50 text-red-700 hover:bg-red-100"
                 }`}
@@ -368,9 +368,9 @@ const Hostelry = () => {
                 अयोध्या
               </button>
               <button
-                onClick={() => handleOtherFilters("Satna")}
+                onClick={() => handleOtherFilters("सतना")}
                 className={`flex-1 sm:flex-initial px-6 py-2.5 rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center text-base sm:text-lg whitespace-nowrap ${
-                  activeFilter === "Satna"
+                  activeFilter === "सतना"
                     ? "bg-red-700 text-white"
                     : "bg-red-50 text-red-700 hover:bg-red-100"
                 }`}
@@ -380,7 +380,7 @@ const Hostelry = () => {
               <button
                 onClick={handleBhindClick}
                 className={`flex-1 sm:flex-initial px-6 py-2.5 rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center text-base sm:text-lg whitespace-nowrap ${
-                  activeFilter === "Bhind"
+                  activeFilter === "भिंड"
                     ? "bg-red-700 text-white"
                     : "bg-red-50 text-red-700 hover:bg-red-100"
                 }`}
@@ -388,9 +388,9 @@ const Hostelry = () => {
                 भिंड
               </button>
               <button
-                onClick={() => handleOtherFilters("Assembly")}
+                onClick={() => handleOtherFilters("महासभा")}
                 className={`flex-1 sm:flex-initial px-6 py-2.5 rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center text-base sm:text-lg whitespace-nowrap ${
-                  activeFilter === "Assembly"
+                  activeFilter === "महासभा"
                     ? "bg-red-700 text-white"
                     : "bg-red-50 text-red-700 hover:bg-red-100"
                 }`}
@@ -400,7 +400,7 @@ const Hostelry = () => {
               <button
                 onClick={handleGwaliorClick}
                 className={`flex-1 sm:flex-initial px-6 py-2.5 rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center text-base sm:text-lg whitespace-nowrap ${
-                  activeFilter === "Gwalior"
+                  activeFilter === "ग्वालियर"
                     ? "bg-red-700 text-white"
                     : "bg-red-50 text-red-700 hover:bg-red-100"
                 }`}
@@ -410,7 +410,7 @@ const Hostelry = () => {
               <button
                 onClick={handleDatiaClick}
                 className={`flex-1 sm:flex-initial px-6 py-2.5 rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center text-base sm:text-lg whitespace-nowrap ${
-                  activeFilter === "Datia"
+                  activeFilter === "दतिया"
                     ? "bg-red-700 text-white"
                     : "bg-red-50 text-red-700 hover:bg-red-100"
                 }`}
@@ -425,9 +425,9 @@ const Hostelry = () => {
             <div className="p-2 sm:p-4 bg-red-50/50 border-b border-red-100">
               <div className="flex justify-start sm:justify-center space-x-2 sm:space-x-4 flex-wrap gap-y-2 px-2">
                 <button
-                  onClick={() => setActiveFilter("Bhind-Gohad")}
+                  onClick={() => setActiveFilter("भिंड-गोहद")}
                   className={`px-6 py-2.5 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center whitespace-nowrap ${
-                    activeFilter === "Bhind-Gohad"
+                    activeFilter === "भिंड-गोहद"
                       ? "bg-red-700 text-white"
                       : "text-red-700 hover:bg-red-50"
                   }`}
@@ -435,9 +435,9 @@ const Hostelry = () => {
                   गोहद
                 </button>
                 <button
-                  onClick={() => setActiveFilter("Bhind-Dabho")}
+                  onClick={() => setActiveFilter("भिंड-दबोह")}
                   className={`px-6 py-2.5 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center whitespace-nowrap ${
-                    activeFilter === "Bhind-Dabho"
+                    activeFilter === "भिंड-दबोह"
                       ? "bg-red-700 text-white"
                       : "text-red-700 hover:bg-red-50"
                   }`}
@@ -445,9 +445,9 @@ const Hostelry = () => {
                   दबोह
                 </button>
                 <button
-                  onClick={() => setActiveFilter("Bhind-Mihona")}
+                  onClick={() => setActiveFilter("भिंड-मिहोना")}
                   className={`px-6 py-2.5 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center whitespace-nowrap ${
-                    activeFilter === "Bhind-Mihona"
+                    activeFilter === "भिंड-मिहोना"
                       ? "bg-red-700 text-white"
                       : "text-red-700 hover:bg-red-50"
                   }`}
@@ -455,9 +455,9 @@ const Hostelry = () => {
                   मिहोना
                 </button>
                 <button
-                  onClick={() => setActiveFilter("Bhind-Lahar")}
+                  onClick={() => setActiveFilter("भिंड-लहार")}
                   className={`px-6 py-2.5 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center whitespace-nowrap ${
-                    activeFilter === "Bhind-Lahar"
+                    activeFilter === "भिंड-लहार"
                       ? "bg-red-700 text-white"
                       : "text-red-700 hover:bg-red-50"
                   }`}
@@ -473,9 +473,9 @@ const Hostelry = () => {
             <div className="p-2 sm:p-4 bg-red-50/50 border-b border-red-100">
               <div className="flex justify-start sm:justify-center space-x-2 sm:space-x-4 flex-wrap gap-y-2 px-2">
                 <button
-                  onClick={() => setActiveFilter("Gwalior-Dabra")}
+                  onClick={() => setActiveFilter("ग्वालियर-डबरा")}
                   className={`px-6 py-2.5 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center whitespace-nowrap ${
-                    activeFilter === "Gwalior-Dabra"
+                    activeFilter === "ग्वालियर-डबरा"
                       ? "bg-red-700 text-white"
                       : "text-red-700 hover:bg-red-50"
                   }`}
@@ -483,9 +483,9 @@ const Hostelry = () => {
                   डबरा
                 </button>
                 <button
-                  onClick={() => setActiveFilter("Gwalior-Lohamandi")}
+                  onClick={() => setActiveFilter("ग्वालियर-लोहामंडी")}
                   className={`px-6 py-2.5 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center whitespace-nowrap ${
-                    activeFilter === "Gwalior-Lohamandi"
+                    activeFilter === "ग्वालियर-लोहामंडी"
                       ? "bg-red-700 text-white"
                       : "text-red-700 hover:bg-red-50"
                   }`}
@@ -493,9 +493,9 @@ const Hostelry = () => {
                   लोहामंडी
                 </button>
                 <button
-                  onClick={() => setActiveFilter("Gwalior-Hostel")}
+                  onClick={() => setActiveFilter("ग्वालियर-होस्टल")}
                   className={`px-6 py-2.5 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center whitespace-nowrap ${
-                    activeFilter === "Gwalior-Hostel"
+                    activeFilter === "ग्वालियर-होस्टल"
                       ? "bg-red-700 text-white"
                       : "text-red-700 hover:bg-red-50"
                   }`}
@@ -503,9 +503,9 @@ const Hostelry = () => {
                   होस्टल
                 </button>
                 <button
-                  onClick={() => setActiveFilter("Gwalior-Morar")}
+                  onClick={() => setActiveFilter("ग्वालियर-मुरार")}
                   className={`px-6 py-2.5 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center whitespace-nowrap ${
-                    activeFilter === "Gwalior-Morar"
+                    activeFilter === "ग्वालियर-मुरार"
                       ? "bg-red-700 text-white"
                       : "text-red-700 hover:bg-red-50"
                   }`}
@@ -521,9 +521,9 @@ const Hostelry = () => {
             <div className="p-2 sm:p-4 bg-red-50/50 border-b border-red-100">
               <div className="flex justify-start sm:justify-center space-x-2 sm:space-x-4 flex-wrap gap-y-2 px-2">
                 <button
-                  onClick={() => setActiveFilter("Datia-Chotibadoni")}
+                  onClick={() => setActiveFilter("दतिया-छोटी बड़ौनी")}
                   className={`px-6 py-2.5 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center whitespace-nowrap ${
-                    activeFilter === "Datia-Chotibadoni"
+                    activeFilter === "दतिया-छोटी बड़ौनी"
                       ? "bg-red-700 text-white"
                       : "text-red-700 hover:bg-red-50"
                   }`}
@@ -531,9 +531,9 @@ const Hostelry = () => {
                   छोटी बड़ौनी
                 </button>
                 <button
-                  onClick={() => setActiveFilter("Datia-Indergarh")}
+                  onClick={() => setActiveFilter("दतिया-इंदरगढ़")}
                   className={`px-6 py-2.5 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center whitespace-nowrap ${
-                    activeFilter === "Datia-Indergarh"
+                    activeFilter === "दतिया-इंदरगढ़"
                       ? "bg-red-700 text-white"
                       : "text-red-700 hover:bg-red-50"
                   }`}
@@ -541,9 +541,9 @@ const Hostelry = () => {
                   इंदरगढ़
                 </button>
                 <button
-                  onClick={() => setActiveFilter("Datia-Seondha")}
+                  onClick={() => setActiveFilter("दतिया-सेवंढा")}
                   className={`px-6 py-2.5 text-base sm:text-lg rounded-full transition-all duration-300 transform hover:scale-105 transform-origin-center whitespace-nowrap ${
-                    activeFilter === "Datia-Seondha"
+                    activeFilter === "दतिया-सेवंढा"
                       ? "bg-red-700 text-white"
                       : "text-red-700 hover:bg-red-50"
                   }`}
@@ -568,6 +568,10 @@ const Hostelry = () => {
                     alt={image.category || ""}
                     className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                     loading="lazy"
+                    onError={(e) => {
+                      console.error(`Failed to load image: ${image.src}`);
+                      e.target.style.display = 'none';
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                     <div className="p-4 text-white">

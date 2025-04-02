@@ -219,17 +219,24 @@ const TouristPlace = () => {
       : images.filter((img) => img.category === activeFilter);
 
   return (
-    <div className="min-h-screen py-2 sm:py-4 md:py-6 relative bg-red-800">
-      <div className="absolute inset-0 bg-gradient-to-b from-red-900/70 to-red-800/70"></div>
+    <div 
+      className="min-h-screen py-2 sm:py-4 md:py-6 relative"
+      style={{
+        backgroundImage: 'url("/decorative-bg.jpg")',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundColor: '#991b1b',
+      }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-b from-red-900/80 to-red-800/80"></div>
       <div className="relative max-w-7xl mx-auto bg-white/95 backdrop-blur-sm rounded-lg shadow-xl mt-28 sm:mt-20 md:mt-24 border-2 border-red-200/50 mx-2 sm:mx-4 md:mx-6 lg:mx-8">
         <div className="bg-white/90 rounded-lg overflow-hidden">
           {/* Header */}
-          <div className="relative p-3 sm:p-4 text-center border-b border-red-200">
+          <div className="relative p-3 sm:p-4 text-center border-b border-red-200 mb-3 sm:mb-4 md:mb-6">
             <div className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-900 opacity-90"></div>
             <div className="relative z-10">
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-red-800 mb-2 sm:mb-4">
-                श्री गहोई शक्ति फाउंडेशन
-              </h1>
+             
               <div className="inline-block bg-red-800/50 backdrop-blur-sm px-4 sm:px-6 py-1.5 sm:py-2 rounded-full border border-yellow-500/30">
                 <p className="text-base sm:text-lg font-medium text-yellow-100">पर्यटन स्थल</p>
               </div>

@@ -147,20 +147,18 @@ const RegistrationForm = () => {
     <div 
       className="min-h-screen py-4 sm:py-6 md:py-8 relative"
       style={{
-        background: `linear-gradient(45deg, #991b1b 25%, transparent 25%),
-                    linear-gradient(-45deg, #991b1b 25%, transparent 25%),
-                    linear-gradient(45deg, transparent 75%, #991b1b 75%),
-                    linear-gradient(-45deg, transparent 75%, #991b1b 75%)`,
-        backgroundSize: '40px 40px',
-        backgroundPosition: '0 0, 0 20px, 20px -20px, -20px 0px',
-        backgroundColor: '#7f1d1d',
+        backgroundImage: 'url("/decorative-bg.jpg")',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundColor: '#991b1b',
       }}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-red-900/90 to-red-800/90"></div>
-      <div className="relative max-w-5xl mx-auto bg-white/95 backdrop-blur-sm rounded-lg shadow-xl mt-20">
-        <form onSubmit={handleSubmit} className="bg-white/90">
-          {/* Header */}
-          <div className="relative p-4 text-center border-b border-red-200">
+      <div className="absolute inset-0 bg-gradient-to-b from-red-900/80 to-red-800/80"></div>
+      <div className="relative max-w-5xl mx-auto bg-white/95 backdrop-blur-sm rounded-xl shadow-xl mt-20">
+        <form onSubmit={handleSubmit} className="bg-white/90 rounded-xl overflow-hidden">
+        {/* Header */}
+          <div className="relative p-3 sm:p-4 text-center border-b border-red-200 mb-3 sm:mb-4 md:mb-6">
             <div className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-900 opacity-90"></div>
             <div className="relative z-10">
               <h1 className="text-2xl sm:text-3xl font-bold text-red-800 mb-4 ">
@@ -170,9 +168,9 @@ const RegistrationForm = () => {
                 <p className="text-yellow-100 text-lg font-medium">रजिस्ट्रेशन फॉर्म</p>
               </div>
             </div>
-          </div>
-          
-          {/* Form Number */}
+        </div>
+        
+        {/* Form Number */}
           <div className="p-4 border-b border-red-100">
             <div className="flex items-center">
               <span className="text-gray-700 font-medium">फॉर्म क्रमांक : </span>
@@ -181,9 +179,9 @@ const RegistrationForm = () => {
                 name="formNumber"
                 value={formData.formNumber}
                 onChange={handleInputChange}
-                className="ml-2 px-2 py-1 border border-red-200 rounded focus:outline-none focus:ring-2 focus:ring-red-500 text-sm"
+                className="ml-2 px-3 py-2 border border-red-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-sm"
               />
-            </div>
+        </div>
           </div>
           
           {/* Personal Information */}
@@ -200,129 +198,129 @@ const RegistrationForm = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">नाम</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
                       className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
                         hasError('name') ? 'border-red-500 bg-red-50' : 'border-red-200'
                       }`}
-                    />
-                    {hasError('name') && (
+                        />
+                        {hasError('name') && (
                       <p className="text-red-500 text-xs">{errors.name}</p>
-                    )}
-                  </div>
+                        )}
+                      </div>
 
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">मोबाइल नम्बर</label>
-                    <input
-                      type="tel"
-                      name="mobileNumber"
-                      value={formData.mobileNumber}
-                      onChange={handleInputChange}
+                        <input
+                          type="tel"
+                          name="mobileNumber"
+                          value={formData.mobileNumber}
+                          onChange={handleInputChange}
                       className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
                         hasError('mobileNumber') ? 'border-red-500 bg-red-50' : 'border-red-200'
                       }`}
-                      pattern="[0-9]*"
-                      inputMode="numeric"
-                      maxLength={10}
-                    />
-                    {hasError('mobileNumber') && (
+                          pattern="[0-9]*"
+                          inputMode="numeric"
+                          maxLength={10}
+                        />
+                        {hasError('mobileNumber') && (
                       <p className="text-red-500 text-xs">{errors.mobileNumber}</p>
-                    )}
-                  </div>
+                        )}
+                      </div>
 
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">व्हाट्सऐप नंबर</label>
-                    <input
-                      type="tel"
-                      name="whatsappNumber"
-                      value={formData.whatsappNumber}
-                      onChange={handleInputChange}
+                        <input
+                          type="tel"
+                          name="whatsappNumber"
+                          value={formData.whatsappNumber}
+                          onChange={handleInputChange}
                       className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
                         hasError('whatsappNumber') ? 'border-red-500 bg-red-50' : 'border-red-200'
                       }`}
-                      pattern="[0-9]*"
-                      inputMode="numeric"
-                      maxLength={10}
-                    />
-                    {hasError('whatsappNumber') && (
+                          pattern="[0-9]*"
+                          inputMode="numeric"
+                          maxLength={10}
+                        />
+                        {hasError('whatsappNumber') && (
                       <p className="text-red-500 text-xs">{errors.whatsappNumber}</p>
-                    )}
-                  </div>
+                        )}
+                      </div>
 
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">गाँव</label>
-                    <input
-                      type="text"
-                      name="gaon"
-                      value={formData.gaon}
-                      onChange={handleInputChange}
+                        <input
+                          type="text"
+                          name="gaon"
+                          value={formData.gaon}
+                          onChange={handleInputChange}
                       className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
                         hasError('gaon') ? 'border-red-500 bg-red-50' : 'border-red-200'
                       }`}
-                    />
-                    {hasError('gaon') && (
+                        />
+                        {hasError('gaon') && (
                       <p className="text-red-500 text-xs">{errors.gaon}</p>
-                    )}
-                  </div>
+                        )}
+                      </div>
 
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">आँकड़ा</label>
-                    <input
-                      type="text"
-                      name="aakda"
-                      value={formData.aakda}
-                      onChange={handleInputChange}
+                        <input
+                          type="text"
+                          name="aakda"
+                          value={formData.aakda}
+                          onChange={handleInputChange}
                       className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
                         hasError('aakda') ? 'border-red-500 bg-red-50' : 'border-red-200'
                       }`}
-                    />
-                    {hasError('aakda') && (
+                        />
+                        {hasError('aakda') && (
                       <p className="text-red-500 text-xs">{errors.aakda}</p>
-                    )}
-                  </div>
+                        )}
+                      </div>
 
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">ब्लड ग्रुप</label>
-                    <input
-                      type="text"
-                      name="bloodGroup"
-                      value={formData.bloodGroup}
-                      onChange={handleInputChange}
+                        <input
+                          type="text"
+                          name="bloodGroup"
+                          value={formData.bloodGroup}
+                          onChange={handleInputChange}
                       className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
                         hasError('bloodGroup') ? 'border-red-500 bg-red-50' : 'border-red-200'
                       }`}
-                    />
-                    {hasError('bloodGroup') && (
+                        />
+                        {hasError('bloodGroup') && (
                       <p className="text-red-500 text-xs">{errors.bloodGroup}</p>
-                    )}
-                  </div>
+                        )}
+                      </div>
 
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">जन्म तिथि</label>
-                    <input
-                      type="date"
-                      name="birthDate"
-                      value={formData.birthDate}
-                      onChange={handleInputChange}
+                        <input
+                          type="date"
+                          name="birthDate"
+                          value={formData.birthDate}
+                          onChange={handleInputChange}
                       className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
                         hasError('birthDate') ? 'border-red-500 bg-red-50' : 'border-red-200'
                       }`}
-                    />
-                    {hasError('birthDate') && (
+                        />
+                        {hasError('birthDate') && (
                       <p className="text-red-500 text-xs">{errors.birthDate}</p>
-                    )}
-                  </div>
+                        )}
+                      </div>
 
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">विवाह तिथि</label>
-                    <input
-                      type="date"
-                      name="marriageDate"
-                      value={formData.marriageDate}
-                      onChange={handleInputChange}
+                      <input
+                        type="date"
+                        name="marriageDate"
+                        value={formData.marriageDate}
+                        onChange={handleInputChange}
                       className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
                         hasError('marriageDate') ? 'border-red-500 bg-red-50' : 'border-red-200'
                       }`}
@@ -331,27 +329,27 @@ const RegistrationForm = () => {
 
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">उच्चतम शिक्षा</label>
-                    <input
-                      type="text"
-                      name="education"
-                      value={formData.education}
-                      onChange={handleInputChange}
+                        <input
+                          type="text"
+                          name="education"
+                          value={formData.education}
+                          onChange={handleInputChange}
                       className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
                         hasError('education') ? 'border-red-500 bg-red-50' : 'border-red-200'
                       }`}
-                    />
-                    {hasError('education') && (
+                        />
+                        {hasError('education') && (
                       <p className="text-red-500 text-xs">{errors.education}</p>
-                    )}
-                  </div>
+                        )}
+                      </div>
 
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">पंचायत</label>
-                    <input
-                      type="text"
-                      name="panchayat"
-                      value={formData.panchayat}
-                      onChange={handleInputChange}
+                      <input
+                        type="text"
+                        name="panchayat"
+                        value={formData.panchayat}
+                        onChange={handleInputChange}
                       className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
                         hasError('panchayat') ? 'border-red-500 bg-red-50' : 'border-red-200'
                       }`}
@@ -360,91 +358,91 @@ const RegistrationForm = () => {
 
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700">वर्तमान पता</label>
-                    <textarea
-                      name="currentAddress"
-                      value={formData.currentAddress}
-                      onChange={handleInputChange}
+                        <textarea
+                          name="currentAddress"
+                          value={formData.currentAddress}
+                          onChange={handleInputChange}
                       className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 ${
                         hasError('currentAddress') ? 'border-red-500 bg-red-50' : 'border-red-200'
                       }`}
-                    />
-                    {hasError('currentAddress') && (
+                        />
+                        {hasError('currentAddress') && (
                       <p className="text-red-500 text-xs">{errors.currentAddress}</p>
-                    )}
-                  </div>
+                        )}
+                      </div>
                 </div>
               </div>
-            </div>
           </div>
-          
-          {/* Family Information */}
+        </div>
+        
+        {/* Family Information */}
           <div className="border-b border-red-100">
             <div className="bg-red-50 p-3 text-center border-b border-red-100">
               <h3 className="text-lg font-semibold text-red-800">परिवार की जानकारी</h3>
-            </div>
-            
+          </div>
+          
             <div className="p-4">
               <div className="overflow-x-auto -mx-4 sm:mx-0">
                 <div className="min-w-full inline-block align-middle">
                   <table className="min-w-full divide-y divide-red-100">
-                    <thead>
+              <thead>
                       <tr className="bg-red-50">
                         <th className="px-3 py-2 text-left text-xs sm:text-sm font-medium text-red-800">क्रमांक</th>
                         <th className="px-3 py-2 text-left text-xs sm:text-sm font-medium text-red-800">सम्बन्ध</th>
                         <th className="px-3 py-2 text-left text-xs sm:text-sm font-medium text-red-800">नाम</th>
                         <th className="px-3 py-2 text-left text-xs sm:text-sm font-medium text-red-800">मोबाइल नम्बर</th>
                         <th className="px-3 py-2 text-left text-xs sm:text-sm font-medium text-red-800">whatsapp नंबर</th>
-                      </tr>
-                    </thead>
+                </tr>
+              </thead>
                     <tbody className="divide-y divide-red-100">
-                      {formData.familyDetails.map((member, index) => (
+                {formData.familyDetails.map((member, index) => (
                         <tr key={index} className="hover:bg-red-50/50">
                           <td className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap">{index + 1}</td>
                           <td className="px-3 py-2 text-xs sm:text-sm whitespace-nowrap">{member.relation}</td>
                           <td className="px-3 py-2">
-                            <input
-                              type="text"
-                              value={member.name}
-                              onChange={(e) => handleFamilyDetailChange(index, 'name', e.target.value)}
+                        <input
+                          type="text"
+                          value={member.name}
+                          onChange={(e) => handleFamilyDetailChange(index, 'name', e.target.value)}
                               className={`w-full px-2 py-1.5 text-xs sm:text-sm border rounded focus:outline-none focus:ring-2 focus:ring-red-500 ${
                                 hasFamilyError(index, 'name') ? 'border-red-500 bg-red-50' : 'border-red-200'
                               }`}
                               placeholder="नाम दर्ज करें"
-                            />
-                            {hasFamilyError(index, 'name') && (
+                        />
+                        {hasFamilyError(index, 'name') && (
                               <p className="text-red-500 text-xs mt-1">{errors[`familyDetails.${index}.name`]}</p>
-                            )}
-                          </td>
+                        )}
+                    </td>
                           <td className="px-3 py-2">
-                            <input
-                              type="tel"
-                              value={member.mobileNumber}
-                              onChange={(e) => handleFamilyDetailChange(index, 'mobileNumber', e.target.value)}
+                      <input
+                        type="tel"
+                        value={member.mobileNumber}
+                        onChange={(e) => handleFamilyDetailChange(index, 'mobileNumber', e.target.value)}
                               className="w-full px-2 py-1.5 text-xs sm:text-sm border border-red-200 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
-                              pattern="[0-9]*"
-                              inputMode="numeric"
-                              maxLength={10}
+                        pattern="[0-9]*"
+                        inputMode="numeric"
+                        maxLength={10}
                               placeholder="मोबाइल नंबर"
-                            />
-                          </td>
+                      />
+                    </td>
                           <td className="px-3 py-2">
-                            <input
-                              type="tel"
-                              value={member.whatsappNumber}
-                              onChange={(e) => handleFamilyDetailChange(index, 'whatsappNumber', e.target.value)}
+                      <input
+                        type="tel"
+                        value={member.whatsappNumber}
+                        onChange={(e) => handleFamilyDetailChange(index, 'whatsappNumber', e.target.value)}
                               className="w-full px-2 py-1.5 text-xs sm:text-sm border border-red-200 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
-                              pattern="[0-9]*"
-                              inputMode="numeric"
-                              maxLength={10}
+                        pattern="[0-9]*"
+                        inputMode="numeric"
+                        maxLength={10}
                               placeholder="व्हाट्सएप नंबर"
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
             </div>
           </div>
           
@@ -574,170 +572,170 @@ const RegistrationForm = () => {
 
             {/* Desktop View (768px and above) */}
             <div className="hidden md:block">
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse min-w-max">
-                  <tbody>
-                    <tr>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse min-w-max">
+              <tbody>
+                <tr>
                       <td className="border border-red-100 p-1 sm:p-2 text-center w-8 sm:w-12 text-sm sm:text-base">1</td>
                       <td className="border border-red-100 p-1 sm:p-2 text-sm sm:text-base">व्यवसाय /नौकरी</td>
                       <td className="border border-red-100 p-1 sm:p-2">
-                        <input
-                          type="text"
-                          name="occupation"
-                          value={formData.occupation}
-                          onChange={handleInputChange}
-                          className="w-full p-1 focus:outline-none text-sm sm:text-base"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
+                    <input
+                      type="text"
+                      name="occupation"
+                      value={formData.occupation}
+                      onChange={handleInputChange}
+                      className="w-full p-1 focus:outline-none text-sm sm:text-base"
+                    />
+                  </td>
+                </tr>
+                <tr>
                       <td className="border border-red-100 p-1 sm:p-2 text-center text-sm sm:text-base">2</td>
                       <td className="border border-red-100 p-1 sm:p-2 text-sm sm:text-base">व्यवसाय /कंपनी का नाम</td>
                       <td className="border border-red-100 p-1 sm:p-2">
-                        <input
-                          type="text"
-                          name="companyName"
-                          value={formData.companyName}
-                          onChange={handleInputChange}
-                          className="w-full p-1 focus:outline-none text-sm sm:text-base"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
+                    <input
+                      type="text"
+                      name="companyName"
+                      value={formData.companyName}
+                      onChange={handleInputChange}
+                      className="w-full p-1 focus:outline-none text-sm sm:text-base"
+                    />
+                  </td>
+                </tr>
+                <tr>
                       <td className="border border-red-100 p-1 sm:p-2 text-center text-sm sm:text-base">3</td>
                       <td className="border border-red-100 p-1 sm:p-2 text-sm sm:text-base">कार्य क्षेत्र</td>
                       <td className="border border-red-100 p-1 sm:p-2">
-                        <input
-                          type="text"
-                          name="workArea"
-                          value={formData.workArea}
-                          onChange={handleInputChange}
-                          className="w-full p-1 focus:outline-none text-sm sm:text-base"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
+                    <input
+                      type="text"
+                      name="workArea"
+                      value={formData.workArea}
+                      onChange={handleInputChange}
+                      className="w-full p-1 focus:outline-none text-sm sm:text-base"
+                    />
+                  </td>
+                </tr>
+                <tr>
                       <td className="border border-red-100 p-1 sm:p-2 text-center text-sm sm:text-base">4</td>
                       <td className="border border-red-100 p-1 sm:p-2 text-sm sm:text-base">
-                        क्या आप अपने कार्य से सम्बंधित मामलों में समाजजनों को उनकी समस्या सुलझाने में मदद करना चाहेंगे।
-                      </td>
+                    क्या आप अपने कार्य से सम्बंधित मामलों में समाजजनों को उनकी समस्या सुलझाने में मदद करना चाहेंगे।
+                  </td>
                       <td className="border border-red-100 p-1 sm:p-2">
-                        <div className="flex items-center space-x-4 sm:space-x-8 text-sm sm:text-base">
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="helpOthers"
-                              checked={formData.helpOthers === true}
-                              onChange={() => setFormData(prev => ({ ...prev, helpOthers: true }))}
-                              className="mr-1 sm:mr-2"
-                            />
-                            हाँ
-                          </label>
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="helpOthers"
-                              checked={formData.helpOthers === false}
-                              onChange={() => setFormData(prev => ({ ...prev, helpOthers: false }))}
-                              className="mr-1 sm:mr-2"
-                            />
-                            नहीं
-                          </label>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
+                    <div className="flex items-center space-x-4 sm:space-x-8 text-sm sm:text-base">
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="helpOthers"
+                          checked={formData.helpOthers === true}
+                          onChange={() => setFormData(prev => ({ ...prev, helpOthers: true }))}
+                          className="mr-1 sm:mr-2"
+                        />
+                        हाँ
+                      </label>
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="helpOthers"
+                          checked={formData.helpOthers === false}
+                          onChange={() => setFormData(prev => ({ ...prev, helpOthers: false }))}
+                          className="mr-1 sm:mr-2"
+                        />
+                        नहीं
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
                       <td className="border border-red-100 p-1 sm:p-2 text-center text-sm sm:text-base">5</td>
                       <td className="border border-red-100 p-1 sm:p-2 text-sm sm:text-base">
-                        क्या आप अपके द्वारा किये जा रहे कार्य /व्यापार में गहोई शक्ति के सदस्यों को डिस्काउंट देना चाहेंगे।
-                      </td>
+                    क्या आप अपके द्वारा किये जा रहे कार्य /व्यापार में गहोई शक्ति के सदस्यों को डिस्काउंट देना चाहेंगे।
+                  </td>
                       <td className="border border-red-100 p-1 sm:p-2">
-                        <div className="flex items-center space-x-4 sm:space-x-8 text-sm sm:text-base">
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="provideDiscount"
-                              checked={formData.provideDiscount === true}
-                              onChange={() => setFormData(prev => ({ ...prev, provideDiscount: true }))}
-                              className="mr-1 sm:mr-2"
-                            />
-                            हाँ
-                          </label>
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="provideDiscount"
-                              checked={formData.provideDiscount === false}
-                              onChange={() => setFormData(prev => ({ ...prev, provideDiscount: false }))}
-                              className="mr-1 sm:mr-2"
-                            />
-                            नहीं
-                          </label>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                    <div className="flex items-center space-x-4 sm:space-x-8 text-sm sm:text-base">
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="provideDiscount"
+                          checked={formData.provideDiscount === true}
+                          onChange={() => setFormData(prev => ({ ...prev, provideDiscount: true }))}
+                          className="mr-1 sm:mr-2"
+                        />
+                        हाँ
+                      </label>
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="provideDiscount"
+                          checked={formData.provideDiscount === false}
+                          onChange={() => setFormData(prev => ({ ...prev, provideDiscount: false }))}
+                          className="mr-1 sm:mr-2"
+                        />
+                        नहीं
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
               </div>
-            </div>
           </div>
-          
-          {/* Suggestions */}
+        </div>
+        
+        {/* Suggestions */}
           <div className="border-b border-red-100">
             <div className="p-2 border-b border-red-100">
-              <span className="font-semibold text-sm sm:text-base">आपके सुझाव :</span>
-            </div>
-            <div className="p-2 h-16 sm:h-24">
-              <textarea
-                name="suggestions"
-                value={formData.suggestions}
+            <span className="font-semibold text-sm sm:text-base">आपके सुझाव :</span>
+          </div>
+          <div className="p-2 h-16 sm:h-24">
+            <textarea
+              name="suggestions"
+              value={formData.suggestions}
+              onChange={handleInputChange}
+              className="w-full h-full p-3 focus:outline-none border border-red-200 rounded-lg focus:ring-2 focus:ring-red-500 text-sm sm:text-base"
+            />
+          </div>
+        </div>
+        
+        {/* Footer */}
+        <div className="p-2 flex flex-col sm:flex-row">
+          <div className="flex-1 mb-4 sm:mb-0">
+            <div className="mb-4">
+              <span className="text-sm sm:text-base">दिनांक : </span>
+              <input
+                type="date"
+                name="date"
+                value={formData.date}
                 onChange={handleInputChange}
-                className="w-full h-full p-1 focus:outline-none border-none text-sm sm:text-base"
+                className="border-b border-black focus:outline-none text-sm sm:text-base"
+              />
+            </div>
+            <div>
+              <span className="text-sm sm:text-base">Reference by : </span>
+              <input
+                type="text"
+                name="referenceBy"
+                value={formData.referenceBy}
+                onChange={handleInputChange}
+                className="border-b border-black focus:outline-none w-32 sm:w-48 text-sm sm:text-base"
               />
             </div>
           </div>
-          
-          {/* Footer */}
-          <div className="p-2 flex flex-col sm:flex-row">
-            <div className="flex-1 mb-4 sm:mb-0">
-              <div className="mb-4">
-                <span className="text-sm sm:text-base">दिनांक : </span>
-                <input
-                  type="date"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleInputChange}
-                  className="border-b border-black focus:outline-none text-sm sm:text-base"
-                />
-              </div>
-              <div>
-                <span className="text-sm sm:text-base">Reference by : </span>
-                <input
-                  type="text"
-                  name="referenceBy"
-                  value={formData.referenceBy}
-                  onChange={handleInputChange}
-                  className="border-b border-black focus:outline-none w-32 sm:w-48 text-sm sm:text-base"
-                />
-              </div>
-            </div>
-            <div className="flex-1 flex justify-start sm:justify-end items-end">
-              <div className="text-left sm:text-right">
-                <div className="mb-2 text-sm sm:text-base">सदस्य हस्ताक्षर</div>
-              </div>
+          <div className="flex-1 flex justify-start sm:justify-end items-end">
+            <div className="text-left sm:text-right">
+              <div className="mb-2 text-sm sm:text-base">सदस्य हस्ताक्षर</div>
             </div>
           </div>
-          
-          {/* Submit Button */}
+        </div>
+        
+        {/* Submit Button */}
           <div className="p-6 flex justify-center">
-            <button 
-              type="submit" 
-              className="bg-red-700 text-white px-8 py-3 rounded-lg hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 font-medium"
-            >
-              फॉर्म जमा करें
-            </button>
-          </div>
-        </form>
+          <button 
+            type="submit" 
+              className="bg-red-700 text-white px-8 py-3 rounded-xl hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 font-medium"
+          >
+            फॉर्म जमा करें
+          </button>
+        </div>
+      </form>
       </div>
     </div>
   );

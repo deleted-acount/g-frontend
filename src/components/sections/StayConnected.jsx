@@ -32,12 +32,12 @@ const StayConnected = () => {
           </div>
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif relative">
-            Gahoi Samaj India App
+          Gahoi Shakti Jan Kalyan Samiti
             <div className="absolute -bottom-2 left-0 w-24 h-0.5 bg-white/60"></div>
           </h2>
 
           <p className="text-sm md:text-base leading-relaxed opacity-90 max-w-xl font-light">
-            Gahoi Samaj India, religious studies and spirituality for creating a
+          Gahoi Shakti Jan Kalyan Samiti, religious studies and spirituality for creating a
             refined society for everyone. we believe in contributing most
             towards building a peaceful and enlightened society.
           </p>

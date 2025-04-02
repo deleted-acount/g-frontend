@@ -94,9 +94,7 @@ const Freelisting = () => {
           <div className="relative p-4 sm:p-6 text-center border-b border-red-200">
             <div className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-900 opacity-90"></div>
             <div className="relative z-10">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-red-800 mb-3 sm:mb-4">
-                श्री गहोई शक्ति फाउंडेशन
-              </h1>
+             
               <div className="inline-block bg-red-800/50 backdrop-blur-sm px-6 sm:px-8 py-2 sm:py-3 rounded-full border border-yellow-500/30">
                 <p className="text-lg sm:text-xl font-medium text-yellow-100">व्यवसाय सूची</p>
               </div>

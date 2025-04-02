@@ -77,7 +77,7 @@ const Header = () => {
       label: 'Family',
       dropdown: [
         { to: '/registration', label: 'पंजीकरण Registration' },
-        { to: '/Familyssearch', label: 'खोजना Search' },
+        { to: '/matrimonialsearch', label: 'खोजना Search' },
         { to: '/login', label: 'परिर्वतन Change / लॉग इन Login' },
       ]
     },
@@ -94,7 +94,7 @@ const Header = () => {
       to: '/contact', 
       label: 'Business Listing',
       dropdown: [
-        { to: '/business_login', label: 'Login' },
+        { to: '/login', label: 'Login' },
         { to: '/freelisting', label: 'Free Listing' },
         { to: '/business_search', label: 'Search' }
       ]
@@ -120,11 +120,11 @@ const Header = () => {
       to: '/executive', 
       label: 'Executive',
       dropdown: [
-        { to: '/gallery/photos', 
-          label: 'महासभा entral Assembly', 
+        { 
+          label: 'महासभा Central Assembly', 
           subDropdown: [
-            { to: '/gallery/photos/assembly1', label: 'पुरानी महासभा Central Assembly ' },
-            { to: '/gallery/photos/assembly2', label: 'महासभा 2015 Assembly' },
+            { to: '/ExecutiveCentralAssembly', label: 'पुरानी महासभा Central Assembly ' },
+            { to: '/Assembly2015', label: 'महासभा 2015 Assembly' },
             { to: '/gallery/photos/assembly2', label: 'महासभा 2019 Assembly' },
           ]
         },

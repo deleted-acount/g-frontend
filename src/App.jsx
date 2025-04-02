@@ -18,7 +18,15 @@ import TouristPlace from './components/custom/TouristPlace'
 import Freelisting from './components/custom/Freelisting'
 import BusinessSearch from './components/custom/BusinessSearch'
 import CentralAssembly from './components/custom/CentralAssembly'
-
+import Mahasabha2015 from "./components/custom/Mahasabha2015"
+import RegionalAssembly from "./components/custom/RegionalAssembly"
+import CommunalMarriage from "./components/custom/CommunalMarriage"
+import OtherProgram from "./components/custom/OtherProgram"
+import ExecutiveCentralAssembly from "./components/custom/ExecutiveCentralAssembly"
+import Assembly2015 from "./components/custom/2015Assembly"
+import GahoiBandhan from "./components/custom/GahoiBandhan"
+import GahoiBandhu from "./components/custom/GahoiBandhu"
+import AnyaPatrikayen from "./components/custom/AnyaPatrikayen"
 function App() {
   return (
     <Layout>
@@ -46,6 +54,15 @@ function App() {
         <Route path="/blog" element={<div>Blog</div>} />
         <Route path="/reviews" element={<div>Reviews</div>} />
         <Route path="/contact" element={<div>Contact Us</div>} />
+        <Route path="/mahasabha2015" element={<Mahasabha2015 />} />
+        <Route path="/regionalassembly" element={<RegionalAssembly />} />
+        <Route path="/communalmarriage" element={<CommunalMarriage />} />
+        <Route path="/otherprogram" element={<OtherProgram />} />
+        <Route path="/ExecutiveCentralAssembly" element={<ExecutiveCentralAssembly />} />
+        <Route path="/Assembly2015" element={<Assembly2015 />} />
+        <Route path="/GahoiBandhan" element={<GahoiBandhan />} />
+        <Route path="/GahoiBandhu" element={<GahoiBandhu />} />
+        <Route path="/AnyaPatrikayen" element={<AnyaPatrikayen />} />
       </Routes>
     </Layout>
   )

@@ -82,9 +82,7 @@ const Contact = () => {
           <div className="relative p-4 text-center border-b border-red-200">
             <div className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-900 opacity-90"></div>
             <div className="relative z-10">
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-red-800 mb-3 bg-gradient-to-r from-yellow-200 to-yellow-500 bg-clip-text">
-                धर्मशाला अ.भा.गहोई धर्मशाला मंदिर ट्रष्ट, अयोध्या (उ.प्र.)
-              </h1>
+             
               <div className="inline-block bg-red-800/50 backdrop-blur-sm px-4 sm:px-6 py-2 rounded-full border border-yellow-500/30">
                 <div className="flex items-center justify-center gap-2">
                   <img src="/ring.png" alt="Ring" className="w-6 h-6" />

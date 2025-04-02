@@ -67,17 +67,24 @@ const MatrimonialSearch = () => {
   };
 
   return (
-    <div className="min-h-screen py-4 sm:py-6 md:py-8 relative bg-red-800">
-      <div className="absolute inset-0 bg-gradient-to-b from-red-900/70 to-red-800/70"></div>
+    <div 
+      className="min-h-screen py-4 sm:py-6 md:py-8 relative"
+      style={{
+        backgroundImage: 'url("/decorative-bg.jpg")',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundColor: '#991b1b',
+      }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-b from-red-900/80 to-red-800/80"></div>
       <div className="relative max-w-4xl mx-auto bg-white/95 backdrop-blur-sm rounded-lg shadow-xl mt-24 sm:mt-12 md:mt-20 border-2 border-red-200/50 mx-4 sm:mx-auto">
         <form onSubmit={handleSubmit} className="bg-white/90 rounded-lg overflow-hidden">
           {/* Header */}
           <div className="relative p-4 text-center border-b border-red-200">
             <div className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-900 opacity-90"></div>
             <div className="relative z-10">
-              <h1 className="text-2xl sm:text-3xl font-bold text-red-800 mb-4">
-                श्री गहोई शक्ति फाउंडेशन
-              </h1>
+             
               <div className="inline-block bg-red-800/50 backdrop-blur-sm px-6 py-2 rounded-full border border-yellow-500/30">
                 <p className="text-yellow-100 text-lg font-medium">
                   वैवाहिक खोज
