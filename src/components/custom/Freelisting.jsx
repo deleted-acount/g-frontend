@@ -86,7 +86,25 @@ const Freelisting = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-8 sm:py-12 md:py-16 relative bg-red-800">
+    <div className="min-h-screen flex items-center justify-center py-8 sm:py-12 md:py-16 relative "
+    style={{
+      // background: `linear-gradient(45deg, #991b1b 25%, transparent 25%),
+      //             linear-gradient(-45deg, #991b1b 25%, transparent 25%),
+      //             linear-gradient(45deg, transparent 75%, #991b1b 75%),
+      //             linear-gradient(-45deg, transparent 75%, #991b1b 75%)`,
+      // backgroundSize: '40px 40px',
+      // backgroundPosition: '0 0, 0 20px, 20px -20px, -20px 0px',
+      // backgroundColor: '#7f1d1d',
+   
+    
+        backgroundImage: 'url("/decorative-bg.jpg")',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundColor: '#991b1b',
+    
+  
+    }}>
       <div className="absolute inset-0 bg-gradient-to-b from-red-900/70 to-red-800/70"></div>
       <div className="relative w-full max-w-4xl mx-auto bg-white/95 backdrop-blur-sm rounded-lg shadow-xl mt-28 sm:mt-20 md:mt-24 border-2 border-red-200/50 mx-4 sm:mx-6 md:mx-8">
         <div className="bg-white/90 rounded-lg overflow-hidden">

@@ -104,7 +104,7 @@ const Header = () => {
       label: 'Gallery',
       dropdown: [
         { 
-          to: '/gallery/photos', 
+        
           label: 'महासभा Central Assembly',
           subDropdown: [
             { to: '/CentralAssembly', label: 'पुरानी महासभा Central Assembly ' },
