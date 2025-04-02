@@ -101,21 +101,21 @@ const Contact = () => {
                 <div className="relative z-10">
                   <h3 className="text-xl font-semibold text-red-800 mb-4">संपर्क 1</h3>
                   <div className="space-y-3">
-                    <p className="font-medium text-gray-800">Mr. Ramesh Babu Gandhi</p>
-                    <p className="text-gray-600">23 - Pant Nagar Extension</p>
-                    <p className="text-gray-600">In Front of Sanskar Public School</p>
-                    <p className="text-gray-600">Mahalgaon Gwalior (M.P.)</p>
+                    <p className="font-medium text-gray-800">Mr. wwwww www wwwww</p>
+                    <p className="text-gray-600">ww - wwww wwww wwwwww</p>
+                    <p className="text-gray-600">ww wwww ww wwwwww Pwwwu</p>
+                    <p className="text-gray-600">wwww www (M.P.)</p>
                     <div className="pt-2">
-                      <a href="tel:+919425109934" className="text-red-600 hover:text-red-700">
-                        +91-9425109934
+                      <a href="tel:+000000000" className="text-red-600 hover:text-red-700">
+                        +91-000000000
                       </a>
                     </div>
                     <div className="space-y-1">
                       <a href="mailto:Gahoiramesh@gmail.com" className="text-red-600 hover:text-red-700 block">
-                        Gahoiramesh@gmail.com
+                        www@gmail.com
                       </a>
                       <a href="mailto:Rameshbabugupta@yahoo.co.in" className="text-red-600 hover:text-red-700 block">
-                        Rameshbabugupta@yahoo.co.in
+                        www@yahoo.co.in
                       </a>
                     </div>
                   </div>
@@ -128,18 +128,18 @@ const Contact = () => {
                 <div className="relative z-10">
                   <h3 className="text-xl font-semibold text-red-800 mb-4">संपर्क 2</h3>
                   <div className="space-y-3">
-                    <p className="font-medium text-gray-800">Mr. Shashank Rusiya</p>
-                    <p className="text-gray-600">302, 3rd Floor, G6 Sadbhawna Building</p>
-                    <p className="text-gray-600">Behind Maya Mall, City Center</p>
-                    <p className="text-gray-600">Gwalior (M.P.)</p>
+                    <p className="font-medium text-gray-800">Mr. wwwww www</p>
+                    <p className="text-gray-600">302, 3rd Floor, G6 wwwww wwww</p>
+                    <p className="text-gray-600">www Maya ww, City Center</p>
+                    <p className="text-gray-600">ww (M.P.)</p>
                     <div className="pt-2">
-                      <a href="tel:+918878640222" className="text-red-600 hover:text-red-700">
-                        +91-8878640222
+                      <a href="tel:+0000000" className="text-red-600 hover:text-red-700">
+                        +91-000000
                       </a>
                     </div>
                     <div>
-                      <a href="mailto:shashank.rusiya@marksteintech.com" className="text-red-600 hover:text-red-700">
-                        shashank.rusiya@marksteintech.com
+                      <a href="mailto:wwwwa@wwwww.com" className="text-red-600 hover:text-red-700">
+                        wwwa@www.com
                       </a>
                     </div>
                   </div>
