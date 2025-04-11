@@ -48,7 +48,7 @@ const PhotoUpload = () => {
             </div>
           </>
         ) : (
-          <span className="text-center">फोटो लगाए</span>
+          <span className="text-center">Upload Photo</span>
         )}
         
         <input

@@ -27,9 +27,9 @@ const Footer = () => {
           <div className="text-center sm:text-left">
             <h4 className="text-lg font-semibold mb-4 text-yellow-100">Contact Info</h4>
             <ul className="space-y-2 text-red-200">
-              <li>Email: www@gmail.com</li>
+              <li>Email: gahloishakti@gmail.com</li>
               <li>Phone: +91 000 000 0000</li>
-              <li className="text-sm sm:text-base">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id quos quibusdam delectus distinctio doloremque molestias dolorem eligendi in. Laudantium, deleniti.</li>
+              <li className="text-sm sm:text-base">12, Tarun Vihar Colony, Thatipur, Gwalior-474011 (M.P)</li>
             </ul>
           </div>
           <div className="text-center sm:text-left">

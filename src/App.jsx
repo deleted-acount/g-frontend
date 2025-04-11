@@ -27,6 +27,9 @@ import Assembly2015 from "./components/custom/2015Assembly"
 import GahoiBandhan from "./components/custom/GahoiBandhan"
 import GahoiBandhu from "./components/custom/GahoiBandhu"
 import AnyaPatrikayen from "./components/custom/AnyaPatrikayen"
+import FamilyLogin from './components/custom/FamilyLogin'
+
+
 function App() {
   return (
     <Layout>
@@ -34,6 +37,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/familylogin" element={<FamilyLogin />} />
         <Route path='/matrimonialsearch' element={<MatrimonialSearch />} />
         <Route path='/hostelry' element={<Hostelry />} />
         <Route path='/temple' element={<Temple />} />
