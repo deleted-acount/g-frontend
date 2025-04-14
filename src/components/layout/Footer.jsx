@@ -1,31 +1,77 @@
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext';
 
 const Footer = () => {
+  const { language } = useLanguage();
+  
+  // Add footer translations to the translations file if they don't exist
+  const footerTranslations = {
+    en: {
+      title: "Gahoi Shakti Jan Kalyan Samiti",
+      tagline: "Empowering our community through unity, tradition, and mutual support.",
+      quickLinks: "Quick Links",
+      aboutUs: "About Us",
+      suggestions: "Suggestions",
+      privacyPolicy: "Privacy Policy",
+      webFounderMessage: "Web Founder Message",
+      latestNews: "Latest News",
+      socialFlagSong: "Social Flag Song",
+      video: "Video",
+      rite: "Rite",
+      contact: "Contact",
+      login: "Login",
+      contactInfo: "Contact Info",
+      followUs: "Follow Us",
+      copyright: "All rights reserved."
+    },
+    hi: {
+      title: "गहोई शक्ति जन कल्याण समिति",
+      tagline: "एकता, परंपरा और आपसी सहयोग के माध्यम से हमारे समुदाय को सशक्त बनाना।",
+      quickLinks: "त्वरित लिंक",
+      aboutUs: "हमारे बारे में",
+      suggestions: "सुझाव",
+      privacyPolicy: "गोपनीयता नीति",
+      webFounderMessage: "वेब संस्थापक संदेश",
+      latestNews: "ताज़ा खबर",
+      socialFlagSong: "सामाजिक ध्वज गीत",
+      video: "वीडियो",
+      rite: "रीति-रिवाज",
+      contact: "संपर्क",
+      login: "लॉग इन",
+      contactInfo: "संपर्क जानकारी",
+      followUs: "हमें फॉलो करें",
+      copyright: "सभी अधिकार सुरक्षित।"
+    }
+  };
+
+  // Get translations for the current language
+  const ft = footerTranslations[language];
+
   return (
     <footer className="bg-red-900 text-white py-8 md:py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           <div className="text-center sm:text-left">
-            <h3 className="text-xl font-bold mb-4 text-yellow-100">गहोई शक्ति जन कल्याण समिति</h3>
-            <p className="text-red-200">Empowering our community through unity, tradition, and mutual support.</p>
+            <h3 className="text-xl font-bold mb-4 text-yellow-100">{ft.title}</h3>
+            <p className="text-red-200">{ft.tagline}</p>
           </div>
           <div className="text-center sm:text-left">
-            <h4 className="text-lg font-semibold mb-4 text-yellow-100">Quick Links</h4>
+            <h4 className="text-lg font-semibold mb-4 text-yellow-100">{ft.quickLinks}</h4>
             <ul className="flex flex-wrap justify-center sm:justify-start">
-              <li className="w-1/2 mb-2"><Link to="/about" className="text-red-100 hover:text-yellow-100 transition-colors">About Us</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/suggestions" className="text-red-200 hover:text-yellow-100 transition-colors">Suggestions</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/PrivacyPolicy" className="text-red-200 hover:text-yellow-100 transition-colors">Privacy Policy</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/LatestNews" className="text-red-200 hover:text-yellow-100 transition-colors">Web Founder Message</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/LatestNews" className="text-red-200 hover:text-yellow-100 transition-colors">Latest News</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/SocialFlagSong" className="text-red-200 hover:text-yellow-100 transition-colors">Social Flag Song</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/Video" className="text-red-200 hover:text-yellow-100 transition-colors">Video</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/Rite " className="text-red-200 hover:text-yellow-100 transition-colors">Rite</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/contact" className="text-red-100 hover:text-yellow-100 transition-colors">Contact</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/login" className="text-red-100 hover:text-yellow-100 transition-colors">Login</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/about" className="text-red-100 hover:text-yellow-100 transition-colors">{ft.aboutUs}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/suggestions" className="text-red-200 hover:text-yellow-100 transition-colors">{ft.suggestions}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/PrivacyPolicy" className="text-red-200 hover:text-yellow-100 transition-colors">{ft.privacyPolicy}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/LatestNews" className="text-red-200 hover:text-yellow-100 transition-colors">{ft.webFounderMessage}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/LatestNews" className="text-red-200 hover:text-yellow-100 transition-colors">{ft.latestNews}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/SocialFlagSong" className="text-red-200 hover:text-yellow-100 transition-colors">{ft.socialFlagSong}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/Video" className="text-red-200 hover:text-yellow-100 transition-colors">{ft.video}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/Rite " className="text-red-200 hover:text-yellow-100 transition-colors">{ft.rite}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/contact" className="text-red-100 hover:text-yellow-100 transition-colors">{ft.contact}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/login" className="text-red-100 hover:text-yellow-100 transition-colors">{ft.login}</Link></li>
             </ul>
           </div>
           <div className="text-center sm:text-left">
-            <h4 className="text-lg font-semibold mb-4 text-yellow-100">Contact Info</h4>
+            <h4 className="text-lg font-semibold mb-4 text-yellow-100">{ft.contactInfo}</h4>
             <ul className="space-y-2 text-red-200">
               <li>Email: gahloishakti@gmail.com</li>
               <li>Phone: +91 000 000 0000</li>
@@ -33,7 +79,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="text-center sm:text-left">
-            <h4 className="text-lg font-semibold mb-4 text-yellow-100">Follow Us</h4>
+            <h4 className="text-lg font-semibold mb-4 text-yellow-100">{ft.followUs}</h4>
             <div className="flex justify-center sm:justify-start space-x-6">
               <a href="https://www.facebook.com/Gahoisamjindia" 
                 className="group relative w-10 h-10 flex items-center justify-center rounded-full bg-red-200 hover:bg-[#1877f2] transition-colors duration-300"
@@ -60,7 +106,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="border-t border-red-800 mt-8 pt-8 text-center text-red-200">
-          <p className="text-sm sm:text-base">&copy; {new Date().getFullYear()} Gahoi Shakti Jan Kalyan Samiti India 2025. All rights reserved.</p>
+          <p className="text-sm sm:text-base">&copy; {new Date().getFullYear()} Gahoi Shakti Jan Kalyan Samiti India 2025. {ft.copyright}</p>
         </div>
       </div>
     </footer>

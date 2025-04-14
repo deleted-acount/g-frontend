@@ -28,47 +28,50 @@ import GahoiBandhan from "./components/custom/GahoiBandhan"
 import GahoiBandhu from "./components/custom/GahoiBandhu"
 import AnyaPatrikayen from "./components/custom/AnyaPatrikayen"
 import FamilyLogin from './components/custom/FamilyLogin'
+import { LanguageProvider } from './context/LanguageContext'
 
 
 function App() {
   return (
-    <Layout>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/familylogin" element={<FamilyLogin />} />
-        <Route path='/matrimonialsearch' element={<MatrimonialSearch />} />
-        <Route path='/hostelry' element={<Hostelry />} />
-        <Route path='/temple' element={<Temple />} />
-        <Route path='/touristplace' element={<TouristPlace />} />
-        <Route path='/freelisting' element={<Freelisting />} />
-        <Route path='/business_search' element={<BusinessSearch />} />
-        <Route path='/centralassembly' element={<CentralAssembly />} />
-        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-        <Route path="/socialflagsong" element={<SocialFlagSong />} />
-        <Route path="/suggestions" element={<Suggestion />} />       
-        <Route path="/video" element={<VideoPage />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/about" element={<div>About Page</div>} />
-        <Route path="/rite" element={<Rite />} />
-        <Route path="/plans" element={<div>Our Plans</div>} />
-        <Route path="/team" element={<div>Our Team</div>} />
-        <Route path="/blog" element={<div>Blog</div>} />
-        <Route path="/reviews" element={<div>Reviews</div>} />
-        <Route path="/contact" element={<div>Contact Us</div>} />
-        <Route path="/mahasabha2015" element={<Mahasabha2015 />} />
-        <Route path="/regionalassembly" element={<RegionalAssembly />} />
-        <Route path="/communalmarriage" element={<CommunalMarriage />} />
-        <Route path="/otherprogram" element={<OtherProgram />} />
-        <Route path="/ExecutiveCentralAssembly" element={<ExecutiveCentralAssembly />} />
-        <Route path="/Assembly2015" element={<Assembly2015 />} />
-        <Route path="/GahoiBandhan" element={<GahoiBandhan />} />
-        <Route path="/GahoiBandhu" element={<GahoiBandhu />} />
-        <Route path="/AnyaPatrikayen" element={<AnyaPatrikayen />} />
-      </Routes>
-    </Layout>
+    <LanguageProvider>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/familylogin" element={<FamilyLogin />} />
+          <Route path='/matrimonialsearch' element={<MatrimonialSearch />} />
+          <Route path='/hostelry' element={<Hostelry />} />
+          <Route path='/temple' element={<Temple />} />
+          <Route path='/touristplace' element={<TouristPlace />} />
+          <Route path='/freelisting' element={<Freelisting />} />
+          <Route path='/business_search' element={<BusinessSearch />} />
+          <Route path='/centralassembly' element={<CentralAssembly />} />
+          <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+          <Route path="/socialflagsong" element={<SocialFlagSong />} />
+          <Route path="/suggestions" element={<Suggestion />} />       
+          <Route path="/video" element={<VideoPage />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/about" element={<div>About Page</div>} />
+          <Route path="/rite" element={<Rite />} />
+          <Route path="/plans" element={<div>Our Plans</div>} />
+          <Route path="/team" element={<div>Our Team</div>} />
+          <Route path="/blog" element={<div>Blog</div>} />
+          <Route path="/reviews" element={<div>Reviews</div>} />
+          <Route path="/contact" element={<div>Contact Us</div>} />
+          <Route path="/mahasabha2015" element={<Mahasabha2015 />} />
+          <Route path="/regionalassembly" element={<RegionalAssembly />} />
+          <Route path="/communalmarriage" element={<CommunalMarriage />} />
+          <Route path="/otherprogram" element={<OtherProgram />} />
+          <Route path="/ExecutiveCentralAssembly" element={<ExecutiveCentralAssembly />} />
+          <Route path="/Assembly2015" element={<Assembly2015 />} />
+          <Route path="/GahoiBandhan" element={<GahoiBandhan />} />
+          <Route path="/GahoiBandhu" element={<GahoiBandhu />} />
+          <Route path="/AnyaPatrikayen" element={<AnyaPatrikayen />} />
+        </Routes>
+      </Layout>
+    </LanguageProvider>
   )
 }
 
