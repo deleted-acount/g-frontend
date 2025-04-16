@@ -28,6 +28,7 @@ import GahoiBandhan from "./components/custom/GahoiBandhan"
 import GahoiBandhu from "./components/custom/GahoiBandhu"
 import AnyaPatrikayen from "./components/custom/AnyaPatrikayen"
 import FamilyLogin from './components/custom/FamilyLogin'
+import TemplePage from './components/custom/TemplePage'
 import { LanguageProvider } from './context/LanguageContext'
 
 
@@ -69,6 +70,8 @@ function App() {
           <Route path="/GahoiBandhan" element={<GahoiBandhan />} />
           <Route path="/GahoiBandhu" element={<GahoiBandhu />} />
           <Route path="/AnyaPatrikayen" element={<AnyaPatrikayen />} />
+          <Route path="/templepage" element={<TemplePage />} />
+         
         </Routes>
       </Layout>
     </LanguageProvider>

@@ -302,6 +302,7 @@ const OtherProgram = () => {
                     alt={image.alt || `${image.category} image ${index + 1}`}
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300"
                     onError={() => handleImageError(image.src)}
+                    loading="lazy"
                   />
                 )}
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
@@ -404,6 +405,7 @@ const OtherProgram = () => {
                 src={images[selectedImage]?.src}
                 alt={images[selectedImage]?.alt || ""}
                 className="max-w-full max-h-[90vh] object-contain"
+                loading="lazy"
               />
             </div>
           </div>

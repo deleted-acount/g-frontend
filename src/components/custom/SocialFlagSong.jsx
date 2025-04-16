@@ -39,6 +39,7 @@ const SocialFlagSong = () => {
                     src={flagImage}
                     alt="गहोई ध्वज"
                     className="w-full h-auto object-contain max-w-[200px] mx-auto"
+                    loading="lazy"
                   />
                 </div>
               </div>

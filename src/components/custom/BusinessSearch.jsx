@@ -260,6 +260,7 @@ const BusinessSearch = () => {
                       src={business.image}
                       alt={business.name}
                       className="w-full h-48 object-cover"
+                      loading="lazy"
                     />
                     <div className="absolute top-2 right-2">
                       {business.status === "active" ? (

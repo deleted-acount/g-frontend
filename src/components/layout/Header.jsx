@@ -13,6 +13,8 @@ const Header = () => {
   const timeoutRef = useRef(null);
   const { language } = useLanguage();
   const t = translations[language];
+  const languageFontClass = language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
+  const hindiTextClass = language === "hi" ? "text-base lg:text-lg" : "text-sm lg:text-base";
 
  
   useEffect(() => {
@@ -69,93 +71,36 @@ const Header = () => {
   const menuItems = [
     { to: '/', label: t?.home || 'Home' },
     { 
+      to: '/login', 
+      label: t?.login || 'Login',
+     
+
+     
+    },
+    
+    { 
       to: '/about', 
-      label: t?.matrimonial || 'Matrimonial',
-      dropdown: [
-        { to: '/registration', label: `${language === 'hi' ? 'पंजीकरण' : ''} ${t?.register || 'Registration'}` },
-        { to: '/matrimonialsearch', label: `${language === 'hi' ? 'खोजना' : ''} ${t?.search || 'Search'}` },
-        { to: '/login', label: `${language === 'hi' ? 'परिर्वतन' : ''} ${t?.change || 'Change'} / ${language === 'hi' ? 'लॉग इन' : ''} ${t?.login || 'Login'}` },
-      ]
-    },
-    { 
-      to: '/plans', 
-      label: t?.family || 'Family',
-      dropdown: [
-        { to: '/registration', label: `${language === 'hi' ? 'पंजीकरण' : ''} ${t?.register || 'Registration'}` },
-        { to: '/matrimonialsearch', label: `${language === 'hi' ? 'खोजना' : ''} ${t?.search || 'Search'}` },
-        { to: '/familylogin', label: `${language === 'hi' ? 'परिर्वतन' : ''} ${t?.change || 'Change'} / ${language === 'hi' ? 'लॉग इन' : ''} ${t?.login || 'Login'}` },
-      ]
-    },
-    { 
-      to: '/blog', 
-      label: t?.resources || 'Resources',
-      dropdown: [
-        { to: '/Hostelry', label: `${language === 'hi' ? 'धर्मशाला' : ''} Hostelry` },
-        { to: '/temple', label: `${language === 'hi' ? 'मंदिर' : ''} Temple` },
-        { to: '/touristplace', label: `${language === 'hi' ? 'दर्शनीय स्थल' : ''} Tourist place` },
-      ]
-    },
+      label: t?.about || 'About Us',},
+   
     { 
       to: '/contact', 
-      label: t?.businessListing || 'Business Listing',
-      dropdown: [
-        { to: '/login', label: t?.login || 'Login' },
-        { to: '/freelisting', label: 'Free Listing' },
-        { to: '/business_search', label: t?.search || 'Search' }
-      ]
-    },
+      label: t?.contact || 'Contact Us',},
+    
     { 
-      to: '/gallery', 
-      label: t?.gallery || 'Gallery',
-      dropdown: [
-        { 
-          label: `${language === 'hi' ? 'महासभा' : ''} Central Assembly`,
-          subDropdown: [
-            { to: '/CentralAssembly', label: `${language === 'hi' ? 'पुरानी महासभा' : ''} Central Assembly` },
-            { to: '/Mahasabha2015', label: `${language === 'hi' ? 'महासभा' : ''} 2015` }
-          ]
-        },
-        { to: '/RegionalAssembly', label: `${language === 'hi' ? 'क्षेत्रीय सभायें' : ''} Regional Assembly` },
-        { to: '/CommunalMarriage', label: `${language === 'hi' ? 'सामूहिक विवाह' : ''} Communal Marriage` },
-        { to: '/OtherProgram', label: `${language === 'hi' ? 'अन्य कार्यक्रम' : ''} Other Program` },
-      ]
+      to: '/Donation-cow', 
+      label: t?.donationcow || 'Donation Cow',
+     
     },
     { 
       to: '/executive', 
-      label: t?.executive || 'Executive',
-      dropdown: [
-        { 
-          label: `${language === 'hi' ? 'महासभा' : ''} Central Assembly`, 
-          subDropdown: [
-            { to: '/ExecutiveCentralAssembly', label: `${language === 'hi' ? 'पुरानी महासभा' : ''} Central Assembly` },
-            { to: '/Assembly2015', label: `${language === 'hi' ? 'महासभा' : ''} 2015 Assembly` },
-            { to: '/gallery/photos/assembly2', label: `${language === 'hi' ? 'महासभा' : ''} 2019 Assembly` },
-          ]
-        },
-        { to: '/ExecutiveRegionalAssembly', label: `${language === 'hi' ? 'क्षेत्रीय सभायें' : ''} Regional Assembly` },
-        { to: '/Arbitrament', label: `${language === 'hi' ? 'पंचायत' : ''} Arbitrament` },
-      ]
-    },
+      label: t?.allassembly || 'All Assembly',
+},
     { 
-      to: '/publication', 
-      label: t?.publication || 'Publication',
-      dropdown: [
-        { to: '/GahoiBandhan', label: `${language === 'hi' ? 'गहोई बंधन' : 'Gahoi Bandhan'}` },
-        { to: '/GahoiBandhu', label: `${language === 'hi' ? 'गहोई बन्धु' : 'Gahoi Bandhu'}` },
-        { to: '/', label: `${language === 'hi' ? 'गहोई दर्पण' : 'Gahoi Darpan'}` },
-        { to: '/AnyaPatrikayen', label: `${language === 'hi' ? 'अन्य पत्रिकाएं' : 'Other Magazines'}` },
-        { to: '/', label: `${language === 'hi' ? 'स्मारिकाएं' : 'Souvenirs'}` },
-      ]
+      to: '/gotra-ankna', 
+      label: t?.gotraankna || 'Gotra & Ankna',
+     
     },
-    { 
-      to: '/literature', 
-      label: t?.literature || 'Literature',
-      dropdown: [
-        { to: '/NationalPoet', label: `${language === 'hi' ? 'राष्ट्रकवि' : ''} National Poet` },
-        { to: '/', label: `${language === 'hi' ? 'अन्य कवि' : ''} Other Poet` },
-      ]
-    },
-    { 
+     { 
       to: '/history', 
       label: t?.history || 'History',
       dropdown: [
@@ -167,7 +112,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="absolute top-0 left-0 right-0 z-50">
+    <header className={`absolute top-0 left-0 right-0 z-50 ${languageFontClass}`}>
       <nav className="container mx-auto px-4 py-2">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center space-x-3">
@@ -180,7 +125,7 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <div className="flex items-center space-x-3">
-            {/* Remove the language switcher from mobile header */}
+           
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
@@ -207,7 +152,7 @@ const Header = () => {
               >
                 <Link
                   to={item.to}
-                  className="text-white hover:text-yellow-200 transition-colors drop-shadow-lg text-[11px] lg:text-sm px-1 lg:px-2 whitespace-nowrap"
+                  className={`${hindiTextClass} text-white hover:text-yellow-200 transition-colors drop-shadow-lg px-1 lg:px-2 whitespace-nowrap`}
                 >
                   {item.label}
                 </Link>
@@ -215,7 +160,7 @@ const Header = () => {
                 {/* Dropdown Menu */}
                 {item.dropdown && activeDropdown === item.label && (
                   <div 
-                    className={`absolute top-full mt-1 w-60 bg-yellow-100 rounded-lg shadow-lg py-1 z-50 ${
+                    className={`absolute top-full mt-1 w-60 bg-white/95 backdrop-blur-sm rounded-lg shadow-xl py-1 z-50 border border-gray-200 transform transition-all duration-200 ease-out opacity-100 scale-100 origin-top ${
                       item.label === t?.literature || item.label === t?.history || item.label === t?.executive
                         ? 'right-0 translate-x-[10%]' 
                         : 'left-0'
@@ -241,24 +186,30 @@ const Header = () => {
                         {subItem.to ? (
                           <Link
                             to={subItem.to}
-                            className="block px-3 py-1.5 text-sm text-gray-800 hover:bg-red-700 hover:text-white transition-colors whitespace-nowrap"
+                            className="px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-red-600 hover:to-red-700  transition-all duration-200 whitespace-nowrap rounded-md mx-1 my-0.5 flex items-center group"
                             onClick={() => {
                               setActiveDropdown(null);
                               setActiveSubDropdown(null);
                             }}
                           >
-                            {subItem.label}
+                            <span className="relative">
+                              {subItem.label}
+                              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300"></span>
+                            </span>
                           </Link>
                         ) : (
-                          <div className="block px-3 py-1.5 text-sm text-gray-800 hover:bg-red-700 hover:text-white transition-colors whitespace-nowrap cursor-pointer">
-                            {subItem.label}
+                          <div className=" px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-red-600 hover:to-red-700  transition-all duration-200 whitespace-nowrap rounded-md mx-1 my-0.5 flex items-center cursor-pointer group">
+                            <span className="relative">
+                              {subItem.label}
+                              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300"></span>
+                            </span>
                           </div>
                         )}
                         
                         {/* Sub-dropdown Menu */}
                         {subItem.subDropdown && activeSubDropdown === subItem.label && (
                           <div 
-                            className={`absolute top-0 w-72 bg-yellow-100 rounded-lg shadow-lg py-1 ${
+                            className={`absolute top-0 w-72 bg-white/95 backdrop-blur-sm rounded-lg shadow-xl py-1 border border-gray-200 transform transition-all duration-200 ease-out opacity-100 scale-100 ${
                               item.label === t?.literature || item.label === t?.history || item.label === t?.gallery || item.label === t?.executive
                                 ? 'right-full -mr-1' 
                                 : 'left-full'
@@ -270,13 +221,16 @@ const Header = () => {
                               <Link
                                 key={subSubItem.to}
                                 to={subSubItem.to}
-                                className="block px-3 py-1.5 text-sm text-gray-800 hover:bg-red-700 hover:text-white transition-colors break-words"
+                                className=" px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-red-600 hover:to-red-700  transition-all duration-200 break-words rounded-md mx-1 my-0.5 flex items-center group"
                                 onClick={() => {
                                   setActiveDropdown(null);
                                   setActiveSubDropdown(null);
                                 }}
                               >
-                                {subSubItem.label}
+                                <span className="relative">
+                                  {subSubItem.label}
+                                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300"></span>
+                                </span>
                               </Link>
                             ))}
                           </div>
@@ -295,8 +249,8 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        <div 
+       {/* Mobile Menu */}
+       <div 
           className={`md:hidden fixed inset-0 bg-black/50 transition-all duration-300 ease-in-out z-50 ${
             isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
           }`}
@@ -402,7 +356,7 @@ const Header = () => {
                               ) : (
                                 <Link
                                   to={subItem.to}
-                                  className="block px-3 py-1.5 text-xs text-gray-800 hover:bg-red-700 hover:text-white rounded-lg transition-colors"
+                                  className={`block px-3 py-1.5 ${hindiTextClass} text-gray-800 hover:bg-red-700 hover:text-white rounded-lg transition-colors`}
                                   onClick={() => setIsMenuOpen(false)}
                                 >
                                   {subItem.label}
@@ -416,7 +370,7 @@ const Header = () => {
                   ) : (
                     <Link
                       to={item.to}
-                      className="block px-3 py-1.5 text-sm text-gray-800 hover:bg-red-700 hover:text-white rounded-lg transition-colors"
+                      className={`block px-3 py-1.5 ${hindiTextClass} text-gray-800 hover:bg-red-700 hover:text-white rounded-lg transition-colors`}
                       onClick={() => setIsMenuOpen(false)}
                     >
                       {item.label}

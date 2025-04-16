@@ -473,6 +473,7 @@ const TouristPlace = () => {
                 src={filteredImages[selectedImage].src}
                 alt={filteredImages[selectedImage].category || ""}
                 className="max-w-full max-h-[90vh] object-contain"
+                loading="lazy"
               />
             </div>
           </div>

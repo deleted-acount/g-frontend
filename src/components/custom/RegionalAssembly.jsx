@@ -311,6 +311,7 @@ const RegionalAssembly = () => {
                         src={image}
                         alt={`${event.title} - Image ${index + 1}`}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                        loading="lazy"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <div className="absolute bottom-0 left-0 right-0 p-4">
@@ -401,6 +402,7 @@ const RegionalAssembly = () => {
                 src={selectedEvent.images[currentImageIndex]}
                 alt={`${selectedEvent.title} - Image ${currentImageIndex + 1}`}
                 className="max-w-full max-h-[90vh] object-contain"
+                loading="lazy"
               />
             </div>
           </div>

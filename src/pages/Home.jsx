@@ -8,6 +8,7 @@ import TestimonialSection from '../components/sections/TestimonialSection';
 import SuggestionSection from '../components/sections/SuggestionSection';
 import StayConnected from '../components/sections/StayConnected';
 import ContactusSection from '../components/sections/ContactusSection';
+import EventBanner from '../components/sections/EventBanner';
 
 const Home = () => {
 
@@ -20,7 +21,9 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
         </Helmet>
         <HeroSection />
+        <EventBanner />
         <PlanSection />
+       
         <BridesandGroom />
         <AboutSection />
         <SuccessStories />

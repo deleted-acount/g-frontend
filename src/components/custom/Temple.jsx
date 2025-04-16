@@ -18,10 +18,10 @@ const Temple = () => {
             "/resources/gwalior-temple-3.webp",
             "/resources/gwalior-temple-4.webp",
             "/resources/gwalior-temple-5.webp",
-            "/resources/gwalior-temple-6.webp"
-          ]
-        }
-      ]
+            "/resources/gwalior-temple-6.webp",
+          ],
+        },
+      ],
     },
     datia: {
       name: "दतिया",
@@ -31,19 +31,19 @@ const Temple = () => {
           images: [
             "/resources/datia-Seondha-temple-1.webp",
             "/resources/datia-Seondha-temple-2.webp",
-            "/resources/datia-Seondha-temple-3.webp"
-          ]
+            "/resources/datia-Seondha-temple-3.webp",
+          ],
         },
         {
           name: "उनाव बलाजी मंदिर",
           images: [
             "/resources/datia-Unao-temple-1.webp",
             "/resources/datia-Unao-temple-2.webp",
-            "/resources/datia-Unao-temple-3.webp"
-          ]
-        }
-      ]
-    }
+            "/resources/datia-Unao-temple-3.webp",
+          ],
+        },
+      ],
+    },
   };
 
   const getCurrentImages = () => {
@@ -52,20 +52,22 @@ const Temple = () => {
     }
     if (selectedLocation === "all") {
       return Object.values(locations)
-        .flatMap(loc => loc.temples)
-        .flatMap(temple => temple.images);
+        .flatMap((loc) => loc.temples)
+        .flatMap((temple) => temple.images);
     }
-    return locations[selectedLocation].temples.flatMap(temple => temple.images);
+    return locations[selectedLocation].temples.flatMap(
+      (temple) => temple.images
+    );
   };
 
   const handlePrevious = () => {
-    setSelectedImage((prev) => 
+    setSelectedImage((prev) =>
       prev === 0 ? getCurrentImages().length - 1 : prev - 1
     );
   };
 
   const handleNext = () => {
-    setSelectedImage((prev) => 
+    setSelectedImage((prev) =>
       prev === getCurrentImages().length - 1 ? 0 : prev + 1
     );
   };
@@ -74,35 +76,39 @@ const Temple = () => {
     setSelectedImage(null);
   };
 
- 
   useEffect(() => {
     if (selectedImage !== null) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
-    
-   
+
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [selectedImage]);
 
   return (
-    <div 
+    <div
       className="min-h-screen py-2 sm:py-4 md:py-6 relative"
       style={{
         backgroundImage: 'url("/decorative-bg.jpg")',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        backgroundColor: '#991b1b',
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundColor: "#1e293b",
       }}
     >
       <Helmet>
         <title>Temple - Gahoi Shakti</title>
-        <meta name="description" content="Explore our temples across different locations. View images and information about our sacred places of worship." />
-        <meta name="keywords" content="Gahoi Temples, Temple Images, Religious Places, Sacred Temples, Temple Trust" />
+        <meta
+          name="description"
+          content="Explore our temples across different locations. View images and information about our sacred places of worship."
+        />
+        <meta
+          name="keywords"
+          content="Gahoi Temples, Temple Images, Religious Places, Sacred Temples, Temple Trust"
+        />
       </Helmet>
 
       <div className="absolute inset-0 bg-gradient-to-b from-red-900/80 to-red-800/80"></div>
@@ -112,13 +118,10 @@ const Temple = () => {
           <div className="relative p-3 sm:p-4 text-center border-b border-red-200 mb-3 sm:mb-4 md:mb-6">
             <div className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-900 opacity-90"></div>
             <div className="relative z-10">
-             
-            
               <div className="inline-block bg-red-800/50 backdrop-blur-sm px-4 sm:px-6 py-1.5 sm:py-2 rounded-full border border-yellow-500/30">
-               
-                  
-                  <p className="text-lg sm:text-xl font-medium text-yellow-100">मंदिर</p>
-                
+                <p className="text-lg sm:text-xl font-medium text-yellow-100">
+                  मंदिर
+                </p>
               </div>
             </div>
           </div>
@@ -194,57 +197,66 @@ const Temple = () => {
                         src={image}
                         alt={`${selectedTemple.name} - Image ${index + 1}`}
                         className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                        loading="lazy"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                         <div className="p-4 text-white">
-                          <h3 className="text-lg font-medium">{selectedTemple.name}</h3>
+                          <h3 className="text-lg font-medium">
+                            {selectedTemple.name}
+                          </h3>
                         </div>
                       </div>
                     </div>
                   ))
                 : selectedLocation === "all"
-                ? Object.entries(locations)
-                    .map(([locKey, location]) =>
-                      location.temples.map((temple, templeIndex) =>
-                        temple.images.map((image, imageIndex) => (
-                          <div
-                            key={`${locKey}-${templeIndex}-${imageIndex}`}
-                            className="relative group overflow-hidden rounded-xl shadow-lg transform hover:scale-[1.02] transition-transform duration-300 cursor-pointer"
-                            onClick={() => setSelectedImage(imageIndex)}
-                          >
-                            <img
-                              src={image}
-                              alt={`${temple.name} - Image ${imageIndex + 1}`}
-                              className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                              <div className="p-4 text-white">
-                                <h3 className="text-lg font-medium">{temple.name}</h3>
-                              </div>
+                ? Object.entries(locations).map(([locKey, location]) =>
+                    location.temples.map((temple, templeIndex) =>
+                      temple.images.map((image, imageIndex) => (
+                        <div
+                          key={`${locKey}-${templeIndex}-${imageIndex}`}
+                          className="relative group overflow-hidden rounded-xl shadow-lg transform hover:scale-[1.02] transition-transform duration-300 cursor-pointer"
+                          onClick={() => setSelectedImage(imageIndex)}
+                        >
+                          <img
+                            src={image}
+                            alt={`${temple.name} - Image ${imageIndex + 1}`}
+                            className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                            <div className="p-4 text-white">
+                              <h3 className="text-lg font-medium">
+                                {temple.name}
+                              </h3>
                             </div>
                           </div>
-                        ))
-                      )
+                        </div>
+                      ))
                     )
-                : locations[selectedLocation].temples.map((temple, templeIndex) =>
-                    temple.images.map((image, imageIndex) => (
-                      <div
-                        key={`${templeIndex}-${imageIndex}`}
-                        className="relative group overflow-hidden rounded-xl shadow-lg transform hover:scale-[1.02] transition-transform duration-300 cursor-pointer"
-                        onClick={() => setSelectedImage(imageIndex)}
-                      >
-                        <img
-                          src={image}
-                          alt={`${temple.name} - Image ${imageIndex + 1}`}
-                          className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                          <div className="p-4 text-white">
-                            <h3 className="text-lg font-medium">{temple.name}</h3>
+                  )
+                : locations[selectedLocation].temples.map(
+                    (temple, templeIndex) =>
+                      temple.images.map((image, imageIndex) => (
+                        <div
+                          key={`${templeIndex}-${imageIndex}`}
+                          className="relative group overflow-hidden rounded-xl shadow-lg transform hover:scale-[1.02] transition-transform duration-300 cursor-pointer"
+                          onClick={() => setSelectedImage(imageIndex)}
+                        >
+                          <img
+                            src={image}
+                            alt={`${temple.name} - Image ${imageIndex + 1}`}
+                            className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                            <div className="p-4 text-white">
+                              <h3 className="text-lg font-medium">
+                                {temple.name}
+                              </h3>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))
+                      ))
                   )}
             </div>
           </div>
@@ -324,6 +336,7 @@ const Temple = () => {
                 src={getCurrentImages()[selectedImage]}
                 alt="Selected Temple"
                 className="max-w-full max-h-[90vh] object-contain"
+                loading="lazy"
               />
             </div>
           </div>

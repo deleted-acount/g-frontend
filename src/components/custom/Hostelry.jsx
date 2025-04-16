@@ -658,6 +658,7 @@ const Hostelry = () => {
                 src={filteredImages[selectedImage].src}
                 alt={filteredImages[selectedImage].title || ""}
                 className="max-w-full max-h-[90vh] object-contain"
+                loading="lazy"
               />
             </div>
           </div>

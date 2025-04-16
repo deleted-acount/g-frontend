@@ -3,8 +3,10 @@ import { useLanguage } from '../../context/LanguageContext';
 
 const Footer = () => {
   const { language } = useLanguage();
+  const languageFontClass = language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
+  const hindiTextClass = language === "hi" ? "text-base" : "text-sm"; 
   
-  // Add footer translations to the translations file if they don't exist
+
   const footerTranslations = {
     en: {
       title: "Gahoi Shakti Jan Kalyan Samiti",
@@ -22,7 +24,12 @@ const Footer = () => {
       login: "Login",
       contactInfo: "Contact Info",
       followUs: "Follow Us",
-      copyright: "All rights reserved."
+      copyright: "All rights reserved.",
+      email : "Email: gahloishakti@gmail.com",
+      phone: "Phone: +91 000 000 0000",
+      address: " 12, Tarun Vihar Colony, Thatipur, Gwalior-474011 (M.P.)",
+      footer: "Gahoi Shakti Jan Kalyan Samiti India 2025.",
+
     },
     hi: {
       title: "गहोई शक्ति जन कल्याण समिति",
@@ -40,42 +47,46 @@ const Footer = () => {
       login: "लॉग इन",
       contactInfo: "संपर्क जानकारी",
       followUs: "हमें फॉलो करें",
-      copyright: "सभी अधिकार सुरक्षित।"
+      copyright: "सभी अधिकार सुरक्षित।",
+      email: "ईमेल: gahloishakti@gmail.com",
+      phone: "फ़ोन: +91 000 000 0000",
+      address: " 12, तरुण विहार कॉलोनी, थाटीपुर, ग्वालियर-474011 (म.प्र.)",
+      footer: "गहोई शक्ति जन कल्याण समिति भारत २०२५",
     }
   };
 
-  // Get translations for the current language
+ 
   const ft = footerTranslations[language];
 
   return (
-    <footer className="bg-red-900 text-white py-8 md:py-12">
+    <footer className={`bg-red-900 text-white py-8 md:py-12 ${languageFontClass}`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           <div className="text-center sm:text-left">
-            <h3 className="text-xl font-bold mb-4 text-yellow-100">{ft.title}</h3>
-            <p className="text-red-200">{ft.tagline}</p>
+            <h3 className={`text-xl ${language === "hi" ? "text-2xl" : ""} font-bold mb-4 text-yellow-100`}>{ft.title}</h3>
+            <p className={`${hindiTextClass} text-red-200`}>{ft.tagline}</p>
           </div>
           <div className="text-center sm:text-left">
-            <h4 className="text-lg font-semibold mb-4 text-yellow-100">{ft.quickLinks}</h4>
+            <h4 className={`text-lg ${language === "hi" ? "text-xl" : ""} font-semibold mb-4 text-yellow-100`}>{ft.quickLinks}</h4>
             <ul className="flex flex-wrap justify-center sm:justify-start">
-              <li className="w-1/2 mb-2"><Link to="/about" className="text-red-100 hover:text-yellow-100 transition-colors">{ft.aboutUs}</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/suggestions" className="text-red-200 hover:text-yellow-100 transition-colors">{ft.suggestions}</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/PrivacyPolicy" className="text-red-200 hover:text-yellow-100 transition-colors">{ft.privacyPolicy}</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/LatestNews" className="text-red-200 hover:text-yellow-100 transition-colors">{ft.webFounderMessage}</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/LatestNews" className="text-red-200 hover:text-yellow-100 transition-colors">{ft.latestNews}</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/SocialFlagSong" className="text-red-200 hover:text-yellow-100 transition-colors">{ft.socialFlagSong}</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/Video" className="text-red-200 hover:text-yellow-100 transition-colors">{ft.video}</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/Rite " className="text-red-200 hover:text-yellow-100 transition-colors">{ft.rite}</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/contact" className="text-red-100 hover:text-yellow-100 transition-colors">{ft.contact}</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/login" className="text-red-100 hover:text-yellow-100 transition-colors">{ft.login}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/about" className={`${hindiTextClass} text-red-100 hover:text-yellow-100 transition-colors`}>{ft.aboutUs}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/suggestions" className={`${hindiTextClass} text-red-200 hover:text-yellow-100 transition-colors`}>{ft.suggestions}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/PrivacyPolicy" className={`${hindiTextClass} text-red-200 hover:text-yellow-100 transition-colors`}>{ft.privacyPolicy}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/LatestNews" className={`${hindiTextClass} text-red-200 hover:text-yellow-100 transition-colors`}>{ft.webFounderMessage}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/LatestNews" className={`${hindiTextClass} text-red-200 hover:text-yellow-100 transition-colors`}>{ft.latestNews}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/SocialFlagSong" className={`${hindiTextClass} text-red-200 hover:text-yellow-100 transition-colors`}>{ft.socialFlagSong}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/Video" className={`${hindiTextClass} text-red-200 hover:text-yellow-100 transition-colors`}>{ft.video}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/Rite " className={`${hindiTextClass} text-red-200 hover:text-yellow-100 transition-colors`}>{ft.rite}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/contact" className={`${hindiTextClass} text-red-100 hover:text-yellow-100 transition-colors`}>{ft.contact}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/login" className={`${hindiTextClass} text-red-100 hover:text-yellow-100 transition-colors`}>{ft.login}</Link></li>
             </ul>
           </div>
           <div className="text-center sm:text-left">
             <h4 className="text-lg font-semibold mb-4 text-yellow-100">{ft.contactInfo}</h4>
             <ul className="space-y-2 text-red-200">
-              <li>Email: gahloishakti@gmail.com</li>
-              <li>Phone: +91 000 000 0000</li>
-              <li className="text-sm sm:text-base">12, Tarun Vihar Colony, Thatipur, Gwalior-474011 (M.P)</li>
+              <li>{ft.email}</li>
+              <li>{ft.phone}</li>
+              <li className="text-sm sm:text-base">{ft.address}</li>
             </ul>
           </div>
           <div className="text-center sm:text-left">
@@ -95,7 +106,7 @@ const Footer = () => {
                   <path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6.5-.25a1.25 1.25 0 1 0-2.5 0 1.25 1.25 0 0 0 2.5 0zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/>
                 </svg>
               </a>
-              <a href="https://www.youtube.com/gahoisamajindia/" 
+              <a href="https://www.youtube.com/" 
                 className="group relative w-10 h-10 flex items-center justify-center rounded-full bg-red-200 hover:bg-[#FF0000] transition-all duration-300"
                 aria-label="Subscribe us on Youtube">
                 <svg className="w-5 h-5 text-red-900 group-hover:text-white transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
@@ -106,7 +117,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="border-t border-red-800 mt-8 pt-8 text-center text-red-200">
-          <p className="text-sm sm:text-base">&copy; {new Date().getFullYear()} Gahoi Shakti Jan Kalyan Samiti India 2025. {ft.copyright}</p>
+          <p className={`${hindiTextClass} sm:${language === "hi" ? "text-base" : "text-base"}`}>&copy; {ft.footer}. {ft.copyright}</p>
         </div>
       </div>
     </footer>

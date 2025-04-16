@@ -427,6 +427,7 @@ const Assembly2015 = () => {
           onError={(e) => {
             e.target.src = "/resources/default-profile.webp";
           }}
+          loading="lazy"
         />
         <div className="absolute bottom-0 left-0 right-0 p-1.5 sm:p-2 z-20 flex justify-center">
           <div className="bg-red-800/90 backdrop-blur-sm rounded-lg px-1.5 sm:px-2 py-0.5 sm:py-1 inline-block">

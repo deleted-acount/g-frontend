@@ -36,6 +36,7 @@ const PhotoUpload = () => {
               src={selectedImage} 
               alt="Uploaded" 
               className="w-full h-full object-cover"
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex flex-col items-center justify-center transition-all">
               <span className="opacity-0 group-hover:opacity-100 text-white text-sm mb-2">Change Photo</span>

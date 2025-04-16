@@ -330,17 +330,17 @@ const RegistrationForm = () => {
         successPopup.className = 'fixed inset-0 flex items-center justify-center z-50';
         successPopup.innerHTML = `
           <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-          <div class="bg-white rounded-lg p-6 shadow-xl max-w-md w-full mx-4 relative z-10 border-2 border-[#DE7D37]">
+          <div class="bg-white rounded-lg p-6 shadow-xl max-w-md w-full mx-4 relative z-10 border-2 border-[#FD7D01]">
             <div class="text-center">
               <div className="flex justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-[#DE7D37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-[#FD7D01]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
               <h2 class="text-2xl font-bold text-gray-800 mb-2">Success!</h2>
               <p class="text-gray-600 mb-6">Form submitted successfully! Redirecting to homepage...</p>
               <div class="w-full bg-gray-200 h-2 rounded-full mt-4">
-                <div class="bg-[#DE7D37] h-2 rounded-full" style="width: 0%; transition: width 2s ease-in-out;" id="progress-bar"></div>
+                <div class="bg-[#FD7D01] h-2 rounded-full" style="width: 0%; transition: width 2s ease-in-out;" id="progress-bar"></div>
               </div>
             </div>
           </div>
@@ -1086,7 +1086,7 @@ const RegistrationForm = () => {
       </button>
 
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-slate-800/70"></div>
-      <div className="w-full max-w-4xl mx-auto rounded-xl shadow-lg overflow-hidden relative z-10 mt-8 bg-white border border-[#DE7D37]">
+      <div className="w-full max-w-4xl mx-auto rounded-xl shadow-lg overflow-hidden relative z-10 mt-8 bg-white border border-[#FD7D01]">
         {/* Header with Progress */}
         <div className="bg-red-800 text-white p-3">
           <div className="container mx-auto">
@@ -1197,4 +1197,3 @@ const RegistrationForm = () => {
 };
 
 export default RegistrationForm;
-

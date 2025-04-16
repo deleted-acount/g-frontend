@@ -2,6 +2,52 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 
+import { getLoginPageData } from "../../data/loader";
+
+
+const fetchLoginPageData = async () => {
+  try {
+    const response = await getLoginPageData();
+    
+    // Verify the response structure 
+    if (!response?.data) {
+      throw new Error('Invalid response structure from API');
+    }
+    
+    return response;
+
+  } catch (error) {
+    console.error('Error fetching login page data:', error);
+  }
+};
+
+// const response = await fetchLoginPageData();
+
+
+// const baseUrl = 'http://localhost:1337';
+
+// const logoUrl = response?.data?.[0]?.logo?.url;
+// const check = logoUrl ? `${baseUrl}${logoUrl}` : null;
+// console.log('check', check);
+// console.log('response', response);
+// console.log('response', response?.data?.[0]?.logo?.url);
+
+
+
+const response = await fetchLoginPageData();
+const baseUrl = 'http://localhost:1337';
+const logoUrl = response?.data?.[0]?.logo?.url;
+const fullLogoUrl = logoUrl ? `${baseUrl}${logoUrl}` : null;
+const welcomeMessage = response?.data?.[0]?.welcomeMessage;
+const slogan = response?.data?.[0]?.slogan;
+
+
+
+
+
+
+
+
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -22,9 +68,9 @@ const Login = () => {
     { name: 'Completion', completed: false }
   ]);
   
-  // Hide header, footer and other elements when login form is shown
+  // Hide header, footer and other
   useEffect(() => {
-    // Find and hide header, footer, and other navigation elements
+    
     const header = document.querySelector('header');
     const footer = document.querySelector('footer');
     const nav = document.querySelector('nav');
@@ -33,10 +79,10 @@ const Login = () => {
     if (footer) footer.style.display = 'none';
     if (nav) nav.style.display = 'none';
     
-    // Add a fullscreen class to body for better appearance
+    
     document.body.classList.add('fullscreen-form');
     
-    // Cleanup function to restore elements when component unmounts
+    // Cleanup function 
     return () => {
       if (header) header.style.display = '';
       if (footer) footer.style.display = '';
@@ -68,7 +114,7 @@ const Login = () => {
   const handleOtpChange = (e) => {
     const { value } = e.target;
     
-    // Only allow numbers and limit to 6 digits
+    // Only allow 6 digit numbers
     if (!/^\d*$/.test(value) || value.length > 6) {
       return;
     }
@@ -177,7 +223,7 @@ const Login = () => {
           updatedSteps[1].completed = true;
           setProcessSteps(updatedSteps);
           
-          // Redirect to registration page after a short delay to show the progress update
+          // Redirect to registration
           setTimeout(() => {
             navigate('/registration', { 
               state: { 
@@ -241,14 +287,14 @@ const Login = () => {
       </button>
 
       <div className="w-full max-w-4xl mx-auto flex flex-col md:flex-row rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl overflow-hidden mt-10 md:mt-4 sm:mt-8 border border-2 border-[#DE7D37] relative z-10">
-        {/* Left section - logo only (hidden on small screens, shown as column on medium screens) */}
+        {/* Left section  */}
         <div className="bg-red-800 text-white p-4 sm:p-6 flex flex-col items-center justify-center w-full md:w-1/3">
           <div className="w-full flex flex-col justify-center items-center h-full py-2 sm:py-4">
             <div className="p-2 sm:p-4 rounded-xl inline-block">
-              <img src="/logo.png" alt="Logo" className="w-32 sm:w-40 md:w-48 h-auto drop-shadow-lg" />
+              <img src={fullLogoUrl} alt="Logo" className="w-32 sm:w-40 md:w-48 h-auto drop-shadow-lg" loading="lazy" />
             </div>
-            <h2 className="text-white text-base sm:text-xl font-semibold text-center mt-2 sm:mt-1">Welcome to Gahoi Jan Kalyan Samiti</h2>
-            <p className="text-white/80 text-center mt-1 sm:mt-2 text-xs">Connect with your community</p>
+            <h2 className="text-white text-base sm:text-xl font-semibold text-center mt-2 sm:mt-1">{welcomeMessage}</h2>
+            <p className="text-white/80 text-center mt-1 sm:mt-2 text-xs">{slogan}</p>
           </div>
         </div>
         
@@ -294,7 +340,7 @@ const Login = () => {
             
             <div className="bg-white p-3 sm:p-5 rounded-lg shadow-sm border border-gray-100">
               <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
-                {/* Authentication Type Selector - OTP only */}
+                {/* Authentication - OTP */}
                 <div className="bg-slate-50 p-2 sm:p-3 rounded-lg flex justify-center border border-slate-200">
                   <label className="inline-flex items-center">
                     <input

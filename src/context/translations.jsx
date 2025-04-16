@@ -1,7 +1,27 @@
 const translations = {
   en: {
+    // home: "Home",
+    // matrimonial: "Matrimonial",
+    // family: "Family",
+    // resources: "Resources",
+    // businessListing: "Business Listing",
+    // gallery: "Gallery",
+    // executive: "Executive",
+    // publication: "Publication",
+    // literature: "Literature",
+    // history: "History",
+    // register: "Register",
+    // login: "Login",
+    // search: "Search",
+    // change: "Change",
+    // FreeListing: "Free Listing",
     home: "Home",
-    matrimonial: "Matrimonial",
+    login: "Login",
+    about : "About Us",
+    contact: "Contact Us",
+    donationcow : "Donation Cow",
+    allassembly : "All Assembly",
+    gotraankna : "Gotra & Ankna",
     family: "Family",
     resources: "Resources",
     businessListing: "Business Listing",
@@ -11,13 +31,20 @@ const translations = {
     literature: "Literature",
     history: "History",
     register: "Register",
-    login: "Login",
+   
     search: "Search",
     change: "Change",
-    // Add more translations as needed
+    FreeListing: "Free Listing",
+    
   },
   hi: {
     home: "होम",
+    login: "लॉग इन",
+    about : "हमारी जानकारी",
+    contact: "संपर्क करें",
+    donationcow : "गौ दान",
+    allassembly : "सभी सभाएँ ",
+    gotraankna : "गोत्र एवं अंकन",
     matrimonial: "वैवाहिक",
     family: "परिवार",
     resources: "संसाधन",
@@ -31,7 +58,7 @@ const translations = {
     login: "लॉग इन",
     search: "खोजना",
     change: "परिर्वतन",
-    // Add more translations as needed
+    FreeListing : "नि:शुल्क सूचीकरण"
   }
 };
 
