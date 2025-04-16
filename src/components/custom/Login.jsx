@@ -21,18 +21,6 @@ const fetchLoginPageData = async () => {
   }
 };
 
-// const response = await fetchLoginPageData();
-
-
-// const baseUrl = 'http://localhost:1337';
-
-// const logoUrl = response?.data?.[0]?.logo?.url;
-// const check = logoUrl ? `${baseUrl}${logoUrl}` : null;
-// console.log('check', check);
-// console.log('response', response);
-// console.log('response', response?.data?.[0]?.logo?.url);
-
-
 
 const response = await fetchLoginPageData();
 const baseUrl = 'http://localhost:1337';
@@ -40,11 +28,6 @@ const logoUrl = response?.data?.[0]?.logo?.url;
 const fullLogoUrl = logoUrl ? `${baseUrl}${logoUrl}` : null;
 const welcomeMessage = response?.data?.[0]?.welcomeMessage;
 const slogan = response?.data?.[0]?.slogan;
-
-
-
-
-
 
 
 
