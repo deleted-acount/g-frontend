@@ -28,7 +28,7 @@ import GahoiBandhan from "./components/custom/GahoiBandhan"
 import GahoiBandhu from "./components/custom/GahoiBandhu"
 import AnyaPatrikayen from "./components/custom/AnyaPatrikayen"
 import FamilyLogin from './components/custom/FamilyLogin'
-import TemplePage from './components/custom/TemplePage'
+import CowSeva from './components/custom/CowSeva'
 import { LanguageProvider } from './context/LanguageContext'
 
 
@@ -52,15 +52,14 @@ function App() {
           <Route path="/socialflagsong" element={<SocialFlagSong />} />
           <Route path="/suggestions" element={<Suggestion />} />       
           <Route path="/video" element={<VideoPage />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/about" element={<div>About Page</div>} />
+          <Route path="/contact-us" element={<Contact />} />
+          <Route path="/about-us" element={<AboutUs />} />
           <Route path="/rite" element={<Rite />} />
+          <Route path="/gau-seva" element={<CowSeva />} />
           <Route path="/plans" element={<div>Our Plans</div>} />
           <Route path="/team" element={<div>Our Team</div>} />
           <Route path="/blog" element={<div>Blog</div>} />
           <Route path="/reviews" element={<div>Reviews</div>} />
-          <Route path="/contact" element={<div>Contact Us</div>} />
           <Route path="/mahasabha2015" element={<Mahasabha2015 />} />
           <Route path="/regionalassembly" element={<RegionalAssembly />} />
           <Route path="/communalmarriage" element={<CommunalMarriage />} />
@@ -70,7 +69,8 @@ function App() {
           <Route path="/GahoiBandhan" element={<GahoiBandhan />} />
           <Route path="/GahoiBandhu" element={<GahoiBandhu />} />
           <Route path="/AnyaPatrikayen" element={<AnyaPatrikayen />} />
-          <Route path="/templepage" element={<TemplePage />} />
+          <Route path="/cowseva" element={<CowSeva />} />
+        
          
         </Routes>
       </Layout>

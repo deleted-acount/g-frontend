@@ -14,7 +14,9 @@ const Header = () => {
   const { language } = useLanguage();
   const t = translations[language];
   const languageFontClass = language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
-  const hindiTextClass = language === "hi" ? "text-base lg:text-lg" : "text-sm lg:text-base";
+  const hindiTextClass = language === "hi" 
+    ? "text-base lg:text-lg" 
+    : "text-sm md:text-xs lg:text-base";
 
  
   useEffect(() => {
@@ -79,16 +81,16 @@ const Header = () => {
     },
     
     { 
-      to: '/about', 
+      to: '/about-us', 
       label: t?.about || 'About Us',},
    
     { 
-      to: '/contact', 
+      to: '/contact-us', 
       label: t?.contact || 'Contact Us',},
     
     { 
-      to: '/Donation-cow', 
-      label: t?.donationcow || 'Donation Cow',
+      to: '/gau-seva', 
+      label: t?.gauseva || 'Gau Seva',
      
     },
     { 

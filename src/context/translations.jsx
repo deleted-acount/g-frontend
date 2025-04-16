@@ -42,7 +42,7 @@ const translations = {
     login: "लॉग इन",
     about : "हमारी जानकारी",
     contact: "संपर्क करें",
-    donationcow : "गौ दान",
+    gauseva : "गौ दान",
     allassembly : "सभी सभाएँ ",
     gotraankna : "गोत्र एवं अंकन",
     matrimonial: "वैवाहिक",

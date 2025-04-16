@@ -23,7 +23,7 @@ const Contact = () => {
       ...prev,
       [name]: value
     }));
-    // Clear error when user starts typing
+    // Clear error 
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -103,6 +103,12 @@ const Contact = () => {
     </div>
   );
 
+  // Add decorative images
+  const decorativeImages = {
+    hero: "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?auto=format&fit=crop&w=1200", // Office building/contact center image
+    pattern: "https://www.transparenttextures.com/patterns/diamond-upholstery.png"
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen">
       <Helmet>
@@ -119,36 +125,50 @@ const Contact = () => {
         />
       </Helmet>
 
-      {/* Hero Banner */}
-      <div className="w-full bg-red-800 pt-24 md:pt-32 pb-12 md:pb-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center"></div>
+      {/* Hero Banner with Background Image */}
+      <div className="relative w-full bg-red-800 pt-24 md:pt-32 pb-12 md:pb-16 overflow-hidden">
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <img 
+          src={decorativeImages.hero} 
+          alt="Contact Us Background" 
+          className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
+        />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center">
+            <div className="p-3 md:p-5 bg-white/10 rounded-full w-20 h-20 mx-auto mb-6 backdrop-blur-sm">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-full w-full text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
+              </svg>
+            </div>
+            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 ${languageFontClass}`}>
+              {language === "hi" ? "संपर्क करें" : "Contact Us"}
+            </h1>
+            <p className={`text-xl md:text-2xl text-white opacity-90 max-w-3xl mx-auto ${languageFontClass}`}>
+              {language === "hi" 
+                ? "हमसे जुड़ें और साथ मिलकर समाज का विकास करें" 
+                : "Connect with us and let's develop the society together"}
+            </p>
+          </div>
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
       </div>
 
       <div className="container mx-auto px-3 md:px-4 max-w-6xl -mt-6 md:-mt-10">
         <div className="bg-white rounded-lg shadow-lg p-5 md:p-8 mb-6 md:mb-10">
           {/* Page Title */}
-          <div className={sectionStyles}>
-            <div className="flex justify-center mb-5 md:mb-8">
-              <div className="p-3 md:p-5 bg-red-50 rounded-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-12 w-12 md:h-16 md:w-16 text-red-700"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
-              </div>
-                </div>
-
+          <div className={`${sectionStyles} pt-6 md:pt-8 mb-12`}>
+        
             <SectionTitle
               title={{
                 hi: "संपर्क करें",
@@ -156,9 +176,9 @@ const Contact = () => {
               }}
             />
 
-            <div className="max-w-3xl mx-auto">
+            <div className="max-w-3xl mx-auto mb-8">
               <div className="bg-gray-50 p-4 md:p-6 rounded-lg border-l-4 border-red-700 text-center">
-                <p className={`${paragraphStyles} text-base md:text-xl`}>
+                <p className={`${paragraphStyles} text-base md:text-xl mb-4`}>
                   {language === "hi"
                     ? "हमसे जुड़ने या अधिक जानकारी के लिए संपर्क करें। हम आपकी सहायता के लिए तत्पर हैं।"
                     : "Contact us to connect or for more information. We are ready to assist you."}

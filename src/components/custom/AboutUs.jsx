@@ -155,6 +155,12 @@ const AboutUs = () => {
     },
   ];
 
+  // Add decorative images
+  const decorativeImages = {
+    hero: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=1200", // Community gathering image
+    pattern: "https://www.transparenttextures.com/patterns/diamond-upholstery.png"
+  };
+
   const SectionTitle = ({ title }) => (
     <div className="text-center mb-8">
       <h2 className={headingStyles}>{title[language]}</h2>
@@ -176,35 +182,48 @@ const AboutUs = () => {
         />
       </Helmet>
 
-      {/* Hero Banner bg */}
-      <div className="w-full bg-red-800 pt-24 md:pt-32 pb-12 md:pb-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center"></div>
+      {/* Hero Banner with Background Image */}
+      <div className="relative w-full bg-red-800 pt-24 md:pt-32 pb-12 md:pb-16 overflow-hidden">
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <img 
+          src={decorativeImages.hero} 
+          alt="About Us Background" 
+          className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
+        />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center">
+            <div className="p-3 md:p-5 bg-white/10 rounded-full w-20 h-20 mx-auto mb-6 backdrop-blur-sm">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-full w-full text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                />
+              </svg>
+            </div>
+            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 ${languageFontClass}`}>
+              {language === "hi" ? "हमारी जानकारी" : "About Us"}
+            </h1>
+            <p className={`text-xl md:text-2xl text-white opacity-90 max-w-3xl mx-auto ${languageFontClass}`}>
+              {language === "hi" 
+                ? "समाज के विकास के लिए समर्पित एक संगठन" 
+                : "An organization dedicated to community development"}
+            </p>
+          </div>
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
       </div>
 
       <div className="container mx-auto px-3 md:px-4 max-w-6xl -mt-6 md:-mt-10">
         <div className="bg-white rounded-lg shadow-lg p-5 md:p-8 mb-6 md:mb-10">
-          <div className={sectionStyles}>
-            <div className="flex justify-center mb-5 md:mb-8">
-              <div className="p-3 md:p-5 bg-red-50 rounded-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-12 w-12 md:h-16 md:w-16 text-red-700"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                  />
-                </svg>
-              </div>
-            </div>
-
+          <div className={`${sectionStyles} pt-6 md:pt-8`}>
             <SectionTitle title={{ hi: "हमारे उद्देश्य", en: "Our Purpose" }} />
 
             <div className="max-w-3xl mx-auto">
@@ -414,7 +433,7 @@ const AboutUs = () => {
                 </div>
               </button>
             </Link>
-            <Link to="/contact" className="w-full sm:w-auto">
+            <Link to="/contact-us" className="w-full sm:w-auto">
               <button
                 className={`w-full bg-red-700 hover:bg-red-800 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold shadow-lg transition-all text-base md:text-lg ${languageFontClass}`}
               >
