@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PhotoUpload from './PhotoUpload';
 
 const RegistrationForm = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
     formNumber: '',
@@ -59,7 +58,7 @@ const RegistrationForm = () => {
 
   // Hide header, footer and other elements when registration form is shown
   useEffect(() => {
-    // Find and hide header, footer, and other navigation elements
+   
     const header = document.querySelector('header');
     const footer = document.querySelector('footer');
     const nav = document.querySelector('nav');
@@ -68,7 +67,7 @@ const RegistrationForm = () => {
     if (footer) footer.style.display = 'none';
     if (nav) nav.style.display = 'none';
     
-    // Add a fullscreen class to body for better appearance
+   
     document.body.classList.add('fullscreen-form');
     
     // Cleanup function to restore elements when component unmounts
@@ -80,7 +79,6 @@ const RegistrationForm = () => {
     };
   }, []);
 
-  // Define the steps of the registration form
   const formSteps = [
     { name: 'Personal Information', fields: ['name', 'mobileNumber', 'whatsappNumber', 'village', 'id'] },
     { name: 'Additional Details', fields: ['bloodGroup', 'birthDate', 'marriageDate', 'education', 'currentAddress'] },
@@ -90,7 +88,7 @@ const RegistrationForm = () => {
     { name: 'Final Submission', fields: ['suggestions', 'date', 'referenceBy'] }
   ];
 
-  // Initialize state from location if coming from login
+ 
   useEffect(() => {
     if (location.state?.fromLogin) {
       if (location.state?.processSteps) {
@@ -116,7 +114,7 @@ const RegistrationForm = () => {
 
   // Update registration progress based on current form step
   useEffect(() => {
-    // Calculate what percentage of the registration is complete based on current step
+ 
     const registrationProgress = (currentStep / (formSteps.length - 1));
     
     // Update the process steps
@@ -125,7 +123,7 @@ const RegistrationForm = () => {
     setProcessSteps(updatedSteps);
   }, [currentStep, formSteps.length, processSteps]);
 
-  // map Gotra to Aakna options
+  // map Gotra to Aakna 
   const gotraAaknaMap = {
     'Badal': ['Amaroha', 'Bageriya', 'Baraha', 'Chauda'],
     'Bhal': ['Bajrang Gadiya', 'Chandaiya', 'Dengare', 'Ghura', 'Jhudele', 'Khangat', 'Kharda', 'Kudariya', 'Naina', 'Pachanone'],
@@ -313,7 +311,7 @@ const RegistrationForm = () => {
   const handleSubmit = () => {
     setLoading(true);
     
-    // Simulate API call
+   
     setTimeout(() => {
       console.log(formData);
       
@@ -346,8 +344,7 @@ const RegistrationForm = () => {
           </div>
         `;
         document.body.appendChild(successPopup);
-        
-        // Animate progress bar
+    
         const progressBar = document.getElementById('progress-bar');
         setTimeout(() => {
           progressBar.style.width = '100%';
@@ -356,7 +353,7 @@ const RegistrationForm = () => {
         // Navigate after delay
         setTimeout(() => {
           document.body.removeChild(successPopup);
-          navigate('/');
+          window.location.href = '/';
         }, 2000);
       }, 500);
       
@@ -380,7 +377,7 @@ const RegistrationForm = () => {
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className="text-sm font-medium text-gray-700 flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                   </svg>
@@ -402,7 +399,7 @@ const RegistrationForm = () => {
               </div>
 
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className="text-sm font-medium text-gray-700 flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                   </svg>
@@ -428,7 +425,7 @@ const RegistrationForm = () => {
               </div>
 
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                   </svg>
@@ -453,7 +450,7 @@ const RegistrationForm = () => {
               </div>
 
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                   </svg>
@@ -475,7 +472,7 @@ const RegistrationForm = () => {
               </div>
 
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M14.243 5.757a6 6 0 10-.986 9.284 1 1 0 111.087 1.678A8 8 0 1118 10a3 3 0 01-4.8 2.401A4 4 0 1114 10a1 1 0 102 0c0-1.537-.586-3.07-1.757-4.243zM12 10a2 2 0 10-4 0 2 2 0 004 0z" clipRule="evenodd" />
                   </svg>
@@ -497,7 +494,7 @@ const RegistrationForm = () => {
               </div>
 
               <div className="space-y-3 md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clipRule="evenodd" />
                   </svg>
@@ -540,7 +537,7 @@ const RegistrationForm = () => {
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clipRule="evenodd" />
                   </svg>
@@ -562,7 +559,7 @@ const RegistrationForm = () => {
               </div>
 
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
                   </svg>
@@ -583,7 +580,7 @@ const RegistrationForm = () => {
               </div>
 
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
                   </svg>
@@ -601,7 +598,7 @@ const RegistrationForm = () => {
               </div>
 
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
                   </svg>
@@ -623,7 +620,7 @@ const RegistrationForm = () => {
               </div>
 
               <div className="md:col-span-2 space-y-3">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                   </svg>
@@ -1076,7 +1073,7 @@ const RegistrationForm = () => {
     >
       {/* Back to Home Button */}
       <button 
-        onClick={() => navigate('/')}
+        onClick={() => window.location.href = '/'}
         className="absolute top-4 left-4 bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800 transition-colors duration-200 z-20 flex items-center"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
@@ -1087,7 +1084,7 @@ const RegistrationForm = () => {
 
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-slate-800/70"></div>
       <div className="w-full max-w-4xl mx-auto rounded-xl shadow-lg overflow-hidden relative z-10 mt-8 bg-white border border-[#FD7D01]">
-        {/* Header with Progress */}
+        {/* Header */}
         <div className="bg-red-800 text-white p-3">
           <div className="container mx-auto">
             <h1 className="text-xl font-bold mb-2 text-center">Registration Form</h1>
