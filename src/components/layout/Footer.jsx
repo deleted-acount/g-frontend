@@ -71,7 +71,7 @@ const Footer = () => {
             <ul className="flex flex-wrap justify-center sm:justify-start">
               <li className="w-1/2 mb-2"><Link to="/about-us" className={`${hindiTextClass} text-red-100 hover:text-yellow-100 transition-colors`}>{ft.aboutUs}</Link></li>
               <li className="w-1/2 mb-2"><Link to="/suggestions" className={`${hindiTextClass} text-red-200 hover:text-yellow-100 transition-colors`}>{ft.suggestions}</Link></li>
-              <li className="w-1/2 mb-2"><Link to="/PrivacyPolicy" className={`${hindiTextClass} text-red-200 hover:text-yellow-100 transition-colors`}>{ft.privacyPolicy}</Link></li>
+              <li className="w-1/2 mb-2"><Link to="/privacy-policy" className={`${hindiTextClass} text-red-200 hover:text-yellow-100 transition-colors`}>{ft.privacyPolicy}</Link></li>
               <li className="w-1/2 mb-2"><Link to="/LatestNews" className={`${hindiTextClass} text-red-200 hover:text-yellow-100 transition-colors`}>{ft.webFounderMessage}</Link></li>
               <li className="w-1/2 mb-2"><Link to="/LatestNews" className={`${hindiTextClass} text-red-200 hover:text-yellow-100 transition-colors`}>{ft.latestNews}</Link></li>
               <li className="w-1/2 mb-2"><Link to="/SocialFlagSong" className={`${hindiTextClass} text-red-200 hover:text-yellow-100 transition-colors`}>{ft.socialFlagSong}</Link></li>
