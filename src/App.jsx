@@ -48,7 +48,7 @@ function App() {
           <Route path='/freelisting' element={<Freelisting />} />
           <Route path='/business_search' element={<BusinessSearch />} />
           <Route path='/centralassembly' element={<CentralAssembly />} />
-          <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/socialflagsong" element={<SocialFlagSong />} />
           <Route path="/suggestions" element={<Suggestion />} />       
           <Route path="/video" element={<VideoPage />} />
