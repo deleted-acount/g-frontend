@@ -12,6 +12,7 @@ import AboutUs from "./components/custom/AboutUs";
 import Rite from "./components/custom/Rite";
 import FamilyLogin from "./components/custom/FamilyLogin";
 import { CowSeva } from "./components/cow-seva";
+import ScrollToTop from "./components/utils/ScrollToTop";
 
 import { LanguageProvider } from "./context/LanguageContext";
 
@@ -19,6 +20,7 @@ function App() {
   return (
     <LanguageProvider>
       <Layout>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/registration" element={<Registration />} />
