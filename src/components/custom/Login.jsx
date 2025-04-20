@@ -498,7 +498,7 @@ const Login = () => {
             </div>
             
             <div className="text-center mt-3 sm:mt-4 text-[10px] sm:text-xs text-gray-600">
-              By logging in, you agree to our <a href="/PrivacyPolicy" className="text-red-700">Terms of Service</a> and <a href="/PrivacyPolicy" className="text-red-700">Privacy Policy</a>.
+              By logging in, you agree to our <a href="/" className="text-red-700">Terms of Service</a> and <a href="/privacy-policy" className="text-red-700">Privacy Policy</a>.
             </div>
           </div>
         </div>

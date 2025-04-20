@@ -158,7 +158,14 @@ const AboutUs = () => {
   // Add decorative images
   const decorativeImages = {
     hero: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=1200", // Community gathering image
-    pattern: "https://www.transparenttextures.com/patterns/diamond-upholstery.png"
+    pattern:
+      "https://www.transparenttextures.com/patterns/diamond-upholstery.png",
+  };
+
+  // Additional styles
+  const decorativeStyles = {
+    gradientBg: "bg-gradient-to-br from-orange-50 via-white to-orange-50",
+    patternOverlay: `bg-repeat opacity-10 absolute inset-0`,
   };
 
   const SectionTitle = ({ title }) => (
@@ -185,9 +192,9 @@ const AboutUs = () => {
       {/* Hero Banner with Background Image */}
       <div className="relative w-full bg-red-800 pt-24 md:pt-32 pb-12 md:pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-50"></div>
-        <img 
-          src={decorativeImages.hero} 
-          alt="About Us Background" 
+        <img
+          src={decorativeImages.hero}
+          alt="About Us Background"
           className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
         />
         <div className="container mx-auto px-4 relative z-10">
@@ -208,21 +215,27 @@ const AboutUs = () => {
                 />
               </svg>
             </div>
-            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 ${languageFontClass}`}>
+            <h1
+              className={`text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 ${languageFontClass}`}
+            >
               {language === "hi" ? "हमारी जानकारी" : "About Us"}
             </h1>
-            <p className={`text-xl md:text-2xl text-white opacity-90 max-w-3xl mx-auto ${languageFontClass}`}>
-              {language === "hi" 
-                ? "समाज के विकास के लिए समर्पित एक संगठन" 
+            <p
+              className={`text-xl md:text-2xl text-white opacity-90 max-w-3xl mx-auto ${languageFontClass}`}
+            >
+              {language === "hi"
+                ? "समाज के विकास के लिए समर्पित एक संगठन"
                 : "An organization dedicated to community development"}
             </p>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+        {/* <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div> */}
       </div>
 
       <div className="container mx-auto px-3 md:px-4 max-w-6xl -mt-6 md:-mt-10">
-        <div className="bg-white rounded-lg shadow-lg p-5 md:p-8 mb-6 md:mb-10">
+        <div
+          className={`bg-white rounded-lg shadow-lg p-5 md:p-8 mb-6 md:mb-10  relative ${decorativeStyles.gradientBg}`}
+        >
           <div className={`${sectionStyles} pt-6 md:pt-8`}>
             <SectionTitle title={{ hi: "हमारे उद्देश्य", en: "Our Purpose" }} />
 

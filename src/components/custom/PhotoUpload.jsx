@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 
-const PhotoUpload = () => {
+const PhotoUpload = ({ onImageSelect }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
   
@@ -14,6 +14,9 @@ const PhotoUpload = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setSelectedImage(e.target.result);
+        if (onImageSelect) {
+          onImageSelect(e.target.result); // Pass the selected image up to parent
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -22,6 +25,9 @@ const PhotoUpload = () => {
   const handleDeletePhoto = (e) => {
     e.stopPropagation(); 
     setSelectedImage(null);
+    if (onImageSelect) {
+      onImageSelect(null); // Pass null if the user deletes the image
+    }
   };
   
   return (
