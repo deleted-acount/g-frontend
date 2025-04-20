@@ -8,18 +8,18 @@ const LanguageSwitcher = () => {
   return (
     <div 
       onClick={toggleLanguage}
-      className="flex items-center cursor-pointer rounded-full hover:bg-red-800/10 transition-colors px-1.5 py-1"
+      className="flex items-center cursor-pointer rounded-full hover:bg-red-800/20 transition-colors px-2 py-1.5 bg-white/10"
       title={isHindi ? 'Switch to English' : 'हिंदी में बदलें'}
     >
       <span 
-        className={`text-[10px] font-medium w-4 text-center ${
-          !isHindi ? "text-black md:text-white font-bold" : "text-black/70 md:text-white/70"
+        className={`text-xs font-semibold w-5 text-center ${
+          !isHindi ? "text-[#FD7D01] font-bold" : "text-red-800"
         }`}
       >
         EN
       </span>
       <div 
-        className="relative inline-flex h-4 w-7 mx-1 items-center rounded-full transition-colors"
+        className="relative inline-flex h-5 w-8 mx-1.5 items-center rounded-full transition-colors"
         style={{
           backgroundColor: isHindi ? '#dc2626' : '#991b1b'
         }}
@@ -27,13 +27,13 @@ const LanguageSwitcher = () => {
         <span className="sr-only">Toggle language</span>
         <span
           className={`${
-            isHindi ? 'translate-x-1.5' : 'translate-x-0.5'
-          } inline-block h-3 w-3 transform rounded-full bg-white transition-transform duration-200`}
+            isHindi ? 'translate-x-[18px]' : 'translate-x-[2px]'
+          } inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 shadow-sm`}
         />
       </div>
       <span 
-        className={`text-[10px] font-medium w-4 text-center ${
-          isHindi ? "text-black md:text-white font-bold" : "text-black/70 md:text-white/70"
+        className={`text-xs font-semibold w-5 text-center ${
+          isHindi ? "text-[#FD7D01] font-bold" : "text-red-800"
         }`}
       >
         हिं

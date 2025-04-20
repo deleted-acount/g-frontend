@@ -11,7 +11,7 @@ import Contact from "./components/custom/Contact";
 import AboutUs from "./components/custom/AboutUs";
 import Rite from "./components/custom/Rite";
 import FamilyLogin from "./components/custom/FamilyLogin";
-import CowSeva from "./components/cow-seva/CowSeva";
+import { CowSeva } from "./components/cow-seva";
 
 import { LanguageProvider } from "./context/LanguageContext";
 

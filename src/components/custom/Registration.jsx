@@ -308,128 +308,122 @@ const RegistrationForm = () => {
     }
   };
 
-  
-  const handleImageSelect = (image) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      display_picture: image, 
+  const handleImageSelect = (file) => {
+    setFormData(prev => ({
+      ...prev,
+      display_picture: file
     }));
   };
 
-const handleSubmit = async () => {
-  setLoading(true);
+  const handleSubmit = async () => {
+    setLoading(true);
 
-  try {
-    const strapiData = {
-      family_details: {
-        father_name: formData.familyDetails[0].name,
-        mother_name: formData.familyDetails[1].name,
-        phone_number: formData.mobileNumber,
-        spouse_name: formData.familyDetails[2].name,
-      },
-      child_name: formData.familyDetails.slice(3).map(child => ({ child_name: child.name })),
-      biographical_details: {
-        Gotra: formData.gotra,
-        Aakna: formData.aakna,
-        Mama_Aakna: formData.mamaAakna,
-        manglik_status: formData.manglik,
-        Grah: formData.grah,
-        Handicap: formData.handicap,
-      },
-      personal_information: {
-        full_name: formData.name,
-        village: formData.village,
-        mobile_number: formData.mobileNumber,
-        whatsapp_number: formData.whatsappNumber,
-        Gender: formData.gender,
-        email_address: formData.email,
-        display_picture: formData.display_picture,
-      },
-      work_information: {
-        occupation: formData.occupation,
-        company_name: formData.companyName,
-        work_area: formData.workArea,
-      },
-      additional_details: {
-        blood_group: formData.bloodGroup,
-        date_of_birth: formData.birthDate,
-        date_of_marriage: formData.marriageDate,
-        higher_education: formData.education,
-        current_address: formData.currentAddress,
-      },
-      your_suggestions: {
-        suggestions: formData.suggestions,
-        date: formData.date,
-      },
-    };
+    try {
+      const strapiData = {
+        family_details: {
+          father_name: formData.familyDetails[0].name,
+          mother_name: formData.familyDetails[1].name,
+          phone_number: formData.mobileNumber,
+          spouse_name: formData.familyDetails[2].name,
+        },
+        child_name: formData.familyDetails.slice(3).map(child => ({ child_name: child.name })),
+        biographical_details: {
+          Gotra: formData.gotra,
+          Aakna: formData.aakna,
+          Mama_Aakna: formData.mamaAakna,
+          manglik_status: formData.manglik,
+          Grah: formData.grah,
+          Handicap: formData.handicap,
+        },
+        personal_information: {
+          full_name: formData.name,
+          village: formData.village,
+          mobile_number: formData.mobileNumber,
+          whatsapp_number: formData.whatsappNumber,
+          Gender: formData.gender,
+          email_address: formData.email,
+          display_picture: formData.display_picture,
+        },
+        work_information: {
+          occupation: formData.occupation,
+          company_name: formData.companyName,
+          work_area: formData.workArea,
+        },
+        additional_details: {
+          blood_group: formData.bloodGroup,
+          date_of_birth: formData.birthDate,
+          date_of_marriage: formData.marriageDate,
+          higher_education: formData.education,
+          current_address: formData.currentAddress,
+        },
+        your_suggestions: {
+          suggestions: formData.suggestions,
+          date: formData.date,
+        },
+      };
 
-    const response = await fetch('http://localhost:1337/api/registration-pages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${import.meta.env.VITE_API_TOKEN}`,
-      },
-      body: JSON.stringify({ data: strapiData }),
-    });
+      const response = await fetch('http://localhost:1337/api/registration-pages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_API_TOKEN}`,
+        },
+        body: JSON.stringify({ data: strapiData }),
+      });
 
-    if (!response.ok) {
-      throw new Error('Failed to submit form');
-    }
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
 
-    const result = await response.json();
-    console.log('Form submitted successfully:', result);
+      const result = await response.json();
+      console.log('Form submitted successfully:', result);
 
-    // Update progress steps
-    const updatedSteps = [...processSteps];
-    updatedSteps[2].completed = true;
-    updatedSteps[3].completed = true;
-    setProcessSteps(updatedSteps);
+      // Update progress steps
+      const updatedSteps = [...processSteps];
+      updatedSteps[2].completed = true;
+      updatedSteps[3].completed = true;
+      setProcessSteps(updatedSteps);
 
-    // Show success popup
-    const successPopup = document.createElement('div');
-    successPopup.className = 'fixed inset-0 flex items-center justify-center z-50';
-    successPopup.innerHTML = `
-      <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-      <div class="bg-white rounded-lg p-6 shadow-xl max-w-md w-full mx-4 relative z-10 border-2 border-[#FD7D01]">
-        <div class="text-center">
-          <div class="flex justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-[#FD7D01]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <h2 class="text-2xl font-bold text-gray-800 mb-2">Success!</h2>
-          <p class="text-gray-600 mb-6">Form submitted successfully! Redirecting to homepage...</p>
-          <div class="w-full bg-gray-200 h-2 rounded-full mt-4">
-            <div class="bg-[#FD7D01] h-2 rounded-full" style="width: 0%; transition: width 2s ease-in-out;" id="progress-bar"></div>
+      // Show success popup
+      const successPopup = document.createElement('div');
+      successPopup.className = 'fixed inset-0 flex items-center justify-center z-50';
+      successPopup.innerHTML = `
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="bg-white rounded-lg p-6 shadow-xl max-w-md w-full mx-4 relative z-10 border-2 border-[#FD7D01]">
+          <div class="text-center">
+            <div class="flex justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-[#FD7D01]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Success!</h2>
+            <p class="text-gray-600 mb-6">Form submitted successfully! Redirecting to homepage...</p>
+            <div class="w-full bg-gray-200 h-2 rounded-full mt-4">
+              <div class="bg-[#FD7D01] h-2 rounded-full" style="width: 0%; transition: width 2s ease-in-out;" id="progress-bar"></div>
+            </div>
           </div>
         </div>
-      </div>
-    `;
-    document.body.appendChild(successPopup);
+      `;
+      document.body.appendChild(successPopup);
 
-    const progressBar = document.getElementById('progress-bar');
-    setTimeout(() => {
-      progressBar.style.width = '100%';
-    }, 100);
+      const progressBar = document.getElementById('progress-bar');
+      setTimeout(() => {
+        progressBar.style.width = '100%';
+      }, 100);
 
-    // Redirect after delay
-    setTimeout(() => {
-      document.body.removeChild(successPopup);
-      window.location.href = '/';
-    }, 2500); // Increased delay to ensure the progress bar completes
+      // Redirect after delay
+      setTimeout(() => {
+        document.body.removeChild(successPopup);
+        window.location.href = '/';
+      }, 2500); // Increased delay to ensure the progress bar completes
 
-  } catch (error) {
-    console.error('Error submitting form:', error);
-    alert('Failed to submit form. Please try again.');
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-  
-
-
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Failed to submit form. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const hasError = (fieldName) => {
     return submitted && errors[fieldName];
@@ -1220,7 +1214,7 @@ const handleSubmit = async () => {
           <div className="container mx-auto">
             {currentStep === 0 && (
               <div className="mb-4">
-               <PhotoUpload onFileSelect={handleImageSelect} />
+               <PhotoUpload onImageSelect={handleImageSelect} />
               </div>
             )}
             
