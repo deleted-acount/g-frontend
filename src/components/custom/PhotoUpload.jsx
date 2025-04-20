@@ -13,14 +13,16 @@ const PhotoUpload = ({ onImageSelect }) => {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setSelectedImage(e.target.result);
-        if (onImageSelect) {
-          onImageSelect(e.target.result); // Pass the selected image up to parent
-        }
+        setSelectedImage(e.target.result); // this is fine just for preview
       };
       reader.readAsDataURL(file);
+      
+      if (onImageSelect) {
+        onImageSelect(file); // ⬅️ Pass actual file to parent
+      }
     }
   };
+  
   
   const handleDeletePhoto = (e) => {
     e.stopPropagation(); 

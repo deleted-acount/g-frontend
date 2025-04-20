@@ -6,10 +6,8 @@ const RegistrationForm = () => {
   const location = useLocation();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
-   
     name: '',
     mobileNumber: location.state?.mobileNumber || '',
-    whatsappNumber: '',
     display_picture: null,
     village: '',
     email: '',
@@ -19,13 +17,10 @@ const RegistrationForm = () => {
     education: '',   
     currentAddress: '',
     familyDetails: [
-      { relation: 'Father', name: '', mobileNumber: '', whatsappNumber: '' },
-      { relation: 'Mother', name: '', mobileNumber: '', whatsappNumber: '' },
-      { relation: 'Spouse', name: '', mobileNumber: '', whatsappNumber: '' },
-      { relation: 'Child', name: '', mobileNumber: '', whatsappNumber: '' },
-      { relation: 'Child', name: '', mobileNumber: '', whatsappNumber: '' },
-      { relation: 'Child', name: '', mobileNumber: '', whatsappNumber: '' },
-      { relation: 'Child', name: '', mobileNumber: '', whatsappNumber: '' },
+      { relation: 'Father', name: '', mobileNumber: '' },
+      { relation: 'Mother', name: '', mobileNumber: '' },
+      { relation: 'Spouse', name: '', mobileNumber: '' },
+      { relation: 'Child', name: '', mobileNumber: '' }
     ],
     manglik: '',
     grah: '',
@@ -39,7 +34,6 @@ const RegistrationForm = () => {
     helpOthers: null,
     provideDiscount: null,
     suggestions: '',
-    date: '',
     referenceBy: '',
     gender: ''
   });
@@ -56,9 +50,15 @@ const RegistrationForm = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const handleImageSelect = (file) => {
+    setFormData(prev => ({
+      ...prev,
+      display_picture: file
+    }));
+  };
+
   // Hide header, footer and other elements when registration form is shown
   useEffect(() => {
-   
     const header = document.querySelector('header');
     const footer = document.querySelector('footer');
     const nav = document.querySelector('nav');
@@ -67,10 +67,8 @@ const RegistrationForm = () => {
     if (footer) footer.style.display = 'none';
     if (nav) nav.style.display = 'none';
     
-   
     document.body.classList.add('fullscreen-form');
     
-   
     return () => {
       if (header) header.style.display = '';
       if (footer) footer.style.display = '';
@@ -80,7 +78,7 @@ const RegistrationForm = () => {
   }, []);
 
   const formSteps = [
-    { name: 'Personal Information', fields: ['name', 'mobileNumber', 'whatsappNumber', 'village', 'id'] },
+    { name: 'Personal Information', fields: ['name', 'mobileNumber', 'village', 'id', 'email', 'gender'] },
     { name: 'Additional Details', fields: ['bloodGroup', 'birthDate', 'marriageDate', 'education', 'currentAddress'] },
     { name: 'Family Information', fields: ['familyDetails'] },
     { name: 'Biographical Details', fields: ['manglik', 'grah', 'handicap', 'gotra', 'aakna', 'mamaAakna'] },
@@ -144,7 +142,7 @@ const RegistrationForm = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     
-    if ((name === 'mobileNumber' || name === 'whatsappNumber') && !/^\d*$/.test(value)) {
+    if ((name === 'mobileNumber') && !/^\d*$/.test(value)) {
       return; 
     }
     
@@ -177,7 +175,7 @@ const RegistrationForm = () => {
 
   const handleFamilyDetailChange = (index, field, value) => {
     
-    if ((field === 'mobileNumber' || field === 'whatsappNumber') && !/^\d*$/.test(value)) {
+    if ((field === 'mobileNumber') && !/^\d*$/.test(value)) {
       return; 
     }
     
@@ -217,14 +215,6 @@ const RegistrationForm = () => {
       }
     }
     
-    if (currentFields.includes('whatsappNumber')) {
-      if (!formData.whatsappNumber) {
-        newErrors.whatsappNumber = 'This field is required';
-      } else if (formData.whatsappNumber.length !== 10) {
-        newErrors.whatsappNumber = 'WhatsApp number must be 10 digits';
-      }
-    }
-    
     if (currentFields.includes('village') && !formData.village) {
       newErrors.village = 'This field is required';
     }
@@ -247,6 +237,10 @@ const RegistrationForm = () => {
     
     if (currentFields.includes('currentAddress') && !formData.currentAddress) {
       newErrors.currentAddress = 'This field is required';
+    }
+    
+    if (currentFields.includes('gender') && !formData.gender) {
+      newErrors.gender = 'Please select your gender';
     }
     
     //  family details 
@@ -308,60 +302,75 @@ const RegistrationForm = () => {
     }
   };
 
-  const handleImageSelect = (file) => {
-    setFormData(prev => ({
-      ...prev,
-      display_picture: file
-    }));
+  const uploadImage = async (file) => {
+    const formData = new FormData();
+    formData.append('files', file);
+  
+    const response = await fetch('http://localhost:1337/api/upload', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${import.meta.env.VITE_API_TOKEN}`,
+      },
+      body: formData,
+    });
+  
+    const result = await response.json();
+    return result[0]?.id; // Get the uploaded image ID
   };
+  
 
   const handleSubmit = async () => {
     setLoading(true);
-
+  
     try {
+      // Upload the image and get the ID
+      let displayPictureId = null;
+      if (formData.display_picture) {
+        displayPictureId = await uploadImage(formData.display_picture);
+      }
+  
+   
       const strapiData = {
         family_details: {
-          father_name: formData.familyDetails[0].name,
-          mother_name: formData.familyDetails[1].name,
-          phone_number: formData.mobileNumber,
-          spouse_name: formData.familyDetails[2].name,
+          father_name: formData.familyDetails[0]?.name || '',
+          mother_name: formData.familyDetails[1]?.name || '',
+          phone_number: formData.mobileNumber || '',
+          spouse_name: formData.familyDetails[2]?.name || '',
         },
         child_name: formData.familyDetails.slice(3).map(child => ({ child_name: child.name })),
         biographical_details: {
-          Gotra: formData.gotra,
-          Aakna: formData.aakna,
-          Mama_Aakna: formData.mamaAakna,
-          manglik_status: formData.manglik,
-          Grah: formData.grah,
-          Handicap: formData.handicap,
+          Gotra: formData.gotra || '',
+          Aakna: formData.aakna || '',
+          Mama_Aakna: formData.mamaAakna || '',
+          manglik_status: formData.manglik || '',
+          Grah: formData.grah || '',
+          Handicap: formData.handicap || '',
         },
         personal_information: {
-          full_name: formData.name,
-          village: formData.village,
-          mobile_number: formData.mobileNumber,
-          whatsapp_number: formData.whatsappNumber,
-          Gender: formData.gender,
-          email_address: formData.email,
-          display_picture: formData.display_picture,
+          full_name: formData.name || '',
+          village: formData.village || '',
+          mobile_number: formData.mobileNumber || '',
+          email_address: formData.email || '',
+          display_picture: displayPictureId || null,
+          Gender: formData.gender || '',
         },
         work_information: {
-          occupation: formData.occupation,
-          company_name: formData.companyName,
-          work_area: formData.workArea,
+          occupation: formData.occupation || '',
+          company_name: formData.companyName || '',
+          work_area: formData.workArea || '',
         },
         additional_details: {
-          blood_group: formData.bloodGroup,
-          date_of_birth: formData.birthDate,
-          date_of_marriage: formData.marriageDate,
-          higher_education: formData.education,
-          current_address: formData.currentAddress,
+          blood_group: formData.bloodGroup || '',
+          date_of_birth: formData.birthDate || '',
+          date_of_marriage: formData.marriageDate || '',
+          higher_education: formData.education || '',
+          current_address: formData.currentAddress || '',
         },
         your_suggestions: {
-          suggestions: formData.suggestions,
-          date: formData.date,
+          suggestions: formData.suggestions || '',
         },
       };
-
+  
       const response = await fetch('http://localhost:1337/api/registration-pages', {
         method: 'POST',
         headers: {
@@ -370,21 +379,14 @@ const RegistrationForm = () => {
         },
         body: JSON.stringify({ data: strapiData }),
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to submit form');
       }
-
+  
       const result = await response.json();
       console.log('Form submitted successfully:', result);
-
-      // Update progress steps
-      const updatedSteps = [...processSteps];
-      updatedSteps[2].completed = true;
-      updatedSteps[3].completed = true;
-      setProcessSteps(updatedSteps);
-
-      // Show success popup
+  
       const successPopup = document.createElement('div');
       successPopup.className = 'fixed inset-0 flex items-center justify-center z-50';
       successPopup.innerHTML = `
@@ -405,7 +407,6 @@ const RegistrationForm = () => {
         </div>
       `;
       document.body.appendChild(successPopup);
-
       const progressBar = document.getElementById('progress-bar');
       setTimeout(() => {
         progressBar.style.width = '100%';
@@ -416,7 +417,7 @@ const RegistrationForm = () => {
         document.body.removeChild(successPopup);
         window.location.href = '/';
       }, 2500); // Increased delay to ensure the progress bar completes
-
+      
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('Failed to submit form. Please try again.');
@@ -424,6 +425,7 @@ const RegistrationForm = () => {
       setLoading(false);
     }
   };
+  
 
   const hasError = (fieldName) => {
     return submitted && errors[fieldName];
@@ -433,7 +435,17 @@ const RegistrationForm = () => {
     return submitted && errors[`familyDetails.${index}.${field}`];
   };
 
-  // Render the appropriate form fields based on current step
+  const addChild = () => {
+    setFormData(prev => ({
+      ...prev,
+      familyDetails: [
+        ...prev.familyDetails,
+        { relation: 'Child', name: '', mobileNumber: '' }
+      ]
+    }));
+  };
+
+ 
   const renderStepContent = () => {
     switch (currentStep) {
       case 0:
@@ -485,31 +497,6 @@ const RegistrationForm = () => {
                 />
                 {hasError('mobileNumber') && (
                   <p className="text-red-500 text-xs">{errors.mobileNumber}</p>
-                )}
-              </div>
-
-              <div className="space-y-3">
-                <label className=" text-sm font-medium text-gray-700 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                  </svg>
-                  WhatsApp Number
-                </label>
-                <input
-                  type="tel"
-                  name="whatsappNumber"
-                  value={formData.whatsappNumber}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('whatsappNumber') ? 'border-red-500 bg-red-50 error-field' : 'border-gray-300'
-                  }`}
-                  pattern="[0-9]*"
-                  inputMode="numeric"
-                  maxLength={10}
-                  placeholder="10-digit WhatsApp number"
-                />
-                {hasError('whatsappNumber') && (
-                  <p className="text-red-500 text-xs">{errors.whatsappNumber}</p>
                 )}
               </div>
 
@@ -712,11 +699,25 @@ const RegistrationForm = () => {
       case 2:
         return (
           <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-            <div className="flex items-center mb-3">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-              </svg>
-              <h2 className="text-base font-semibold text-gray-800">Family Details</h2>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                </svg>
+                <h2 className="text-base font-semibold text-gray-800">Family Details</h2>
+              </div>
+              {formData.familyDetails.filter(member => member.relation === 'Child').length < 4 && (
+                <button
+                  type="button"
+                  onClick={addChild}
+                  className="flex items-center text-sm text-red-700 hover:text-red-800 transition-colors duration-200"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                  </svg>
+                  Add Child
+                </button>
+              )}
             </div>
             
             <div className="overflow-hidden">
@@ -728,7 +729,6 @@ const RegistrationForm = () => {
                       <th className="px-2 py-2 text-left font-medium text-slate-700">Relation</th>
                       <th className="px-2 py-2 text-left font-medium text-slate-700">Name</th>
                       <th className="px-2 py-2 text-left font-medium text-slate-700">Mobile</th>
-                      <th className="px-2 py-2 text-left font-medium text-slate-700">WhatsApp</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200">
@@ -760,18 +760,6 @@ const RegistrationForm = () => {
                             inputMode="numeric"
                             maxLength={10}
                             placeholder="Mobile number"
-                          />
-                        </td>
-                        <td className="px-2 py-2">
-                          <input
-                            type="tel"
-                            value={member.whatsappNumber}
-                            onChange={(e) => handleFamilyDetailChange(index, 'whatsappNumber', e.target.value)}
-                            className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200"
-                            pattern="[0-9]*"
-                            inputMode="numeric"
-                            maxLength={10}
-                            placeholder="WhatsApp number"
                           />
                         </td>
                       </tr>
@@ -1090,25 +1078,10 @@ const RegistrationForm = () => {
                 </div>
               </div>
               
-              <div className="bg-slate-50 p-5 rounded-lg border border-slate-200 flex flex-col sm:flex-row">
-                <div className="flex-1 mb-4 sm:mb-0">
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Date:</label>
-                    <input
-                      type="date"
-                      name="date"
-                      value={formData.date}
-                      onChange={handleInputChange}
-                      className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200"
-                    />
-                  </div>
-                </div>
-                
-                <div className="flex-1 flex justify-center sm:justify-end items-end">
-                  <div className="text-center sm:text-right">
-                    <div className="mb-2 text-sm font-medium text-gray-700">
-                      By submitting this form, I confirm that the information provided is accurate to the best of my knowledge.
-                    </div>
+              <div className="bg-slate-50 p-5 rounded-lg border border-slate-200">
+                <div className="text-center">
+                  <div className="mb-2 text-sm font-medium text-gray-700">
+                    By submitting this form, I confirm that the information provided is accurate to the best of my knowledge.
                   </div>
                 </div>
               </div>

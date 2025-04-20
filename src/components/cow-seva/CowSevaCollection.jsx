@@ -8,7 +8,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-
+import * as XLSX from 'xlsx';
 
 import { useLanguage } from "../../context/LanguageContext";
 
@@ -186,6 +186,36 @@ const CowSevaCollection = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
+  const exportToExcel = (data, fileName) => {
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
+  };
+
+  const handleExportDonations = () => {
+    const donationsData = filteredDonations.map(donation => ({
+      [language === "hi" ? "दानकर्ता का नाम" : "Donor Name"]: donation.name[language],
+      [language === "hi" ? "राशि" : "Amount"]: donation.amount,
+      [language === "hi" ? "तारीख" : "Date"]: new Date(donation.date).toLocaleDateString(),
+      [language === "hi" ? "स्थान" : "Place"]: donation.place[language],
+      [language === "hi" ? "उद्देश्य" : "Purpose"]: donation.purpose[language]
+    }));
+    exportToExcel(donationsData, language === "hi" ? "दान-रिकॉर्ड" : "donation-records");
+  };
+
+  const handleExportExpenses = () => {
+    const expensesData = content.monthlyExpenses.map(expense => ({
+      [language === "hi" ? "महीना" : "Month"]: `${expense.month[language]} 2025`,
+      [language === "hi" ? "चारा" : "Feed"]: expense.feed,
+      [language === "hi" ? "चिकित्सा" : "Medical"]: expense.medical,
+      [language === "hi" ? "रखरखाव" : "Maintenance"]: expense.maintenance,
+      [language === "hi" ? "कर्मचारी" : "Staff"]: expense.staff,
+      [language === "hi" ? "कुल" : "Total"]: expense.total
+    }));
+    exportToExcel(expensesData, language === "hi" ? "मासिक-खर्च" : "monthly-expenses");
+  };
+
   return (
     <div className="bg-gray-50 text-gray-800">
       <main className="container mx-auto py-6 px-3 sm:px-4 md:py-8">
@@ -305,7 +335,10 @@ const CowSevaCollection = () => {
                   {language === "hi" ? "मासिक खर्च" : "Monthly Expenses"}
                 </h2>
                 <div className="flex space-x-2 sm:space-x-4">
-                  <button className="border border-gray-300 rounded-lg px-3 py-1.5 sm:px-4 sm:py-2 flex items-center space-x-2 hover:bg-gray-50 transition text-sm">
+                  <button 
+                    onClick={handleExportExpenses}
+                    className="border border-gray-300 rounded-lg px-3 py-1.5 sm:px-4 sm:py-2 flex items-center space-x-2 hover:bg-gray-50 transition text-sm"
+                  >
                     <Download size={16} />
                     <span className="hidden sm:inline">{language === "hi" ? "रिपोर्ट निर्यात करें" : "Export Report"}</span>
                     <span className="sm:hidden">{language === "hi" ? "निर्यात" : "Export"}</span>
@@ -499,7 +532,10 @@ const CowSevaCollection = () => {
                       size={16}
                     />
                   </div>
-                  <button className="border border-gray-300 rounded-lg px-3 py-1.5 sm:px-4 sm:py-2 flex items-center justify-center space-x-2 hover:bg-gray-50 transition text-sm">
+                  <button 
+                    onClick={handleExportDonations}
+                    className="border border-gray-300 rounded-lg px-3 py-1.5 sm:px-4 sm:py-2 flex items-center justify-center space-x-2 hover:bg-gray-50 transition text-sm"
+                  >
                     <Download size={16} />
                     <span>{language === "hi" ? "निर्यात" : "Export"}</span>
                   </button>
