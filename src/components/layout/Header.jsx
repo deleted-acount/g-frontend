@@ -102,15 +102,7 @@ const Header = () => {
       label: t?.gotraankna || 'Gotra & Ankna',
      
     },
-     { 
-      to: '/history', 
-      label: t?.history || 'History',
-      dropdown: [
-        { to: '/HistoryGahoiSamaj', label: `${language === 'hi' ? 'इतिहास गहोई समाज' : 'History Gahoi Samaj'}` },
-        { to: '/HistoryMahasabha', label: `${language === 'hi' ? 'इतिहास महासभा' : 'History Mahasabha'}` },
-        { to: '/HistoryKashetriyaSabha', label: `${language === 'hi' ? 'इतिहास क्षेत्रीय सभा' : 'History Regional Sabha'}` }
-      ]
-    }
+  
   ];
 
   return (

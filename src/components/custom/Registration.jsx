@@ -1,48 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import PhotoUpload from './PhotoUpload';
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import PhotoUpload from "./PhotoUpload";
 
 const RegistrationForm = () => {
   const location = useLocation();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
-    name: '',
-    mobileNumber: location.state?.mobileNumber || '',
+    name: "",
+    mobileNumber: location.state?.mobileNumber || "",
     display_picture: null,
-    village: '',
-    email: '',
-    bloodGroup: '',
-    birthDate: '',
-    marriageDate: '',
-    education: '',   
-    currentAddress: '',
+    village: "",
+    email: "",
+    bloodGroup: "",
+    birthDate: "",
+    marriageDate: "",
+    education: "",
+    currentAddress: "",
     familyDetails: [
-      { relation: 'Father', name: '', mobileNumber: '' },
-      { relation: 'Mother', name: '', mobileNumber: '' },
-      { relation: 'Spouse', name: '', mobileNumber: '' },
-      { relation: 'Child', name: '', mobileNumber: '' }
+      { relation: "Father", name: "", mobileNumber: "" },
+      { relation: "Mother", name: "", mobileNumber: "" },
+      { relation: "Spouse", name: "", mobileNumber: "" },
+      { relation: "Child", name: "", mobileNumber: "" },
     ],
-    manglik: '',
-    grah: '',
-    handicap: '',
-    gotra: '',
-    aakna: '',
-    mamaAakna: '',
-    occupation: '',
-    companyName: '',
-    workArea: '',
+    manglik: "",
+    grah: "",
+    handicap: "",
+    gotra: "",
+    aakna: "",
+    occupation: "",
+    companyName: "",
+    workArea: "",
     helpOthers: null,
     provideDiscount: null,
-    suggestions: '',
-    referenceBy: '',
-    gender: ''
+    suggestions: "",
+    referenceBy: "",
+    gender: "",
+    isMarried: "Unmarried",
+    marriageToAnotherCaste: "Same Caste Marriage",
+    state: "",
+    regionalAssembly: "",
+    localPanchayat: "",
+    localPanchayatName: "",
+    subLocalPanchayat: "",
   });
 
   const [processSteps, setProcessSteps] = useState([
-    { name: 'Login', completed: true },
-    { name: 'OTP Verification', completed: true },
-    { name: 'Registration', completed: false },
-    { name: 'Completion', completed: false }
+    { name: "Login", completed: true },
+    { name: "OTP Verification", completed: true },
+    { name: "Registration", completed: false },
+    { name: "Completion", completed: false },
   ]);
   const [progress, setProgress] = useState(50);
 
@@ -51,41 +57,72 @@ const RegistrationForm = () => {
   const [loading, setLoading] = useState(false);
 
   const handleImageSelect = (file) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      display_picture: file
+      display_picture: file,
     }));
   };
 
   // Hide header, footer and other elements when registration form is shown
   useEffect(() => {
-    const header = document.querySelector('header');
-    const footer = document.querySelector('footer');
-    const nav = document.querySelector('nav');
-    
-    if (header) header.style.display = 'none';
-    if (footer) footer.style.display = 'none';
-    if (nav) nav.style.display = 'none';
-    
-    document.body.classList.add('fullscreen-form');
+    const header = document.querySelector("header");
+    const footer = document.querySelector("footer");
+    const nav = document.querySelector("nav");
+
+    if (header) header.style.display = "none";
+    if (footer) footer.style.display = "none";
+    if (nav) nav.style.display = "none";
+
+    document.body.classList.add("fullscreen-form");
     
     return () => {
-      if (header) header.style.display = '';
-      if (footer) footer.style.display = '';
-      if (nav) nav.style.display = '';
-      document.body.classList.remove('fullscreen-form');
+      if (header) header.style.display = "";
+      if (footer) footer.style.display = "";
+      if (nav) nav.style.display = "";
+      document.body.classList.remove("fullscreen-form");
     };
   }, []);
 
   const formSteps = [
-    { name: 'Personal Information', fields: ['name', 'mobileNumber', 'village', 'id', 'email', 'gender'] },
-    { name: 'Additional Details', fields: ['bloodGroup', 'birthDate', 'marriageDate', 'education', 'currentAddress'] },
-    { name: 'Family Information', fields: ['familyDetails'] },
-    { name: 'Biographical Details', fields: ['manglik', 'grah', 'handicap', 'gotra', 'aakna', 'mamaAakna'] },
-    { name: 'Work Information', fields: ['occupation', 'companyName', 'workArea', 'helpOthers', 'provideDiscount'] },
-    { name: 'Final Submission', fields: ['suggestions', 'date', 'referenceBy'] }
+    {
+      name: "Personal Information",
+      fields: ["name", "mobileNumber", "village", "id", "email", "gender"],
+    },
+    {
+      name: "Additional Details",
+      fields: [
+        "bloodGroup",
+        "birthDate",
+        "marriageDate",
+        "education",
+        "currentAddress",
+        "regionalAssembly",
+        "localPanchayatName",
+        "localPanchayat",
+        "subLocalPanchayat",
+        "state",
+      ],
+    },
+    { name: "Family Information", fields: ["familyDetails"] },
+    {
+      name: "Biographical Details",
+      fields: ["manglik", "grah", "handicap", "gotra", "aakna"],
+    },
+    {
+      name: "Work Information",
+      fields: [
+        "occupation",
+        "companyName",
+        "workArea",
+        "helpOthers",
+        "provideDiscount",
+      ],
+    },
+    {
+      name: "Final Submission",
+      fields: ["suggestions", "date", "referenceBy"],
+    },
   ];
-
  
   useEffect(() => {
     if (location.state?.fromLogin) {
@@ -95,9 +132,9 @@ const RegistrationForm = () => {
       
       // If mobile number is verified, we can start from the form
       if (location.state?.mobileNumber) {
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
-          mobileNumber: location.state.mobileNumber
+          mobileNumber: location.state.mobileNumber,
         }));
       }
     }
@@ -105,15 +142,14 @@ const RegistrationForm = () => {
 
   // Update progress 
   useEffect(() => {
-    const completedSteps = processSteps.filter(step => step.completed).length;
+    const completedSteps = processSteps.filter((step) => step.completed).length;
     const totalSteps = processSteps.length;
     setProgress(Math.round((completedSteps / totalSteps) * 100));
   }, [processSteps]);
 
   // Update registration progress based on current form step
   useEffect(() => {
- 
-    const registrationProgress = (currentStep / (formSteps.length - 1));
+    const registrationProgress = currentStep / (formSteps.length - 1);
     
     // Update the process steps
     const updatedSteps = [...processSteps];
@@ -123,77 +159,366 @@ const RegistrationForm = () => {
 
   // map Gotra to Aakna 
   const gotraAaknaMap = {
-    'Badal': ['Amaroha', 'Bageriya', 'Baraha', 'Chauda'],
-    'Bhal': ['Bajrang Gadiya', 'Chandaiya', 'Dengare', 'Ghura', 'Jhudele', 'Khangat', 'Kharda', 'Kudariya', 'Naina', 'Pachanone'],
-    'Gagal': ['Barele', 'Chapara', 'Dengare', 'Geda', 'Jhudele', 'Mihi ke kunvar', 'Nisunge', 'Nogaraiya', 'Nolyeha', 'Rawat'],
-    'Gol': ['Andhi', 'Baderiya', 'Bamoriya', 'Bardiya', 'Bed', 'Bhagoriya', 'Bijpuriya', 'Bilaiya', 'Chiroliya', 'Chungele'],
-    'Jaital': ['Baderiya', 'Kathal', 'Lahariya', 'Nagariya', 'Rikholya', 'Seth', 'Sipolya', 'Sirojiya'],
-    'Kachil': ['Amoriya', 'Bhondiya', 'Chapara', 'Damele', 'Dhusar', 'Jhudele', 'Katare', 'Piparseniya', 'Rawat', 'Seth'],
-    'Kasib': ['Aasu', 'AasuDeepa', 'Bedar', 'Deepa', 'Khantal', 'Sudipa'],
-    'Kochal': ['Badonya', 'Binoriya', 'Dadraya', 'Ikasade', 'Indurakhya', 'Kanjolya', 'Kastawar', 'Kharaya', 'Kurele', 'Misuriya'],
-    'Kohil': ['Jhuke', 'Kandele', 'Lohiya', 'Shav']
+    "Vasar/Vastil/Vasal": [
+      "Rusiya",
+      "Arusiya",
+      "Behre",
+      "Bahre",
+      "Pahariya",
+      "Reja",
+      "Mar",
+      "Amar",
+      "Mor",
+      "Sethiya",
+      "Damele",
+      "Kathal",
+      "Kathil",
+      "Marele",
+      "Nahar",
+      "Naar",
+      "KareKhemau",
+      "Raghare",
+      "Bagar",
+      "Tudha",
+      "Sah",
+      "Saav",
+      "Dangan ke",
+      "Seth (Mau ke, Paliya ke, Khakshis ke, Mahuta ke, Bhaghoi ke)",
+      "Kasav",
+      "Khaira",
+      "Sarawgi (Mau ke)",
+      "Sahdele",
+      "Sadele",
+      "Changele",
+      "Chungele",
+      "Mungele",
+      "Dhoosar",
+      "Dadraya",
+      "Patodiya",
+      "Patodi",
+      "Paterha",
+      "Jhanjhar",
+      "Kharaya",
+      "Baraya",
+      "Kunayar",
+      "Purpuriya",
+      "Puranpuriya",
+      "Kajar",
+      "Kshankshar",
+    ],
+
+    Gol: [
+      "Andhi",
+      "Baderiya",
+      "Bamoriya",
+      "Bardiya",
+      "Bed",
+      "Bhagoriya",
+      "Bijpuriya",
+      "Bilaiya",
+      "Chiroliya",
+      "Tarsolliya",
+      "Trisolliya",
+      "Kharaya",
+      "Jakonya",
+      "Jauriya",
+      "Joliya",
+      "Jalaounya",
+      "Kanthariya",
+      "Itoriya",
+      "Itodiya",
+      "Katare",
+      "Kurele",
+      "Vilaiya",
+      "Nigoti",
+      "Nignotiya",
+      "Soni",
+      "Rawat",
+      "Sarawagi",
+      "Brijpuriya",
+      "Sijariya",
+      "Gandhi",
+      "Bamoriya",
+      "Amoriya",
+      "Dohariya Devaraha",
+      "Devadhiya",
+      "Chungele",
+      "Seth (Rora ke)",
+      "Mungele",
+      "Mangole",
+      "Kurothiya",
+      "Khaira",
+      "Bhagorya",
+      "Maunya",
+      "Hadyal",
+      "Digoriya",
+      "Dhingauriya",
+      "Jaar",
+      "Patwari",
+      "Gandhi",
+    ],
+
+    "Gangal / Gagil": [
+      "Geda",
+      "Chapra / Chupara",
+      "Rawat",
+      "Nogaraiya",
+      "Jhudele / Kshurele",
+      "Nisunge / Nisuri",
+      "Seth (Nolha ke)",
+      "Dengre / Dangre",
+      "Barele / Barol",
+      "Nolha / Nilha",
+      "Mihi ke Kunwar",
+      "Saab / Sahu",
+    ],
+
+    "Badal / Waghil / Bandal": [
+      "Chauda (Chodha, Chouda)",
+      "Soni",
+      "Kharya / Khairya",
+      "Seth (Kathori, Karoli ke)",
+      "Patraiya / Paterha",
+      "Barha / Barehe",
+      "Hathnoria / Hathnotiya",
+      "Damorha",
+      "Lakhatkiya",
+      "Paharu",
+      "Dagarhiha",
+      "Kuretiya / Kuraithiya",
+      "Gugoriya / Ugoriya",
+      "Jugoriya",
+      "Sulganiya / Sulghaniya",
+      "Amroha",
+      "Dadam",
+      "Sawla",
+      "Wageriya",
+    ],
+
+    "Kocchal / Kochil": [
+      "Neekhra",
+      "Indurkhiya",
+      "Kastwar",
+      "Kurele",
+      "Misurha / Masaurya",
+      "Sawla / Saula / Chawla",
+      "Viswari",
+      "Pahariya",
+      "Piparsania",
+      "Dadarya",
+      "Nachhola",
+      "Baronya",
+      "Binaurya",
+      "Kharya / Khara",
+      "Iksade",
+      "Sulghanaya / Sulganiya",
+      "Kanjoulya",
+      "Nigoti (Nigotiya)",
+      "Rawat",
+      "Seth",
+      "Soni",
+    ],
+
+    Jaital: [
+      "Baderia",
+      "Kathal / Kathil",
+      "Nagariya",
+      "Rikholya / Lakhourya",
+      "Seth (Bareth ke)",
+      "Shikoly / Sokorya / Shipoulya",
+      "Lahariya",
+      "Sirojiya",
+    ],
+
+    Vachhil: [
+      "Kuchiya / Kuchha",
+      "Tikraya / Tapakle",
+      "Damele",
+      "Barsainya",
+      "Tapa",
+      "Kanakne",
+      "Matele / Mahtele",
+      "Hunka",
+      "Seth (Nawgaon, Negua ke)",
+      "Badonya",
+      "Gandhi",
+      "Rikholya",
+      "Dhanoriya",
+      "Itoriya / Itodiya",
+      "Sakeray / Sakahere",
+      "Soni",
+      "Khadsariya / Kharsadiya",
+      "Badhiya",
+      "Vinaurya",
+      "Sirsoniya / Risoniya",
+      "Shikolya / Sakoraya / Shipolya",
+      "Khangat",
+      "Katare",
+      "Sarawgi (Mau ke)",
+      "Chungele",
+    ],
+
+    Kachhil: [
+      "Chapra / Chupara",
+      "Tusele",
+      "Piparsaniya",
+      "Seth (Padri ke)",
+      "Dhusar",
+      "Bhondiya (Bhondu)",
+      "Amaulya / Amauriya",
+      "Jhudele / Jhad",
+      "Rawat",
+      "Katare",
+    ],
+
+    Bhaal: [
+      "Kudraya",
+      "Khard",
+      "Suhane / Sohane",
+      "Dengre / Dagre",
+      "Teetbilasi / Teetbirasi",
+      "Ghura",
+      "Khangat",
+      "Bajrang Gadiya",
+      "Naina / Nehna",
+      "Pachnole / Pachraulya",
+      "Sah / Saav (Mihona ke)",
+      "Seth (Chandaiya ke)",
+      "Chandaiya (Chandraseniya)",
+      "Jhudele / Jurele / Jhood",
+    ],
+
+    Kohil: [
+      "Kandele",
+      "Lohiya / Loiya",
+      "Shaav / Shah (Unnao ke)",
+      "Jhuke (Jhunk)",
+    ],
+
+    "Kasiv": [
+      "Asoo / Asoopi / Asooti",
+      "Khantal",
+      "Beder / Badil / Baidal",
+      "Sudipa",
+      "Asudipa",
+      "Deepa / Teepa / Teepa",
+    ],
+
+    "Kasav": [
+      "Asoo",
+      "Asoopi",
+      "Asooti",
+      "Khantal",
+      "Beder / Badil / Baidal",
+      "Sudipa",
+      "Asudipa",
+      "Deepa / Teepa / Teepa",
+    ],
+    Single: [],
   };
 
   //  Aakna options based on selected Gotra
   const getAaknaOptions = () => {
-    return formData.gotra ? (gotraAaknaMap[formData.gotra] || []) : [];
+    return formData.gotra ? gotraAaknaMap[formData.gotra] || [] : [];
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     
-    if ((name === 'mobileNumber') && !/^\d*$/.test(value)) {
+    if (name === "mobileNumber" && !/^\d*$/.test(value)) {
       return; 
     }
     
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-
-    // Reset aakna when gotra changes
-    if (name === 'gotra') {
-      setFormData(prev => ({
-        ...prev,
-        [name]: value,
-        aakna: ''
-      }));
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        [name]: value
-      }));
-    }
-
+    // Clear any existing errors for this field
     if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
+
+    setFormData((prev) => {
+      const newData = { ...prev, [name]: value };
+
+      // Reset dependent fields when parent field changes
+      if (name === "regionalAssembly") {
+        newData.localPanchayatName = "";
+        newData.localPanchayat = "";
+        newData.subLocalPanchayat = "";
+        newData.state = "";
+      } else if (name === "localPanchayatName") {
+        newData.localPanchayat = "";
+        newData.subLocalPanchayat = "";
+        newData.state = "";
+
+        // For Ganga Jamuna Regional Assembly
+        if (prev.regionalAssembly === "Ganga Jamuna Regional Assembly") {
+          if (value === "Gahoi Vaishya Panchayat Samiti") {
+            newData.localPanchayat = "Jalaun";
+            newData.state = "Uttarpradesh";
+          } else if (value === "Gahoi Vaishya Kalyan Samiti") {
+            newData.localPanchayat = "Kanpur";
+            newData.state = "Uttarpradesh";
+          } else if (value === "Gahoi Vaishya Yuva Samiti") {
+            newData.localPanchayat = "Auraiya";
+            newData.state = "Uttarpradesh";
+          } else if (value === "Gahoi Vaishya Panchayat") {
+            newData.localPanchayat = "Lucknow";
+            newData.state = "Uttarpradesh";
+          } else if (value === "Gahoi Vaishya Samaj") {
+            newData.localPanchayat = "Karvi";
+            newData.state = "Uttarpradesh";
+          } else if (value === "Gahoi Seva Mandal") {
+            newData.localPanchayat = "Jalaun";
+            newData.state = "Uttarpradesh";
+          } else if (value === "Gahoi Vaishya Seva Samiti") {
+            newData.localPanchayat = "Jalaun";
+            newData.state = "Uttarpradesh";
+          } else if (value === "Gahoi Vaishya Samaj Panchayat") {
+            
+            newData.state = "Uttarpradesh";
+          }
+        }
+
+        // For Bundelkhand Regional Assembly
+        if (prev.regionalAssembly === "Bundelkhand Regional Assembly") {
+          if (value === "Shri Gahoi Vaishya Seva Samiti") {
+            newData.localPanchayat = "Jhansi";
+            newData.state = "Uttarpradesh";
+          } else if (value === "Shri Daudayal Gahoi Vaishya Seva Samiti") {
+            newData.localPanchayat = "Lalitpur";
+            newData.state = "Madhya Pradesh";
+          } else if (value === "Gahoi Vaishya Seva Samiti") {
+            newData.localPanchayat = "Lalitpur";
+            newData.state = "Madhya Pradesh";
+          }
+        }
+      } else if (name === "localPanchayat") {
+        newData.subLocalPanchayat = "";
+    
+        newData.state = stateMapping[value] || "";
+      }
+
+      return newData;
+    });
   };
 
   const handleFamilyDetailChange = (index, field, value) => {
-    
-    if ((field === 'mobileNumber') && !/^\d*$/.test(value)) {
+    if (field === "mobileNumber" && !/^\d*$/.test(value)) {
       return; 
     }
     
     const newFamilyDetails = [...formData.familyDetails];
     newFamilyDetails[index] = {
       ...newFamilyDetails[index],
-      [field]: value
+      [field]: value,
     };
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      familyDetails: newFamilyDetails
+      familyDetails: newFamilyDetails,
     }));
-
     
     if (errors[`familyDetails.${index}.${field}`]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [`familyDetails.${index}.${field}`]: ''
+        [`familyDetails.${index}.${field}`]: "",
       }));
     }
   };
@@ -203,70 +528,92 @@ const RegistrationForm = () => {
     const currentFields = formSteps[currentStep].fields;
     
     // Check required fields 
-    if (currentFields.includes('name') && !formData.name) {
-      newErrors.name = 'This field is required';
+    if (currentFields.includes("name") && !formData.name) {
+      newErrors.name = "This field is required";
     }
     
-    if (currentFields.includes('mobileNumber')) {
+    if (currentFields.includes("mobileNumber")) {
       if (!formData.mobileNumber) {
-        newErrors.mobileNumber = 'This field is required';
+        newErrors.mobileNumber = "This field is required";
       } else if (formData.mobileNumber.length !== 10) {
-        newErrors.mobileNumber = 'Mobile number must be 10 digits';
+        newErrors.mobileNumber = "Mobile number must be 10 digits";
       }
     }
-    
-    if (currentFields.includes('village') && !formData.village) {
-      newErrors.village = 'This field is required';
+
+    if (currentFields.includes("village") && !formData.village) {
+      newErrors.village = "This field is required";
+    }
+
+    if (currentFields.includes("email") && !formData.email) {
+      newErrors.email = "This field is required";
+    }
+
+    if (currentFields.includes("bloodGroup") && !formData.bloodGroup) {
+      newErrors.bloodGroup = "This field is required";
+    }
+
+    if (currentFields.includes("birthDate") && !formData.birthDate) {
+      newErrors.birthDate = "This field is required";
+    }
+
+    if (currentFields.includes("education") && !formData.education) {
+      newErrors.education = "This field is required";
+    }
+
+    if (currentFields.includes("currentAddress") && !formData.currentAddress) {
+      newErrors.currentAddress = "This field is required";
+    }
+
+    if (currentFields.includes("gender") && !formData.gender) {
+      newErrors.gender = "Please select your gender";
     }
     
-    if (currentFields.includes('email') && !formData.email) {
-      newErrors.email = 'This field is required';
+    // Regional information validation
+    if (currentFields.includes("regionalAssembly") && !formData.regionalAssembly) {
+      newErrors.regionalAssembly = "Please select a regional assembly";
     }
     
-    if (currentFields.includes('bloodGroup') && !formData.bloodGroup) {
-      newErrors.bloodGroup = 'This field is required';
+    if (currentFields.includes("localPanchayatName") && !formData.localPanchayatName) {
+      newErrors.localPanchayatName = "Please select a local panchayat name";
     }
     
-    if (currentFields.includes('birthDate') && !formData.birthDate) {
-      newErrors.birthDate = 'This field is required';
+    if (currentFields.includes("localPanchayat") && !formData.localPanchayat) {
+      newErrors.localPanchayat = "Please select a local panchayat";
     }
     
-    if (currentFields.includes('education') && !formData.education) {
-      newErrors.education = 'This field is required';
+    if (currentFields.includes("subLocalPanchayat") && !formData.subLocalPanchayat) {
+      newErrors.subLocalPanchayat = "Please select a sub local panchayat";
     }
     
-    if (currentFields.includes('currentAddress') && !formData.currentAddress) {
-      newErrors.currentAddress = 'This field is required';
-    }
-    
-    if (currentFields.includes('gender') && !formData.gender) {
-      newErrors.gender = 'Please select your gender';
+    if (currentFields.includes("state") && !formData.state) {
+      newErrors.state = "Please select a state";
     }
     
     //  family details 
-    if (currentFields.includes('familyDetails')) {
-      [0, 1].forEach(index => {
+    if (currentFields.includes("familyDetails")) {
+      [0, 1].forEach((index) => {
         if (!formData.familyDetails[index].name) {
-          newErrors[`familyDetails.${index}.name`] = 'This field is required';
+          newErrors[`familyDetails.${index}.name`] = "This field is required";
         }
       });
     }
     
     //  biographical details 
-    if (currentFields.includes('manglik') && !formData.manglik) {
-      newErrors.manglik = 'This field is required';
+    if (currentFields.includes("manglik") && !formData.manglik) {
+      newErrors.manglik = "This field is required";
     }
     
-    if (currentFields.includes('grah') && !formData.grah) {
-      newErrors.grah = 'This field is required';
+    if (currentFields.includes("grah") && !formData.grah) {
+      newErrors.grah = "This field is required";
     }
     
-    if (currentFields.includes('handicap') && !formData.handicap) {
-      newErrors.handicap = 'This field is required';
+    if (currentFields.includes("handicap") && !formData.handicap) {
+      newErrors.handicap = "This field is required";
     }
     
-    if (currentFields.includes('gotra') && !formData.gotra) {
-      newErrors.gotra = 'This field is required';
+    // Only validate gotra and aakna if NOT married to another caste
+    if (currentFields.includes("gotra") && !formData.marriageToAnotherCaste && !formData.gotra) {
+      newErrors.gotra = "This field is required";
     }
     
     setErrors(newErrors);
@@ -282,14 +629,13 @@ const RegistrationForm = () => {
         setSubmitted(false);
         window.scrollTo(0, 0);
       } else {
-        
         handleSubmit();
       }
     } else {
       // Scroll to first error
-      const firstErrorField = document.querySelector('.error-field');
+      const firstErrorField = document.querySelector(".error-field");
       if (firstErrorField) {
-        firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstErrorField.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     }
   };
@@ -304,91 +650,104 @@ const RegistrationForm = () => {
 
   const uploadImage = async (file) => {
     const formData = new FormData();
-    formData.append('files', file);
+    formData.append("files", file);
   
-    const response = await fetch('http://localhost:1337/api/upload', {
-      method: 'POST',
+    const response = await fetch("http://localhost:1337/api/upload", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${import.meta.env.VITE_API_TOKEN}`,
+        Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
       },
       body: formData,
     });
   
     const result = await response.json();
-    return result[0]?.id; // Get the uploaded image ID
+    return result[0]?.id; 
   };
-  
 
   const handleSubmit = async () => {
     setLoading(true);
   
     try {
-      // Upload the image and get the ID
       let displayPictureId = null;
       if (formData.display_picture) {
         displayPictureId = await uploadImage(formData.display_picture);
       }
   
-   
       const strapiData = {
         family_details: {
-          father_name: formData.familyDetails[0]?.name || '',
-          mother_name: formData.familyDetails[1]?.name || '',
-          phone_number: formData.mobileNumber || '',
-          spouse_name: formData.familyDetails[2]?.name || '',
+          father_name: formData.familyDetails[0]?.name || "",
+          mother_name: formData.familyDetails[1]?.name || "",
+          phone_number: formData.mobileNumber || "",
+          spouse_name: formData.familyDetails[2]?.name || "",
         },
-        child_name: formData.familyDetails.slice(3).map(child => ({ child_name: child.name })),
+        child_name: formData.familyDetails
+          .slice(3)
+          .map((child) => ({ child_name: child.name })),
         biographical_details: {
-          Gotra: formData.gotra || '',
-          Aakna: formData.aakna || '',
-          Mama_Aakna: formData.mamaAakna || '',
-          manglik_status: formData.manglik || '',
-          Grah: formData.grah || '',
-          Handicap: formData.handicap || '',
+          Gotra: formData.marriageToAnotherCaste ? "Others" : formData.gotra || "",
+          Aakna: formData.marriageToAnotherCaste ? "Others" : formData.aakna || "",
+          manglik_status: formData.manglik || "",
+          Grah: formData.grah || "",
+          Handicap: formData.handicap || "",
+          is_married: formData.isMarried ? "Married" : "Unmarried",
+          marriage_to_another_caste: formData.marriageToAnotherCaste
+            ? "Married to Another Caste"
+            : "Same Caste Marriage",
         },
         personal_information: {
-          full_name: formData.name || '',
-          village: formData.village || '',
-          mobile_number: formData.mobileNumber || '',
-          email_address: formData.email || '',
+          full_name: formData.name || "",
+          village: formData.village || "",
+          mobile_number: formData.mobileNumber || "",
+          email_address: formData.email || "",
           display_picture: displayPictureId || null,
-          Gender: formData.gender || '',
+          Gender: formData.gender || "",
         },
         work_information: {
-          occupation: formData.occupation || '',
-          company_name: formData.companyName || '',
-          work_area: formData.workArea || '',
+          occupation: formData.occupation || "",
+          company_name: formData.companyName || "",
+          work_area: formData.workArea || "",
         },
         additional_details: {
-          blood_group: formData.bloodGroup || '',
-          date_of_birth: formData.birthDate || '',
-          date_of_marriage: formData.marriageDate || '',
-          higher_education: formData.education || '',
-          current_address: formData.currentAddress || '',
+          blood_group: formData.bloodGroup || "",
+          date_of_birth: formData.birthDate || "",
+          date_of_marriage: formData.marriageDate || "",
+          higher_education: formData.education || "",
+          current_address: formData.currentAddress || "",
+          regional_information: {
+            RegionalAssembly: formData.regionalAssembly || "",
+            LocalPanchayatName: formData.localPanchayatName || "",
+            LocalPanchayat: formData.localPanchayat || "",
+            SubLocalPanchayat: formData.subLocalPanchayat || "",
+            State: formData.state || "",
+          },
         },
         your_suggestions: {
-          suggestions: formData.suggestions || '',
+          suggestions: formData.suggestions || "",
         },
       };
-  
-      const response = await fetch('http://localhost:1337/api/registration-pages', {
-        method: 'POST',
+
+      const response = await fetch(
+        "http://localhost:1337/api/registration-pages",
+        {
+          method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_API_TOKEN}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
         },
         body: JSON.stringify({ data: strapiData }),
-      });
+        }
+      );
   
       if (!response.ok) {
-        throw new Error('Failed to submit form');
+        throw new Error("Failed to submit form");
       }
   
       const result = await response.json();
-      console.log('Form submitted successfully:', result);
+      console.log("Form submitted successfully:", result);
   
-      const successPopup = document.createElement('div');
-      successPopup.className = 'fixed inset-0 flex items-center justify-center z-50';
+      const successPopup = document.createElement("div");
+      successPopup.className =
+        "fixed inset-0 flex items-center justify-center z-50";
       successPopup.innerHTML = `
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         <div class="bg-white rounded-lg p-6 shadow-xl max-w-md w-full mx-4 relative z-10 border-2 border-[#FD7D01]">
@@ -407,25 +766,23 @@ const RegistrationForm = () => {
         </div>
       `;
       document.body.appendChild(successPopup);
-      const progressBar = document.getElementById('progress-bar');
+      const progressBar = document.getElementById("progress-bar");
       setTimeout(() => {
-        progressBar.style.width = '100%';
+        progressBar.style.width = "100%";
       }, 100);
 
-      // Redirect after delay
+      
       setTimeout(() => {
         document.body.removeChild(successPopup);
-        window.location.href = '/';
-      }, 2500); // Increased delay to ensure the progress bar completes
-      
+        window.location.href = "/";
+      }, 2500); 
     } catch (error) {
-      console.error('Error submitting form:', error);
-      alert('Failed to submit form. Please try again.');
+      console.error("Error submitting form:", error);
+      alert("Failed to submit form. Please try again.");
     } finally {
       setLoading(false);
     }
   };
-  
 
   const hasError = (fieldName) => {
     return submitted && errors[fieldName];
@@ -436,16 +793,15 @@ const RegistrationForm = () => {
   };
 
   const addChild = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       familyDetails: [
         ...prev.familyDetails,
-        { relation: 'Child', name: '', mobileNumber: '' }
-      ]
+        { relation: "Child", name: "", mobileNumber: "" },
+      ],
     }));
   };
 
- 
   const renderStepContent = () => {
     switch (currentStep) {
       case 0:
@@ -454,8 +810,17 @@ const RegistrationForm = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
                 <label className="text-sm font-medium text-gray-700 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   Full Name
                 </label>
@@ -465,18 +830,25 @@ const RegistrationForm = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('name') ? 'border-red-500 bg-red-50 error-field' : 'border-gray-300'
+                    hasError("name")
+                      ? "border-red-500 bg-red-50 error-field"
+                      : "border-gray-300"
                   }`}
                   placeholder="Enter your full name"
                 />
-                {hasError('name') && (
+                {hasError("name") && (
                   <p className="text-red-500 text-xs">{errors.name}</p>
                 )}
               </div>
 
               <div className="space-y-3">
                 <label className="text-sm font-medium text-gray-700 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                   </svg>
                   Mobile Number
@@ -487,7 +859,9 @@ const RegistrationForm = () => {
                   value={formData.mobileNumber}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('mobileNumber') ? 'border-red-500 bg-red-50 error-field' : 'border-gray-300'
+                    hasError("mobileNumber")
+                      ? "border-red-500 bg-red-50 error-field"
+                      : "border-gray-300"
                   }`}
                   pattern="[0-9]*"
                   inputMode="numeric"
@@ -495,15 +869,24 @@ const RegistrationForm = () => {
                   placeholder="10-digit mobile number"
                   disabled={location.state?.fromLogin}
                 />
-                {hasError('mobileNumber') && (
+                {hasError("mobileNumber") && (
                   <p className="text-red-500 text-xs">{errors.mobileNumber}</p>
                 )}
               </div>
 
               <div className="space-y-3">
                 <label className=" text-sm font-medium text-gray-700 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   Village
                 </label>
@@ -513,19 +896,30 @@ const RegistrationForm = () => {
                   value={formData.village}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('village') ? 'border-red-500 bg-red-50 error-field' : 'border-gray-300'
+                    hasError("village")
+                      ? "border-red-500 bg-red-50 error-field"
+                      : "border-gray-300"
                   }`}
                   placeholder="Enter your village name"
                 />
-                {hasError('village') && (
+                {hasError("village") && (
                   <p className="text-red-500 text-xs">{errors.village}</p>
                 )}
               </div>
 
               <div className="space-y-3">
                 <label className=" text-sm font-medium text-gray-700 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M14.243 5.757a6 6 0 10-.986 9.284 1 1 0 111.087 1.678A8 8 0 1118 10a3 3 0 01-4.8 2.401A4 4 0 1114 10a1 1 0 102 0c0-1.537-.586-3.07-1.757-4.243zM12 10a2 2 0 10-4 0 2 2 0 004 0z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M14.243 5.757a6 6 0 10-.986 9.284 1 1 0 111.087 1.678A8 8 0 1118 10a3 3 0 01-4.8 2.401A4 4 0 1114 10a1 1 0 102 0c0-1.537-.586-3.07-1.757-4.243zM12 10a2 2 0 10-4 0 2 2 0 004 0z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   Email Address
                 </label>
@@ -535,19 +929,30 @@ const RegistrationForm = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('email') ? 'border-red-500 bg-red-50 error-field' : 'border-gray-300'
+                    hasError("email")
+                      ? "border-red-500 bg-red-50 error-field"
+                      : "border-gray-300"
                   }`}
                   placeholder="Enter your email address"
                 />
-                {hasError('email') && (
+                {hasError("email") && (
                   <p className="text-red-500 text-xs">{errors.email}</p>
                 )}
               </div>
 
               <div className="space-y-3 md:col-span-2">
                 <label className=" text-sm font-medium text-gray-700 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   Gender
                 </label>
@@ -557,8 +962,10 @@ const RegistrationForm = () => {
                         type="radio"
                         name="gender"
                         value="Male"
-                        checked={formData.gender === 'Male'}
-                        onChange={(e) => setFormData({...formData, gender: e.target.value})}
+                      checked={formData.gender === "Male"}
+                      onChange={(e) =>
+                        setFormData({ ...formData, gender: e.target.value })
+                      }
                         className="h-4 w-4 text-red-700 focus:ring-red-500"
                       />
                       <span className="ml-2 text-sm text-gray-700">Male</span>
@@ -568,15 +975,17 @@ const RegistrationForm = () => {
                         type="radio"
                         name="gender"
                         value="Female"
-                        checked={formData.gender === 'Female'}
-                        onChange={(e) => setFormData({...formData, gender: e.target.value})}
+                      checked={formData.gender === "Female"}
+                      onChange={(e) =>
+                        setFormData({ ...formData, gender: e.target.value })
+                      }
                         className="h-4 w-4 text-red-700 focus:ring-red-500"
                       />
                       <span className="ml-2 text-sm text-gray-700">Female</span>
                     </label>
                   </div>
 
-                {hasError('gender') && (
+                {hasError("gender") && (
                   <p className="text-red-500 text-xs">{errors.gender}</p>
                 )}
               </div>
@@ -590,8 +999,17 @@ const RegistrationForm = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
                 <label className=" text-sm font-medium text-gray-700 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   Blood Group
                 </label>
@@ -601,19 +1019,30 @@ const RegistrationForm = () => {
                   value={formData.bloodGroup}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('bloodGroup') ? 'border-red-500 bg-red-50 error-field' : 'border-gray-300'
+                    hasError("bloodGroup")
+                      ? "border-red-500 bg-red-50 error-field"
+                      : "border-gray-300"
                   }`}
                   placeholder="Enter your blood group"
                 />
-                {hasError('bloodGroup') && (
+                {hasError("bloodGroup") && (
                   <p className="text-red-500 text-xs">{errors.bloodGroup}</p>
                 )}
               </div>
 
               <div className="space-y-3">
                 <label className=" text-sm font-medium text-gray-700 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   Date of Birth
                 </label>
@@ -623,17 +1052,24 @@ const RegistrationForm = () => {
                   value={formData.birthDate}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('birthDate') ? 'border-red-500 bg-red-50 error-field' : 'border-gray-300'
+                    hasError("birthDate")
+                      ? "border-red-500 bg-red-50 error-field"
+                      : "border-gray-300"
                   }`}
                 />
-                {hasError('birthDate') && (
+                {hasError("birthDate") && (
                   <p className="text-red-500 text-xs">{errors.birthDate}</p>
                 )}
               </div>
 
               <div className="space-y-3">
                 <label className=" text-sm font-medium text-gray-700 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
                     <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
                   </svg>
                   Date of Marriage
@@ -644,14 +1080,21 @@ const RegistrationForm = () => {
                   value={formData.marriageDate}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('marriageDate') ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                    hasError("marriageDate")
+                      ? "border-red-500 bg-red-50"
+                      : "border-gray-300"
                   }`}
                 />
               </div>
 
               <div className="space-y-3">
                 <label className=" text-sm font-medium text-gray-700 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
                     <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
                   </svg>
                   Highest Education
@@ -662,19 +1105,30 @@ const RegistrationForm = () => {
                   value={formData.education}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('education') ? 'border-red-500 bg-red-50 error-field' : 'border-gray-300'
+                    hasError("education")
+                      ? "border-red-500 bg-red-50 error-field"
+                      : "border-gray-300"
                   }`}
                   placeholder="Enter your highest education"
                 />
-                {hasError('education') && (
+                {hasError("education") && (
                   <p className="text-red-500 text-xs">{errors.education}</p>
                 )}
               </div>
 
               <div className="md:col-span-2 space-y-3">
                 <label className=" text-sm font-medium text-gray-700 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   Current Address
                 </label>
@@ -683,15 +1137,22 @@ const RegistrationForm = () => {
                   value={formData.currentAddress}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('currentAddress') ? 'border-red-500 bg-red-50 error-field' : 'border-gray-300'
+                    hasError("currentAddress")
+                      ? "border-red-500 bg-red-50 error-field"
+                      : "border-gray-300"
                   }`}
                   rows="3"
                   placeholder="Enter your current address"
                 />
-                {hasError('currentAddress') && (
-                  <p className="text-red-500 text-xs">{errors.currentAddress}</p>
+                {hasError("currentAddress") && (
+                  <p className="text-red-500 text-xs">
+                    {errors.currentAddress}
+                  </p>
                 )}
               </div>
+
+              {/* Regional Information Section */}
+              {renderRegionalInformation()}
             </div>
           </div>
         );
@@ -701,19 +1162,37 @@ const RegistrationForm = () => {
           <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2 text-red-700"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
                   <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
                 </svg>
-                <h2 className="text-base font-semibold text-gray-800">Family Details</h2>
+                <h2 className="text-base font-semibold text-gray-800">
+                  Family Details
+                </h2>
               </div>
-              {formData.familyDetails.filter(member => member.relation === 'Child').length < 4 && (
+              {formData.familyDetails.filter(
+                (member) => member.relation === "Child"
+              ).length < 4 && (
                 <button
                   type="button"
                   onClick={addChild}
                   className="flex items-center text-sm text-red-700 hover:text-red-800 transition-colors duration-200"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-1"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   Add Child
                 </button>
@@ -725,36 +1204,67 @@ const RegistrationForm = () => {
                 <table className="w-full text-xs divide-y divide-slate-200 border border-slate-200 rounded-lg overflow-hidden">
                   <thead>
                     <tr className="bg-slate-50">
-                      <th className="px-2 py-2 text-left font-medium text-slate-700">Sr.</th>
-                      <th className="px-2 py-2 text-left font-medium text-slate-700">Relation</th>
-                      <th className="px-2 py-2 text-left font-medium text-slate-700">Name</th>
-                      <th className="px-2 py-2 text-left font-medium text-slate-700">Mobile</th>
+                      <th className="px-2 py-2 text-left font-medium text-slate-700">
+                        Sr.
+                      </th>
+                      <th className="px-2 py-2 text-left font-medium text-slate-700">
+                        Relation
+                      </th>
+                      <th className="px-2 py-2 text-left font-medium text-slate-700">
+                        Name
+                      </th>
+                      <th className="px-2 py-2 text-left font-medium text-slate-700">
+                        Mobile
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200">
                     {formData.familyDetails.map((member, index) => (
-                      <tr key={index} className="hover:bg-slate-50/50 transition-colors duration-150">
-                        <td className="px-2 py-2 whitespace-nowrap">{index + 1}</td>
-                        <td className="px-2 py-2 whitespace-nowrap font-medium text-slate-700">{member.relation}</td>
+                      <tr
+                        key={index}
+                        className="hover:bg-slate-50/50 transition-colors duration-150"
+                      >
+                        <td className="px-2 py-2 whitespace-nowrap">
+                          {index + 1}
+                        </td>
+                        <td className="px-2 py-2 whitespace-nowrap font-medium text-slate-700">
+                          {member.relation}
+                        </td>
                         <td className="px-2 py-2">
                           <input
                             type="text"
                             value={member.name}
-                            onChange={(e) => handleFamilyDetailChange(index, 'name', e.target.value)}
+                            onChange={(e) =>
+                              handleFamilyDetailChange(
+                                index,
+                                "name",
+                                e.target.value
+                              )
+                            }
                             className={`w-full px-2 py-1 text-xs border rounded focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                              hasFamilyError(index, 'name') ? 'border-red-500 bg-red-50 error-field' : 'border-gray-300'
+                              hasFamilyError(index, "name")
+                                ? "border-red-500 bg-red-50 error-field"
+                                : "border-gray-300"
                             }`}
                             placeholder="Enter name"
                           />
-                          {hasFamilyError(index, 'name') && (
-                            <p className="text-red-500 text-xs mt-1">{errors[`familyDetails.${index}.name`]}</p>
+                          {hasFamilyError(index, "name") && (
+                            <p className="text-red-500 text-xs mt-1">
+                              {errors[`familyDetails.${index}.name`]}
+                            </p>
                           )}
                         </td>
                         <td className="px-2 py-2">
                           <input
                             type="tel"
                             value={member.mobileNumber}
-                            onChange={(e) => handleFamilyDetailChange(index, 'mobileNumber', e.target.value)}
+                            onChange={(e) =>
+                              handleFamilyDetailChange(
+                                index,
+                                "mobileNumber",
+                                e.target.value
+                              )
+                            }
                             className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200"
                             pattern="[0-9]*"
                             inputMode="numeric"
@@ -768,27 +1278,164 @@ const RegistrationForm = () => {
                 </table>
               </div>
             </div>
-            <p className="text-xs text-gray-500 italic mt-2">Note: Fill in details for family members you wish to register. Father and Mother details are required.</p>
+            <p className="text-xs text-gray-500 italic mt-2">
+              Note: Fill in details for family members you wish to register.
+              Father and Mother details are required.
+            </p>
           </div>
         );
         
       case 3:
         return (
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-            <div className="flex items-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
+          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md border border-gray-200">
+            <div className="flex items-center mb-4 sm:mb-6 pb-2 sm:pb-3 border-b border-gray-100">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3 text-red-700"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
                 <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
               </svg>
-              <h2 className="text-lg font-semibold text-gray-800">Biographical Details</h2>
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
+                Biographical Details
+              </h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Married Status */}
+            <div className="mb-6 sm:mb-8 bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+              <h3 className="text-sm sm:text-md font-medium text-gray-700 mb-2 sm:mb-3 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2 text-red-600"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+                </svg>
+                Marital Status
+              </h3>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center sm:space-x-8 space-y-2 sm:space-y-0 px-3 sm:px-4 py-2 sm:py-3 bg-white rounded-lg shadow-sm">
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="isMarried"
+                    value="yes"
+                    checked={formData.isMarried === true}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        isMarried: e.target.value === "yes",
+                        // Reset marriage to another caste if not married
+                        marriageToAnotherCaste:
+                          e.target.value !== "yes"
+                            ? false
+                            : prev.marriageToAnotherCaste,
+                      }))
+                    }
+                    className="h-4 w-4 text-red-700 focus:ring-red-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Married</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="isMarried"
+                    value="no"
+                    checked={formData.isMarried === false}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        isMarried: e.target.value === "yes",
+                        // Reset marriage to another caste if not married
+                        marriageToAnotherCaste: false,
+                      }))
+                    }
+                    className="h-4 w-4 text-red-700 focus:ring-red-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Unmarried</span>
+                </label>
+              </div>
+            </div>
+
+            {/* Marriage to Another Caste - Only show if married */}
+            {formData.isMarried && (
+              <div className="mb-6 sm:mb-8 bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                <h3 className="text-sm sm:text-md font-medium text-gray-700 mb-2 sm:mb-3 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2 text-red-600"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+                  </svg>
+                  Marriage Type
+                </h3>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center sm:space-x-8 space-y-2 sm:space-y-0 px-3 sm:px-4 py-2 sm:py-3 bg-white rounded-lg shadow-sm">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="marriageToAnotherCaste"
+                      value="yes"
+                      checked={formData.marriageToAnotherCaste === true}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          marriageToAnotherCaste: e.target.value === "yes",
+                          gotra: e.target.value === "yes" ? "" : prev.gotra,
+                          aakna: e.target.value === "yes" ? "" : prev.aakna,
+                        }))
+                      }
+                      className="h-4 w-4 text-red-700 focus:ring-red-500"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">
+                      Married to Another Caste
+                    </span>
+                  </label>
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="marriageToAnotherCaste"
+                      value="no"
+                      checked={formData.marriageToAnotherCaste === false}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          marriageToAnotherCaste: e.target.value === "yes",
+                        }))
+                      }
+                      className="h-4 w-4 text-red-700 focus:ring-red-500"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">
+                      Same Caste Marriage
+                    </span>
+                  </label>
+                </div>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* Manglik Status */}
-              <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700">Manglik Status</label>
-                <div className="space-y-2 px-4 py-2.5 border border-gray-300 rounded-lg bg-white">
-                  {['Manglik', 'Non Manglik', 'Aanshik', 'Other'].map((option) => (
-                    <label key={option} className="flex items-center text-sm">
+              <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md">
+                <label className=" text-sm font-medium text-gray-700 mb-2 sm:mb-3 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2 text-red-600"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" />
+                  </svg>
+                  Manglik Status
+                </label>
+                <div className="space-y-1 sm:space-y-2 px-3 sm:px-4 py-2 rounded-lg border border-gray-100 bg-gray-50">
+                  {["Manglik", "Non Manglik", "Aanshik", "Other"].map(
+                    (option) => (
+                      <label
+                        key={option}
+                        className="flex items-center text-sm cursor-pointer hover:bg-gray-100 p-1 sm:p-2 rounded"
+                      >
                       <input
                         type="radio"
                         name="manglik"
@@ -799,19 +1446,35 @@ const RegistrationForm = () => {
                       />
                       <span>{option}</span>
                     </label>
-                  ))}
+                    )
+                  )}
                 </div>
-                {hasError('manglik') && (
-                  <p className="text-red-500 text-xs">{errors.manglik}</p>
+                {hasError("manglik") && (
+                  <p className="text-red-500 text-xs mt-2 ml-1">
+                    {errors.manglik}
+                  </p>
                 )}
               </div>
               
               {/* Grah */}
-              <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700">Grah</label>
-                <div className="space-y-2 px-4 py-2.5 border border-gray-300 rounded-lg bg-white">
-                  {['Devta', 'Manushya', 'Rakshasa'].map((option) => (
-                    <label key={option} className="flex items-center text-sm">
+              <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md">
+                <label className=" text-sm font-medium text-gray-700 mb-2 sm:mb-3 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2 text-red-600"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z" />
+                  </svg>
+                  Grah
+                </label>
+                <div className="space-y-1 sm:space-y-2 px-3 sm:px-4 py-2 rounded-lg border border-gray-100 bg-gray-50">
+                  {["Devta", "Manushya", "Rakshasa"].map((option) => (
+                    <label
+                      key={option}
+                      className="flex items-center text-sm cursor-pointer hover:bg-gray-100 p-1 sm:p-2 rounded"
+                    >
                       <input
                         type="radio"
                         name="grah"
@@ -824,17 +1487,36 @@ const RegistrationForm = () => {
                     </label>
                   ))}
                 </div>
-                {hasError('grah') && (
-                  <p className="text-red-500 text-xs">{errors.grah}</p>
+                {hasError("grah") && (
+                  <p className="text-red-500 text-xs mt-2 ml-1">
+                    {errors.grah}
+                  </p>
                 )}
               </div>
               
               {/* Handicap */}
-              <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700">Handicap</label>
-                <div className="space-y-2 px-4 py-2.5 border border-gray-300 rounded-lg bg-white">
-                  {['None', 'Physically', 'Mentally', 'Other'].map((option) => (
-                    <label key={option} className="flex items-center text-sm">
+              <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md">
+                <label className=" text-sm font-medium text-gray-700 mb-2 sm:mb-3 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2 text-red-600"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Handicap
+                </label>
+                <div className="space-y-1 sm:space-y-2 px-3 sm:px-4 py-2 rounded-lg border border-gray-100 bg-gray-50">
+                  {["None", "Physically", "Mentally", "Other"].map((option) => (
+                    <label
+                      key={option}
+                      className="flex items-center text-sm cursor-pointer hover:bg-gray-100 p-1 sm:p-2 rounded"
+                    >
                       <input
                         type="radio"
                         name="handicap"
@@ -847,82 +1529,137 @@ const RegistrationForm = () => {
                     </label>
                   ))}
                 </div>
-                {hasError('handicap') && (
-                  <p className="text-red-500 text-xs">{errors.handicap}</p>
+                {hasError("handicap") && (
+                  <p className="text-red-500 text-xs mt-2 ml-1">
+                    {errors.handicap}
+                  </p>
                 )}
               </div>
               
+              {/* Show Gotra fields only if marriageToAnotherCaste is false */}
+              {!formData.marriageToAnotherCaste && (
+                <>
               {/* Gotra */}
-              <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700">Gotra</label>
+                  <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md md:col-span-1 lg:col-span-1">
+                    <label className=" text-sm font-medium text-gray-700 mb-2 sm:mb-3 flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2 text-red-600"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.715-5.349L11 6.477V16h2a1 1 0 110 2H7a1 1 0 110-2h2V6.477L6.237 7.582l1.715 5.349a1 1 0 01-.285 1.05A3.989 3.989 0 015 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.617a1 1 0 01.894-1.788l1.599.799L9 4.323V3a1 1 0 011-1z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Gotra
+                    </label>
                 <select
                   name="gotra"
                   value={formData.gotra}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('gotra') ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                      className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
+                        hasError("gotra")
+                          ? "border-red-500 bg-red-50"
+                          : "border-gray-300"
                   }`}
                 >
                   <option value="">Select Gotra</option>
-                  {['Badal', 'Bhal', 'Gagal', 'Gol', 'Jaital', 'Kachil', 'Kasib', 'Kochal', 'Kohil'].map((option) => (
-                    <option key={option} value={option}>{option}</option>
+                      {[
+                        "Vasar/Vastil/Vasal",
+                        "Gol",
+                        "Gangal / Gagil",
+                        "Badal / Waghil / Bandal",
+                        "Kocchal / Kochil",
+                        "Jaital",
+                        "Vachhil",
+                        "Kachhil",
+                        "Bhaal",
+                        "Kohil",
+                        "Kasiv",
+                        "Kasav",
+                        "Single",
+                      ].map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
                   ))}
                 </select>
-                {hasError('gotra') && (
-                  <p className="text-red-500 text-xs">{errors.gotra}</p>
+                    {hasError("gotra") && (
+                      <p className="text-red-500 text-xs mt-2 ml-1">
+                        {errors.gotra}
+                      </p>
                 )}
               </div>
               
               {/* Aakna */}
-              <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700">Aakna</label>
+                  <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md md:col-span-1 lg:col-span-2">
+                    <label className=" text-sm font-medium text-gray-700 mb-2 sm:mb-3 flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2 text-red-600"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
+                      </svg>
+                      Aakna
+                    </label>
                 <select
                   name="aakna"
                   value={formData.aakna}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('aakna') ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                      className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
+                        hasError("aakna")
+                          ? "border-red-500 bg-red-50"
+                          : "border-gray-300"
                   }`}
                   disabled={!formData.gotra}
                 >
                   <option value="">Select Aakna</option>
                   {getAaknaOptions().map((option) => (
-                    <option key={option} value={option}>{option}</option>
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
                   ))}
                 </select>
-                {hasError('aakna') && (
-                  <p className="text-red-500 text-xs">{errors.aakna}</p>
+                    {hasError("aakna") && (
+                      <p className="text-red-500 text-xs mt-2 ml-1">
+                        {errors.aakna}
+                      </p>
                 )}
                 {!formData.gotra && (
-                  <p className="text-gray-500 text-xs">Select a Gotra first</p>
+                      <p className="text-gray-500 text-xs mt-2 ml-1 italic">
+                        Select a Gotra first to see available Aakna options
+                      </p>
                 )}
               </div>
-              
-              {/* Mama Aakna */}
-              <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700">Mama Aakna</label>
-                <select
-                  name="mamaAakna"
-                  value={formData.mamaAakna}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('mamaAakna') ? 'border-red-500 bg-red-50' : 'border-gray-300'
-                  }`}
-                >
-                  <option value="">Select Mama Aakna</option>
-                  {['Aasu', 'Amar', 'Amolya', 'Amoriya', 'Andhi', 'Baderiya', 'Badonya', 'Bajrangdiya', 'Bedar'].map((option) => (
-                    <option key={option} value={option}>{option}</option>
-                  ))}
-                </select>
-                {hasError('mamaAakna') && (
-                  <p className="text-red-500 text-xs">{errors.mamaAakna}</p>
-                )}
-              </div>
+                </>
+              )}
             </div>
             
-            <p className="text-xs text-gray-500 italic mt-4">
-              These details are important for community records and can be useful for various purposes.
-            </p>
+            <div className="mt-5 sm:mt-6 p-3 sm:p-4 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="flex items-start sm:items-center text-gray-700">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2 text-blue-600 flex-shrink-0 mt-0.5 sm:mt-0"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <p className="text-xs sm:text-sm text-gray-600">
+                  These details are important for community records and can be
+                  useful for various purposes.
+                </p>
+              </div>
+            </div>
           </div>
         );
         
@@ -930,67 +1667,93 @@ const RegistrationForm = () => {
         return (
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
             <div className="flex items-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 mr-2 text-red-700"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
+                  clipRule="evenodd"
+                />
                 <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
               </svg>
-              <h2 className="text-lg font-semibold text-gray-800">Work Information</h2>
+              <h2 className="text-lg font-semibold text-gray-800">
+                Work Information
+              </h2>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700">Occupation</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Occupation
+                </label>
                 <input
                   type="text"
                   name="occupation"
                   value={formData.occupation}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('occupation') ? 'border-red-500 bg-red-50 error-field' : 'border-gray-300'
+                    hasError("occupation")
+                      ? "border-red-500 bg-red-50 error-field"
+                      : "border-gray-300"
                   }`}
                   placeholder="Enter your occupation"
                 />
-                {hasError('occupation') && (
+                {hasError("occupation") && (
                   <p className="text-red-500 text-xs">{errors.occupation}</p>
                 )}
               </div>
               
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700">Company Name</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Company Name
+                </label>
                 <input
                   type="text"
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('companyName') ? 'border-red-500 bg-red-50 error-field' : 'border-gray-300'
+                    hasError("companyName")
+                      ? "border-red-500 bg-red-50 error-field"
+                      : "border-gray-300"
                   }`}
                   placeholder="Enter your company name"
                 />
-                {hasError('companyName') && (
+                {hasError("companyName") && (
                   <p className="text-red-500 text-xs">{errors.companyName}</p>
                 )}
               </div>
               
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700">Work Area</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Work Area
+                </label>
                 <input
                   type="text"
                   name="workArea"
                   value={formData.workArea}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError('workArea') ? 'border-red-500 bg-red-50 error-field' : 'border-gray-300'
+                    hasError("workArea")
+                      ? "border-red-500 bg-red-50 error-field"
+                      : "border-gray-300"
                   }`}
                   placeholder="Enter your work area/location"
                 />
-                {hasError('workArea') && (
+                {hasError("workArea") && (
                   <p className="text-red-500 text-xs">{errors.workArea}</p>
                 )}
               </div>
               
               <div className="space-y-3 md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Would you like to help other community members with your skills/services?</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Would you like to help other community members with your
+                  skills/services?
+                </label>
                 <div className="flex items-center space-x-6">
                   <label className="inline-flex items-center">
                     <input
@@ -1015,13 +1778,16 @@ const RegistrationForm = () => {
                     <span className="ml-2 text-sm text-gray-700">No</span>
                   </label>
                 </div>
-                {hasError('helpOthers') && (
+                {hasError("helpOthers") && (
                   <p className="text-red-500 text-xs">{errors.helpOthers}</p>
                 )}
               </div>
               
               <div className="space-y-3 md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Can you provide any discounts or special services for community members?</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Can you provide any discounts or special services for
+                  community members?
+                </label>
                 <div className="flex items-center space-x-6">
                   <label className="inline-flex items-center">
                     <input
@@ -1046,8 +1812,10 @@ const RegistrationForm = () => {
                     <span className="ml-2 text-sm text-gray-700">No</span>
                   </label>
                 </div>
-                {hasError('provideDiscount') && (
-                  <p className="text-red-500 text-xs">{errors.provideDiscount}</p>
+                {hasError("provideDiscount") && (
+                  <p className="text-red-500 text-xs">
+                    {errors.provideDiscount}
+                  </p>
                 )}
               </div>
             </div>
@@ -1058,16 +1826,29 @@ const RegistrationForm = () => {
         return (
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
             <div className="flex items-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-red-700" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M5 2a2 2 0 00-2 2v14l3.5-2 3.5 2 3.5-2 3.5 2V4a2 2 0 00-2-2H5zm4.707 3.707a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L8.414 9H10a3 3 0 013 3v1a1 1 0 102 0v-1a5 5 0 00-5-5H8.414l1.293-1.293z" clipRule="evenodd" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 mr-2 text-red-700"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5 2a2 2 0 00-2 2v14l3.5-2 3.5 2 3.5-2 3.5 2V4a2 2 0 00-2-2H5zm4.707 3.707a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L8.414 9H10a3 3 0 013 3v1a1 1 0 102 0v-1a5 5 0 00-5-5H8.414l1.293-1.293z"
+                  clipRule="evenodd"
+                />
               </svg>
-              <h2 className="text-lg font-semibold text-gray-800">Final Submission</h2>
+              <h2 className="text-lg font-semibold text-gray-800">
+                Final Submission
+              </h2>
             </div>
             
             <div className="space-y-6">
               <div className="bg-slate-50 p-5 rounded-lg border border-slate-200">
                 <div className="mb-3">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Your Suggestions:</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Your Suggestions:
+                  </label>
                   <textarea
                     name="suggestions"
                     value={formData.suggestions}
@@ -1081,13 +1862,15 @@ const RegistrationForm = () => {
               <div className="bg-slate-50 p-5 rounded-lg border border-slate-200">
                 <div className="text-center">
                   <div className="mb-2 text-sm font-medium text-gray-700">
-                    By submitting this form, I confirm that the information provided is accurate to the best of my knowledge.
+                    By submitting this form, I confirm that the information
+                    provided is accurate to the best of my knowledge.
                   </div>
                 </div>
               </div>
               
               <div className="text-center text-gray-500 text-sm">
-                Thank you for completing the registration form. Your information will be processed shortly.
+                Thank you for completing the registration form. Your information
+                will be processed shortly.
               </div>
             </div>
           </div>
@@ -1098,24 +1881,1077 @@ const RegistrationForm = () => {
     }
   };
 
+  const states = [
+    "Bihar",
+    "Chhatisgarh",
+    "Delhi",
+    "Gujarat",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Rajasthan",
+    "Uttarpradesh",
+  ];
+
+  // Arrays for regional assemblies
+  const regionalAssemblies = [
+    "Chambal Regional Assembly",
+    "Ganga Jamuna Regional Assembly",
+    "Bundelkhand Regional Assembly",
+    "Chaurasi Regional Assembly",
+    "Central Malwa Regional Assembly",
+    "Mahakaushal Regional Assembly",
+    "Vindhya Regional Assembly",
+    "Chhattisgarh Regional Assembly",
+    "Southern Regional Assembly",
+    "Northern Regional Assembly",
+  ];
+
+  // Add Southern Regional Assembly panchayat names
+  const southernPanchayatNames = ["Gahoi Vaishya Panchayat"];
+
+  // Add Mahakaushal Regional Assembly panchayat names
+  const mahakaushalPanchayatNames = [
+    "Gahoi Vaishya Panchayat",
+    "Gahoi Vaishya Samaj Panchayat",
+    "Shri Gahoi Vaishya Panchayat",
+    "Gahoi Vaishya Samaj",
+    "Gahoi Vaishya Panchayat Parishad",
+    "Shri Gahoi Vaishya Samaj",
+  ];
+
+  // Add Central Malwa Regional Assembly panchayat names
+  const centralMalwaPanchayatNames = [
+    "Gahoi Vaishya Samaj",
+    "Gahoi Vaishya Panchayat",
+    "Gahoi Vaishya Samaj Kalyan Samiti",
+    "Gahoi Vaishya Samaj Panchayat",
+    "Shri Gahoi Vaishya Samaj Panchayat",
+  ];
+
+  // Local panchayat names for Chambal Regional Assembly
+  const chambalPanchayatNames = [
+    "Gahoi Vaishya Samaj Register Brahttar Gwalior",
+    "Gahoi Vaishya Panchayat",
+    "Gahoi Vaishya Sabha",
+    "Gahoi Vaishya Samaj",
+  ];
+
+  // Updated mapping for Ganga Jamuna Regional Assembly
+  const gangaJamunaPanchayatNames = [
+    "Gahoi Seva Mandal",
+    "Gahoi Vaishya Seva Samiti",
+    "Gahoi Vaishya Samaj Panchayat",
+    "Gahoi Vaishya Panchayat Samiti",
+    "Gahoi Vaishya Kalyan Samiti",
+    "Gahoi Vaishya Yuva Samiti",
+    "Gahoi Vaishya Panchayat",
+    "Gahoi Vaishya Samaj",
+  ];
+
+  // Add Bundelkhand Regional Assembly panchayat names
+  const bundelkhandPanchayatNames = [
+    "Gahoi Vaishya Panchayat",
+    "Shri Gahoi Vaishya Panchayat",
+    "Shri Gahoi Vaishya Seva Samiti",
+    "Shri Daudayal Gahoi Vaishya Seva Samiti",
+    "Gahoi Vaishya Seva Samiti",
+  ];
+
+  // Add Chaurasi Regional Assembly panchayat names
+  const chaurasi_PanchayatNames = [
+    "Gahoi Vaishya Panchayat",
+    "Shri Gahoi Vaishya Sabha",
+    "Gahoi Vaishya Samaj",
+  ];
+
+  // Add Vindhya Regional Assembly panchayat names
+  const vindhyaPanchayatNames = [
+    "Gahoi Vaishya Panchayat",
+    "Gahoi Vaishya Samaj",
+    "Shri Gahoi Vaishya Sabha",
+  ];
+
+  // Add Chhattisgarh Regional Assembly panchayat names
+  const chhattisgarhPanchayatNames = [
+    "Gahoi Vaishya Panchayat",
+    "Gahoi Vaishya Samaj",
+  ];
+
+  // Add Northern Regional Assembly panchayat names
+  const northernPanchayatNames = [
+    "Gahoi Vaishya Vikas Sansthan",
+    "Shri Gahoi Vaishya Association",
+  ];
+
+  // local panchayat names based on regional assembly
+  const getFilteredLocalPanchayatNames = () => {
+    if (formData.regionalAssembly === "Chambal Regional Assembly") {
+      return chambalPanchayatNames;
+    } else if (formData.regionalAssembly === "Ganga Jamuna Regional Assembly") {
+      return gangaJamunaPanchayatNames;
+    } else if (formData.regionalAssembly === "Bundelkhand Regional Assembly") {
+      return bundelkhandPanchayatNames;
+    } else if (formData.regionalAssembly === "Chaurasi Regional Assembly") {
+      return chaurasi_PanchayatNames;
+    } else if (
+      formData.regionalAssembly === "Central Malwa Regional Assembly"
+    ) {
+      return centralMalwaPanchayatNames;
+    } else if (formData.regionalAssembly === "Mahakaushal Regional Assembly") {
+      return mahakaushalPanchayatNames;
+    } else if (formData.regionalAssembly === "Vindhya Regional Assembly") {
+      return vindhyaPanchayatNames;
+    } else if (formData.regionalAssembly === "Chhattisgarh Regional Assembly") {
+      return chhattisgarhPanchayatNames;
+    } else if (formData.regionalAssembly === "Southern Regional Assembly") {
+      return southernPanchayatNames;
+    } else if (formData.regionalAssembly === "Northern Regional Assembly") {
+      return northernPanchayatNames;
+    }
+    return [];
+  };
+
+  //  local panchayats based on local panchayat name and regional assembly
+  const getFilteredLocalPanchayats = () => {
+    // For Northern Regional Assembly mappings
+    if (formData.regionalAssembly === "Northern Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Vikas Sansthan") {
+        return ["Mathura"];
+      } else if (
+        formData.localPanchayatName === "Shri Gahoi Vaishya Association"
+      ) {
+        return ["Delhi"];
+      }
+      return [];
+    }
+
+    // For Southern Regional Assembly mappings
+    if (formData.regionalAssembly === "Southern Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        return [
+          "Nagpur",
+          "Pune",
+          "Amravati",
+          "Mumbai",
+          "Chalisgaon",
+          "Dhuliya",
+          "Other",
+        ];
+      }
+      return [];
+    }
+
+    // For Chhattisgarh Regional Assembly mappings
+    if (formData.regionalAssembly === "Chhattisgarh Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        return [
+          "Durg",
+          "Rajnandgaon",
+          "Dhamtari",
+          "Raipur",
+          "Bilaspur",
+          "Nagpur",
+          "Pune",
+          "Amravati",
+          "Mumbai",
+          "Chalisgaon",
+          "Dhuliya",
+          "Other",
+        ];
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Samaj") {
+        return ["Jagdalpur", "Baikunthpur"];
+      }
+      return [];
+    }
+
+    // For Vindhya Regional Assembly mappings
+    if (formData.regionalAssembly === "Vindhya Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        return ["Chhatarpur", "Panna", "Satna", "Rewa"];
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Samaj") {
+        return ["Mahoba"];
+      } else if (formData.localPanchayatName === "Shri Gahoi Vaishya Sabha") {
+        return ["Patna City"];
+      }
+      return [];
+    }
+
+    // For Mahakaushal Regional Assembly mappings
+    if (formData.regionalAssembly === "Mahakaushal Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        return [
+          "Narsinghpur",
+          "Jabalpur",
+          "Sagar",
+          "Seoni",
+          "Chhindwara",
+          "Panna",
+          "Hoshangabad",
+          "Mandla",
+          "Dindori",
+          "Guna",
+          "Sultanpur",
+        ];
+      } else if (
+        formData.localPanchayatName === "Gahoi Vaishya Samaj Panchayat"
+      ) {
+        return ["Narsinghpur"];
+      } else if (
+        formData.localPanchayatName === "Shri Gahoi Vaishya Panchayat"
+      ) {
+        return ["Umariya", "Sagar", "Chhindwara", "Hata", "Shahdol"];
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Samaj") {
+        return ["Sagar", "Katni"];
+      } else if (
+        formData.localPanchayatName === "Gahoi Vaishya Panchayat Parishad"
+      ) {
+        return ["Katni"];
+      } else if (formData.localPanchayatName === "Shri Gahoi Vaishya Samaj") {
+        return ["Jabalpur"];
+      }
+      return [];
+    }
+
+    // For Central Malwa Regional Assembly mappings
+    if (formData.regionalAssembly === "Central Malwa Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Samaj") {
+        return ["Indore"];
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        return ["Ujjain", "Bhopal"];
+      } else if (
+        formData.localPanchayatName === "Gahoi Vaishya Samaj Kalyan Samiti"
+      ) {
+        return ["Vidisha"];
+      } else if (
+        formData.localPanchayatName === "Gahoi Vaishya Samaj Panchayat"
+      ) {
+        return ["Bhopal"];
+      } else if (
+        formData.localPanchayatName === "Shri Gahoi Vaishya Samaj Panchayat"
+      ) {
+        return ["Raisen"];
+      }
+      return [];
+    }
+
+    // For Chaurasi Regional Assembly  mappings
+    if (formData.regionalAssembly === "Chaurasi Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        return ["Shivpuri", "Ashok Nagar", "Guna", "Ahmedabad"];
+      } else if (formData.localPanchayatName === "Shri Gahoi Vaishya Sabha") {
+        return ["Shivpuri"];
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Samaj") {
+        return ["Ashok Nagar"];
+      }
+      return [];
+    }
+
+    // If in Ganga Jamuna Regional Assembly mappings
+    if (formData.regionalAssembly === "Ganga Jamuna Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Panchayat Samiti") {
+        return ["Jalaun"];
+      } else if (
+        formData.localPanchayatName === "Gahoi Vaishya Kalyan Samiti"
+      ) {
+        return ["Kanpur"];
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Yuva Samiti") {
+        return ["Auraiya"];
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        return ["Lucknow"];
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Samaj") {
+        return ["Karvi"];
+      } else if (formData.localPanchayatName === "Gahoi Seva Mandal") {
+        return ["Jalaun"];
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Seva Samiti") {
+        return ["Jalaun"];
+      } else if (
+        formData.localPanchayatName === "Gahoi Vaishya Samaj Panchayat"
+      ) {
+        return ["Jalaun", "Banda"];
+      }
+      return [];
+    }
+
+    // If in Bundelkhand Regional Assembly mappings
+    if (formData.regionalAssembly === "Bundelkhand Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        return ["Jhansi", "Lalitpur"];
+      } else if (
+        formData.localPanchayatName === "Shri Gahoi Vaishya Panchayat"
+      ) {
+        return ["Jhansi", "Tikamgarh", "Lalitpur", "Ghasan"];
+      } else if (
+        formData.localPanchayatName === "Shri Gahoi Vaishya Seva Samiti"
+      ) {
+        return ["Jhansi"];
+      } else if (
+        formData.localPanchayatName ===
+        "Shri Daudayal Gahoi Vaishya Seva Samiti"
+      ) {
+        return ["Lalitpur"];
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Seva Samiti") {
+        return ["Lalitpur"];
+      }
+      // Add mappings for other Bundelkhand panchayat names
+      return [];
+    }
+
+    // Regular mapping for Chambal
+    return localPanchayatMapping[formData.localPanchayatName] || [];
+  };
+
+  // local panchayats based on local panchayat and regional assembly
+  const getFilteredSubLocalPanchayats = () => {
+    // For Northern Regional Assembly  mappings
+    if (formData.regionalAssembly === "Northern Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Vikas Sansthan") {
+        if (formData.localPanchayat === "Mathura") {
+          return ["Mathura"];
+        }
+      } else if (
+        formData.localPanchayatName === "Shri Gahoi Vaishya Association"
+      ) {
+        if (formData.localPanchayat === "Delhi") {
+          return ["Delhi"];
+        }
+      }
+      return [];
+    }
+
+    // For Southern Regional Assembly mappings
+    if (formData.regionalAssembly === "Southern Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        switch (formData.localPanchayat) {
+          case "Nagpur":
+            return ["Nagpur"];
+          case "Pune":
+            return ["Pune"];
+          case "Amravati":
+            return ["Amravati"];
+          case "Mumbai":
+            return ["Mumbai"];
+          case "Chalisgaon":
+            return ["Chalisgaon"];
+          case "Dhuliya":
+            return ["Dhuliya"];
+          case "Other":
+            return ["Other"];
+          default:
+            return [];
+        }
+      }
+      return [];
+    }
+
+    // For Chhattisgarh Regional Assembly mappings
+    if (formData.regionalAssembly === "Chhattisgarh Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        switch (formData.localPanchayat) {
+          case "Durg":
+            return ["Durg"];
+          case "Rajnandgaon":
+            return ["Rajnandgaon"];
+          case "Dhamtari":
+            return ["Dhamtari"];
+          case "Raipur":
+            return ["Raipur"];
+          case "Bilaspur":
+            return ["Bilaspur"];
+          case "Nagpur":
+            return ["Nagpur"];
+          case "Pune":
+            return ["Pune"];
+          case "Amravati":
+            return ["Amravati"];
+          case "Mumbai":
+            return ["Mumbai"];
+          case "Chalisgaon":
+            return ["Chalisgaon"];
+          case "Dhuliya":
+            return ["Dhuliya"];
+          case "Other":
+            return ["Other"];
+          default:
+            return [];
+        }
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Samaj") {
+        switch (formData.localPanchayat) {
+          case "Jagdalpur":
+            return ["Jagdalpur"];
+          case "Baikunthpur":
+            return ["Baikunthpur"];
+          default:
+            return [];
+        }
+      }
+      return [];
+    }
+
+    // For Vindhya Regional Assembly mappings
+    if (formData.regionalAssembly === "Vindhya Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        switch (formData.localPanchayat) {
+          case "Chhatarpur":
+            return [
+              "Bameetha",
+              "Chhatarpur",
+              "Maharajpur",
+              "Naugaon",
+              "Bijawar",
+              "Chandra Nagar",
+              "Gulgaj",
+              "Bakswaha",
+              "Gadhi Malhara",
+              "Lavkush Nagar",
+              "Alipur",
+              "Tatam",
+              "Harpalpur",
+              "Ishanagar",
+              "Bada Malhara",
+            ];
+          case "Panna":
+            return [
+              "Amanaganj",
+              "Panna",
+              "Ajaigarh",
+              "Gunnor",
+              "Mohendra",
+              "Simariya",
+              "Sunwani Kala",
+              "Kishangarh",
+            ];
+          case "Satna":
+            return ["Satna", "Nayagaon Chitrakoot"];
+          case "Rewa":
+            return ["Rewa"];
+          default:
+            return [];
+        }
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Samaj") {
+        if (formData.localPanchayat === "Mahoba") {
+          return ["Mahoba"];
+        }
+      } else if (formData.localPanchayatName === "Shri Gahoi Vaishya Sabha") {
+        if (formData.localPanchayat === "Patna City") {
+          return ["Patna City"];
+        }
+      }
+      return [];
+    }
+
+    // For Mahakaushal Regional Assembly mappings
+    if (formData.regionalAssembly === "Mahakaushal Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        switch (formData.localPanchayat) {
+          case "Narsinghpur":
+            return [
+              "Gote Gaon",
+              "Gadarwara",
+              "Barheta Narsinghpur",
+              "Narsinghpur",
+              "Mugawani",
+              "Chichli",
+              "Sai Kheda",
+            ];
+          case "Jabalpur":
+            return ["Jabalpur", "Khitola", "Sihora"];
+          case "Sagar":
+            return ["Rehli", "Sagar"];
+          case "Seoni":
+            return ["Ganesh Ganj", "Seoni"];
+          case "Chhindwara":
+            return ["Junnardev"];
+          case "Panna":
+            return ["Shahnagar", "Pawai", "Krishnagarh"];
+          case "Hoshangabad":
+            return ["Pipariya"];
+          case "Mandla":
+            return ["Mandla"];
+          case "Dindori":
+            return ["Dindori"];
+          case "Guna":
+            return ["Raghav Garh"];
+          case "Sultanpur":
+            return ["Visani"];
+          default:
+            return [];
+        }
+      } else if (
+        formData.localPanchayatName === "Gahoi Vaishya Samaj Panchayat"
+      ) {
+        if (formData.localPanchayat === "Narsinghpur") {
+          return ["Kareli", "Paloha", "Tendu Kheda", "Bedu"];
+        }
+      } else if (
+        formData.localPanchayatName === "Shri Gahoi Vaishya Panchayat"
+      ) {
+        switch (formData.localPanchayat) {
+          case "Umariya":
+            return ["Silaudi", "Masur Pani", "Dhuldhuli", "Deori"];
+          case "Sagar":
+            return ["Gadhakota", "Deori Kalan"];
+          case "Chhindwara":
+            return ["Chhindwara"];
+          case "Hata":
+            return ["Madhiya Do"];
+          case "Shahdol":
+            return ["Shahdol"];
+          default:
+            return [];
+        }
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Samaj") {
+        switch (formData.localPanchayat) {
+          case "Sagar":
+            return ["Shahgarh"];
+          case "Katni":
+            return ["Kanhwara"];
+          default:
+            return [];
+        }
+      } else if (
+        formData.localPanchayatName === "Gahoi Vaishya Panchayat Parishad"
+      ) {
+        if (formData.localPanchayat === "Katni") {
+          return ["Katni"];
+        }
+      } else if (formData.localPanchayatName === "Shri Gahoi Vaishya Samaj") {
+        if (formData.localPanchayat === "Jabalpur") {
+          return ["Machhgawan"];
+        }
+      }
+      return [];
+    }
+
+    // For Central Malwa Regional Assembly mappings
+    if (formData.regionalAssembly === "Central Malwa Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Samaj") {
+        if (formData.localPanchayat === "Indore") {
+          return ["Indore"];
+        }
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        if (formData.localPanchayat === "Ujjain") {
+          return ["Ujjain"];
+        } else if (formData.localPanchayat === "Bhopal") {
+          return ["Bhopal"];
+        }
+      } else if (
+        formData.localPanchayatName === "Gahoi Vaishya Samaj Kalyan Samiti"
+      ) {
+        if (formData.localPanchayat === "Vidisha") {
+          return ["Vidisha"];
+        }
+      } else if (
+        formData.localPanchayatName === "Gahoi Vaishya Samaj Panchayat"
+      ) {
+        if (formData.localPanchayat === "Bhopal") {
+          return ["Berasia"];
+        }
+      } else if (
+        formData.localPanchayatName === "Shri Gahoi Vaishya Samaj Panchayat"
+      ) {
+        if (formData.localPanchayat === "Raisen") {
+          return ["Begumganj"];
+        }
+      }
+      return [];
+    }
+
+    // For Chaurasi Regional Assembly mappings
+    if (formData.regionalAssembly === "Chaurasi Regional Assembly") {
+      if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        if (formData.localPanchayat === "Shivpuri") {
+          return [
+            "Shivpuri",
+            "Malhawani",
+            "Pipara",
+            "Semri",
+            "Bamore Damaroun",
+            "Manpura",
+            "Pichhore",
+          ];
+        } else if (formData.localPanchayat === "Ashok Nagar") {
+          return ["Ashok Nagar", "Bamore Kala"];
+        } else if (formData.localPanchayat === "Guna") {
+          return ["Guna"];
+        } else if (formData.localPanchayat === "Ahmedabad") {
+          return ["Gandhi Nagar"];
+        }
+      } else if (formData.localPanchayatName === "Shri Gahoi Vaishya Sabha") {
+        if (formData.localPanchayat === "Shivpuri") {
+          return ["Karera", "Bhonti"];
+        }
+      } else if (formData.localPanchayatName === "Gahoi Vaishya Samaj") {
+        if (formData.localPanchayat === "Ashok Nagar") {
+          return ["Dinara", "Guna"];
+        }
+      }
+      return [];
+    }
+
+    // For Ganga Jamuna Regional Assembly mappings
+    if (formData.regionalAssembly === "Ganga Jamuna Regional Assembly") {
+      if (
+        formData.localPanchayat === "Jalaun" &&
+        formData.localPanchayatName === "Gahoi Vaishya Panchayat Samiti"
+      ) {
+        return ["Jalaun"];
+      } else if (formData.localPanchayat === "Kanpur") {
+        return ["Kanpur"];
+      } else if (formData.localPanchayat === "Auraiya") {
+        return ["Auraiya"];
+      } else if (formData.localPanchayat === "Lucknow") {
+        return ["Lucknow"];
+      } else if (formData.localPanchayat === "Karvi") {
+        return ["Karvi"];
+      } else if (
+        formData.localPanchayat === "Jalaun" &&
+        formData.localPanchayatName === "Gahoi Seva Mandal"
+      ) {
+        return ["Orai"];
+      } else if (
+        formData.localPanchayat === "Jalaun" &&
+        formData.localPanchayatName === "Gahoi Vaishya Seva Samiti"
+      ) {
+        return ["Konch"];
+      } else if (
+        formData.localPanchayat === "Jalaun" &&
+        formData.localPanchayatName === "Gahoi Vaishya Samaj Panchayat"
+      ) {
+        return ["Madhogarh", "Jalaun"];
+      } else if (formData.localPanchayat === "Banda") {
+        return ["Banda"];
+      }
+      return [];
+    }
+
+    // For Bundelkhand Regional Assembly mappings
+    if (formData.regionalAssembly === "Bundelkhand Regional Assembly") {
+      // For Gahoi Vaishya Panchayat
+      if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
+        if (formData.localPanchayat === "Jhansi") {
+          return [
+            "Garotha",
+            "Barua Sagar",
+            "Simriddha",
+            "Tahrauli",
+            "Gursarai",
+            "Bamore",
+            "Poonch",
+            "Erich",
+            "BHEL Simrawali",
+            "Babina Cantt",
+            "Bangra Uldan Ranipur",
+            "Mau Ranipur",
+          ];
+        } else if (formData.localPanchayat === "Lalitpur") {
+          return ["Purakala"];
+        }
+      }
+
+      // For Shri Gahoi Vaishya Panchayat
+      if (formData.localPanchayatName === "Shri Gahoi Vaishya Panchayat") {
+        if (formData.localPanchayat === "Jhansi") {
+          return [
+            "Bada Gaon",
+            "Ranipur",
+            "Raksha",
+            "Jhansi",
+            "Samthar",
+            "Archra",
+          ];
+        } else if (formData.localPanchayat === "Tikamgarh") {
+          return [
+            "Shaktibairo",
+            "Niwari",
+            "Jeron",
+            "Prithvipur",
+            "Simra",
+            "Manjna",
+            "Taricharkala",
+            "Tikamgarh",
+          ];
+        } else if (formData.localPanchayat === "Lalitpur") {
+          return ["Talbehat", "Narahat", "Vangua Kala", "War"];
+        } else if (formData.localPanchayat === "Ghasan") {
+          return ["Bada Gaon"];
+        }
+      }
+
+      // For Shri Gahoi Vaishya Seva Samiti
+      if (formData.localPanchayatName === "Shri Gahoi Vaishya Seva Samiti") {
+        if (formData.localPanchayat === "Jhansi") {
+          return ["Moth"];
+        }
+      }
+
+      // For Shri Daudayal Gahoi Vaishya Seva Samiti
+      if (
+        formData.localPanchayatName ===
+        "Shri Daudayal Gahoi Vaishya Seva Samiti"
+      ) {
+        if (formData.localPanchayat === "Lalitpur") {
+          return ["Bansi"];
+        }
+      }
+
+      // For Gahoi Vaishya Seva Samiti
+      if (formData.localPanchayatName === "Gahoi Vaishya Seva Samiti") {
+        if (formData.localPanchayat === "Lalitpur") {
+          return ["Lalitpur"];
+        }
+      }
+
+      return [];
+    }
+
+    // mapping for Chambal
+    if (formData.localPanchayat && formData.localPanchayatName) {
+      return (
+        subLocalPanchayatMapping[formData.localPanchayat]?.[
+          formData.localPanchayatName
+        ] || []
+      );
+    }
+    return [];
+  };
+
+  // State mapping based on Local Panchayat
+  const stateMapping = {
+    Gwalior: "Madhya Pradesh",
+    Bhind: "Madhya Pradesh",
+    Datia: "Madhya Pradesh",
+    Morena: "Madhya Pradesh",
+    Jaipur: "Rajasthan",
+    Jalaun: "Uttarpradesh",
+    Banda: "Uttarpradesh",
+    Kanpur: "Uttarpradesh",
+    Auraiya: "Uttarpradesh",
+    Lucknow: "Uttarpradesh",
+    Karvi: "Uttarpradesh",
+    Jhansi: "Uttarpradesh",
+    Tikamgarh: "Uttarpradesh",
+    Lalitpur: "Madhya Pradesh",
+    Ghasan: "Madhya Pradesh",
+    Shivpuri: "Madhya Pradesh",
+    "Ashok Nagar": "Madhya Pradesh",
+    Guna: "Madhya Pradesh",
+    Ahmedabad: "Gujarat",
+    Indore: "Madhya Pradesh",
+    Ujjain: "Madhya Pradesh",
+    Bhopal: "Madhya Pradesh",
+    Vidisha: "Madhya Pradesh",
+    Raisen: "Madhya Pradesh",
+    Narsinghpur: "Madhya Pradesh",
+    Jabalpur: "Madhya Pradesh",
+    Sagar: "Madhya Pradesh",
+    Seoni: "Madhya Pradesh",
+    Chhindwara: "Madhya Pradesh",
+    Panna: "Madhya Pradesh",
+    Hoshangabad: "Madhya Pradesh",
+    Mandla: "Madhya Pradesh",
+    Dindori: "Madhya Pradesh",
+    Sultanpur: "Uttarpradesh",
+    Umariya: "Madhya Pradesh",
+    Hata: "Madhya Pradesh",
+    Shahdol: "Madhya Pradesh",
+    Katni: "Madhya Pradesh",
+    Chhatarpur: "Madhya Pradesh",
+    Satna: "Madhya Pradesh",
+    Rewa: "Madhya Pradesh",
+    Mahoba: "Uttarpradesh",
+    "Patna City": "Bihar",
+    Durg: "Chhatisgarh",
+    Rajnandgaon: "Chhatisgarh",
+    Dhamtari: "Chhatisgarh",
+    Raipur: "Chhatisgarh",
+    Bilaspur: "Chhatisgarh",
+    Jagdalpur: "Chhatisgarh",
+    Baikunthpur: "Chhatisgarh",
+    Nagpur: "Maharashtra",
+    Pune: "Maharashtra",
+    Amravati: "Maharashtra",
+    Mumbai: "Maharashtra",
+    Chalisgaon: "Madhya Pradesh",
+    Dhuliya: "Chhatisgarh",
+    Other: "None",
+    Mathura: "Uttarpradesh",
+    Delhi: "Delhi",
+  };
+
+  // Mapping for Local Panchayat based on Local Panchayat Name
+  const localPanchayatMapping = {
+    "Gahoi Vaishya Samaj Register Brahttar Gwalior": ["Gwalior"],
+    "Gahoi Vaishya Panchayat": ["Gwalior", "Bhind", "Datia", "Jaipur"],
+    "Gahoi Vaishya Sabha": ["Bhind"],
+    "Gahoi Vaishya Samaj": ["Morena"],
+    "Gahoi Seva Mandal": ["Jalaun"],
+    "Gahoi Vaishya Seva Samiti": ["Jalaun"],
+    "Gahoi Vaishya Samaj Panchayat": ["Jalaun", "Banda"],
+  };
+
+  // Mapping for Sub Local Panchayat based on Local Panchayat
+  const subLocalPanchayatMapping = {
+    Gwalior: {
+      "Gahoi Vaishya Samaj Register Brahttar Gwalior": [
+        "Gahoi Vaishya Samaj Register Brahtaar Gwalior",
+      ],
+      "Gahoi Vaishya Panchayat": [
+        "Madhavganj",
+        "Khasgi Bazaar",
+        "Daulatganj",
+        "Kampoo",
+        "Lohia Bazaar",
+        "Phalka Bazaar",
+        "Lohamandi",
+        "Bahodapur",
+        "Naka Chandravadni",
+        "Harishankarpuram",
+        "Thatipur",
+        "Morar",
+        "Dabra",
+        "Pichhore Dabra",
+        "Behat",
+      ],
+    },
+    Bhind: {
+      "Gahoi Vaishya Panchayat": [
+        "Alampur",
+        "Daboh",
+        "Tharet",
+        "Mihona",
+        "Aswar",
+        "Lahar",
+        "Gohad",
+        "Machhand",
+        "Raun",
+      ],
+      "Gahoi Vaishya Sabha": ["Bhind"],
+    },
+    Morena: {
+      "Gahoi Vaishya Samaj": ["Morena"],
+    },
+    Datia: {
+      "Gahoi Vaishya Panchayat": [
+        "Sewdha",
+        "Chhoti Badoni",
+        "Datia",
+        "Indergarh",
+        "Badhara Sopan",
+        "Unnao Balaji",
+        "Bhander",
+        "Salon B",
+      ],
+    },
+    Jaipur: {
+      "Gahoi Vaishya Panchayat": ["Jaipur"],
+    },
+    Jalaun: {
+      "Gahoi Seva Mandal": ["Orai"],
+      "Gahoi Vaishya Seva Samiti": ["Konch"],
+      "Gahoi Vaishya Samaj Panchayat": ["Madhogarh", "Jalaun"],
+    },
+    Banda: {
+      "Gahoi Vaishya Samaj Panchayat": ["Banda"],
+    },
+  };
+
+  // Update the regional information section to use filtered dropdowns
+  const renderRegionalInformation = () => (
+    <div className="md:col-span-2 mt-6 mb-4">
+      <div className="flex items-center space-x-2 mb-4 pb-2 border-b border-gray-200">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5 text-red-700"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+            clipRule="evenodd"
+          />
+        </svg>
+        <h3 className="text-lg font-semibold text-gray-800">
+          Regional Information
+        </h3>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Regional Assembly Dropdown */}
+        <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm ">
+          <label
+            htmlFor="regionalAssembly"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Regional Assembly <span className="text-red-500">*</span>
+          </label>
+          <select
+            id="regionalAssembly"
+            name="regionalAssembly"
+            value={formData.regionalAssembly || ""}
+            onChange={handleInputChange}
+            className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
+          >
+            <option value="">Select Regional Assembly</option>
+            {regionalAssemblies.map((assembly, index) => (
+              <option key={index} value={assembly}>
+                {assembly}
+              </option>
+            ))}
+          </select>
+          {errors.regionalAssembly && (
+            <p className="mt-1 text-xs text-red-500">
+              {errors.regionalAssembly}
+            </p>
+          )}
+        </div>
+
+        {/* Local Panchayat Name Dropdown */}
+        <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm ">
+          <label
+            htmlFor="localPanchayatName"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Local Panchayat Name <span className="text-red-500">*</span>
+          </label>
+          <select
+            id="localPanchayatName"
+            name="localPanchayatName"
+            value={formData.localPanchayatName || ""}
+            onChange={handleInputChange}
+            className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
+            disabled={!formData.regionalAssembly}
+          >
+            <option value="">Select Local Panchayat Name</option>
+            {getFilteredLocalPanchayatNames().map((name, index) => (
+              <option key={index} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
+          {errors.localPanchayatName && (
+            <p className="mt-1 text-xs text-red-500">
+              {errors.localPanchayatName}
+            </p>
+          )}
+        </div>
+
+        {/* Local Panchayat Dropdown */}
+        <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm ">
+          <label
+            htmlFor="localPanchayat"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Local Panchayat <span className="text-red-500">*</span>
+          </label>
+          <select
+            id="localPanchayat"
+            name="localPanchayat"
+            value={formData.localPanchayat || ""}
+            onChange={handleInputChange}
+            className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
+            disabled={!formData.localPanchayatName}
+          >
+            <option value="">Select Local Panchayat</option>
+            {getFilteredLocalPanchayats().map((panchayat, index) => (
+              <option key={index} value={panchayat}>
+                {panchayat}
+              </option>
+            ))}
+          </select>
+          {errors.localPanchayat && (
+            <p className="mt-1 text-xs text-red-500">{errors.localPanchayat}</p>
+          )}
+        </div>
+
+        {/* Sub Local Panchayat Dropdown */}
+        <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm ">
+          <label
+            htmlFor="subLocalPanchayat"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Sub Local Panchayat <span className="text-red-500">*</span>
+          </label>
+          <select
+            id="subLocalPanchayat"
+            name="subLocalPanchayat"
+            value={formData.subLocalPanchayat || ""}
+            onChange={handleInputChange}
+            className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
+            disabled={!formData.localPanchayat}
+          >
+            <option value="">Select Sub Local Panchayat</option>
+            {getFilteredSubLocalPanchayats().map((subPanchayat, index) => (
+              <option key={index} value={subPanchayat}>
+                {subPanchayat}
+              </option>
+            ))}
+          </select>
+          {errors.subLocalPanchayat && (
+            <p className="mt-1 text-xs text-red-500">
+              {errors.subLocalPanchayat}
+            </p>
+          )}
+        </div>
+
+        {/* State Dropdown */}
+        <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm ">
+          <label
+            htmlFor="state"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            State <span className="text-red-500">*</span>
+          </label>
+          <select
+            id="state"
+            name="state"
+            value={formData.state || ""}
+            onChange={handleInputChange}
+            className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
+            disabled={true}
+          >
+            <option value="">Select State</option>
+            {states.map((state, index) => (
+              <option key={index} value={state}>
+                {state}
+              </option>
+            ))}
+          </select>
+          {errors.state && (
+            <p className="mt-1 text-xs text-red-500">{errors.state}</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div 
       className="min-h-screen py-8 px-4 flex items-center justify-center relative"
       style={{
         backgroundImage: 'url("/decorative-bg.jpg")',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        backgroundColor: '#1e293b', // Fallback color
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundColor: "#1e293b", // Fallback color
       }}
     >
       {/* Back to Home Button */}
       <button 
-        onClick={() => window.location.href = '/'}
+        onClick={() => (window.location.href = "/")}
         className="absolute top-4 left-4 bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800 transition-colors duration-200 z-20 flex items-center"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5 mr-1"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+            clipRule="evenodd"
+          />
         </svg>
         Back to Home
       </button>
@@ -1125,7 +2961,9 @@ const RegistrationForm = () => {
         {/* Header */}
         <div className="bg-red-800 text-white p-3">
           <div className="container mx-auto">
-            <h1 className="text-xl font-bold mb-2 text-center">Registration Form</h1>
+            <h1 className="text-xl font-bold mb-2 text-center">
+              Registration Form
+            </h1>
 
             {/* Progress Tracker */}
             <div className="w-full bg-gray-200 h-1.5 mt-3 mb-2 rounded-full overflow-hidden">
@@ -1139,14 +2977,31 @@ const RegistrationForm = () => {
               {processSteps.map((step, index) => (
                 <div 
                   key={index} 
-                  className={`flex flex-col items-center ${step.completed ? 'text-white' : 'text-gray-300'}`}
+                  className={`flex flex-col items-center ${
+                    step.completed ? "text-white" : "text-gray-300"
+                  }`}
                 >
-                  <div className={`w-5 h-5 rounded-full flex items-center justify-center mb-1 ${
-                    step.completed ? 'bg-white text-red-800' : 'bg-gray-300 text-gray-500'
-                  }`}>
+                  <div
+                    className={`w-5 h-5 rounded-full flex items-center justify-center mb-1 ${
+                      step.completed
+                        ? "bg-white text-red-800"
+                        : "bg-gray-300 text-gray-500"
+                    }`}
+                  >
                     {step.completed ? (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-3 w-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                     ) : (
                       index + 1
@@ -1168,10 +3023,10 @@ const RegistrationForm = () => {
                 type="button"
                 className={`py-2 px-3 text-xs font-medium border-b-2 ${
                   currentStep === index 
-                    ? 'border-red-700 text-red-700'
+                    ? "border-red-700 text-red-700"
                     : index < currentStep
-                      ? 'border-green-500 text-green-700'
-                      : 'border-transparent text-gray-500'
+                    ? "border-green-500 text-green-700"
+                    : "border-transparent text-gray-500"
                 } whitespace-nowrap`}
                 onClick={() => index <= currentStep && setCurrentStep(index)}
                 disabled={index > currentStep}
@@ -1201,8 +3056,8 @@ const RegistrationForm = () => {
                 disabled={currentStep === 0}
                 className={`px-4 py-1.5 rounded-lg font-medium text-sm ${
                   currentStep === 0
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-gray-500 text-white hover:bg-gray-600'
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-gray-500 text-white hover:bg-gray-600"
                 }`}
               >
                 Previous
@@ -1215,13 +3070,33 @@ const RegistrationForm = () => {
               >
                 {loading ? (
                   <span className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg
+                      className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
                     </svg>
                     Processing...
                   </span>
-                ) : currentStep === formSteps.length - 1 ? 'Submit' : 'Next'}
+                ) : currentStep === formSteps.length - 1 ? (
+                  "Submit"
+                ) : (
+                  "Next"
+                )}
               </button>
             </div>
           </div>
