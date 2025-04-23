@@ -139,7 +139,7 @@ const CowSeva = () => {
   return (
     <div className="bg-gray-50">
       <Helmet>
-        <title>{language === "hi" ? "गौ दान" : "Cow Donation"}</title>
+        <title>{language === "hi" ? "गौ सेवा" : "Cow Seva"}</title>
         <meta
           name="description"
           content={

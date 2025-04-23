@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { Helmet } from "react-helmet";
+import { useLanguage } from "../../context/LanguageContext";
 
 import { getLoginPageData } from "../../data/loader";
 
@@ -241,6 +243,7 @@ const Login = () => {
   const hasError = (fieldName) => {
     return submitted && errors[fieldName];
   };
+  const { language } = useLanguage();
 
   return (
     <div 
@@ -255,6 +258,12 @@ const Login = () => {
         }
       }
     >
+
+<Helmet>
+        <title>{language === "hi" ? "लॉगिन - श्री गहोई शक्ति जन कल्याण समिति" : "Login - Shri Gahoi Shakti Jan Kalyan Samiti"}</title>
+       
+      </Helmet>
+
       {/* Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-slate-800/70"></div>
       

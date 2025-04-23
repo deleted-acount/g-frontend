@@ -424,80 +424,48 @@ const RegistrationForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
+
+    // Handle number-only fields
     if (name === "mobileNumber" && !/^\d*$/.test(value)) {
-      return; 
-    }
-    
-    // Clear any existing errors for this field
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
+      return;
     }
 
     setFormData((prev) => {
       const newData = { ...prev, [name]: value };
 
-      // Reset dependent fields when parent field changes
-      if (name === "regionalAssembly") {
+      // Auto-update state based on mappings
+      if (name === "localPanchayat") {
+        newData.subLocalPanchayat = "";
+        newData.state = stateMapping[value] ?? "";
+      } else if (name === "regionalAssembly") {
+        // Reset dependent fields when parent field changes
         newData.localPanchayatName = "";
         newData.localPanchayat = "";
         newData.subLocalPanchayat = "";
         newData.state = "";
       } else if (name === "localPanchayatName") {
+        // Reset dependent fields
         newData.localPanchayat = "";
         newData.subLocalPanchayat = "";
         newData.state = "";
-
-        // For Ganga Jamuna Regional Assembly
-        if (prev.regionalAssembly === "Ganga Jamuna Regional Assembly") {
-          if (value === "Gahoi Vaishya Panchayat Samiti") {
-            newData.localPanchayat = "Jalaun";
-            newData.state = "Uttarpradesh";
-          } else if (value === "Gahoi Vaishya Kalyan Samiti") {
-            newData.localPanchayat = "Kanpur";
-            newData.state = "Uttarpradesh";
-          } else if (value === "Gahoi Vaishya Yuva Samiti") {
-            newData.localPanchayat = "Auraiya";
-            newData.state = "Uttarpradesh";
-          } else if (value === "Gahoi Vaishya Panchayat") {
-            newData.localPanchayat = "Lucknow";
-            newData.state = "Uttarpradesh";
-          } else if (value === "Gahoi Vaishya Samaj") {
-            newData.localPanchayat = "Karvi";
-            newData.state = "Uttarpradesh";
-          } else if (value === "Gahoi Seva Mandal") {
-            newData.localPanchayat = "Jalaun";
-            newData.state = "Uttarpradesh";
-          } else if (value === "Gahoi Vaishya Seva Samiti") {
-            newData.localPanchayat = "Jalaun";
-            newData.state = "Uttarpradesh";
-          } else if (value === "Gahoi Vaishya Samaj Panchayat") {
-            
-            newData.state = "Uttarpradesh";
-          }
+      } else if (name === "gotra") {
+        // Update aakna options based on gotra
+        newData.aakna = "";
+      } else if (name === "isMarried") {
+        newData.isMarried = value === "yes";
+        // Reset date if unmarried
+        if (value === "no") {
+          newData.marriageDate = "";
         }
-
-        // For Bundelkhand Regional Assembly
-        if (prev.regionalAssembly === "Bundelkhand Regional Assembly") {
-          if (value === "Shri Gahoi Vaishya Seva Samiti") {
-            newData.localPanchayat = "Jhansi";
-            newData.state = "Uttarpradesh";
-          } else if (value === "Shri Daudayal Gahoi Vaishya Seva Samiti") {
-            newData.localPanchayat = "Lalitpur";
-            newData.state = "Madhya Pradesh";
-          } else if (value === "Gahoi Vaishya Seva Samiti") {
-            newData.localPanchayat = "Lalitpur";
-            newData.state = "Madhya Pradesh";
-          }
-        }
-      } else if (name === "localPanchayat") {
-        newData.subLocalPanchayat = "";
-    
-        newData.state = stateMapping[value] || "";
       }
 
       return newData;
     });
+
+    // Clear any errors for this field
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
   };
 
   const handleFamilyDetailChange = (index, field, value) => {
@@ -527,93 +495,40 @@ const RegistrationForm = () => {
     const newErrors = {};
     const currentFields = formSteps[currentStep].fields;
     
-    // Check required fields 
-    if (currentFields.includes("name") && !formData.name) {
-      newErrors.name = "This field is required";
-    }
+    // Use a loop to check required fields instead of repeating code
+    const requiredFields = [
+      "name", "mobileNumber", "village", "email", "bloodGroup", 
+      "birthDate", "education", "currentAddress", "gender",
+      "regionalAssembly", "localPanchayatName", "localPanchayat", 
+      "subLocalPanchayat", "state", "manglik", "grah", "handicap"
+    ];
     
-    if (currentFields.includes("mobileNumber")) {
-      if (!formData.mobileNumber) {
-        newErrors.mobileNumber = "This field is required";
-      } else if (formData.mobileNumber.length !== 10) {
-        newErrors.mobileNumber = "Mobile number must be 10 digits";
+    requiredFields.forEach(field => {
+      if (currentFields.includes(field) && !formData[field]) {
+        newErrors[field] = field === "gender" 
+          ? "Please select your gender" 
+          : "This field is required";
       }
-    }
-
-    if (currentFields.includes("village") && !formData.village) {
-      newErrors.village = "This field is required";
-    }
-
-    if (currentFields.includes("email") && !formData.email) {
-      newErrors.email = "This field is required";
-    }
-
-    if (currentFields.includes("bloodGroup") && !formData.bloodGroup) {
-      newErrors.bloodGroup = "This field is required";
-    }
-
-    if (currentFields.includes("birthDate") && !formData.birthDate) {
-      newErrors.birthDate = "This field is required";
-    }
-
-    if (currentFields.includes("education") && !formData.education) {
-      newErrors.education = "This field is required";
-    }
-
-    if (currentFields.includes("currentAddress") && !formData.currentAddress) {
-      newErrors.currentAddress = "This field is required";
-    }
-
-    if (currentFields.includes("gender") && !formData.gender) {
-      newErrors.gender = "Please select your gender";
+    });
+    
+    // Special validation for mobile number
+    if (currentFields.includes("mobileNumber") && formData.mobileNumber && 
+        formData.mobileNumber.length !== 10) {
+      newErrors.mobileNumber = "Mobile number must be 10 digits";
     }
     
-    // Regional information validation
-    if (currentFields.includes("regionalAssembly") && !formData.regionalAssembly) {
-      newErrors.regionalAssembly = "Please select a regional assembly";
+    // Only validate gotra if NOT married to another caste
+    if (currentFields.includes("gotra") && !formData.marriageToAnotherCaste && !formData.gotra) {
+      newErrors.gotra = "This field is required";
     }
     
-    if (currentFields.includes("localPanchayatName") && !formData.localPanchayatName) {
-      newErrors.localPanchayatName = "Please select a local panchayat name";
-    }
-    
-    if (currentFields.includes("localPanchayat") && !formData.localPanchayat) {
-      newErrors.localPanchayat = "Please select a local panchayat";
-    }
-    
-    if (currentFields.includes("subLocalPanchayat") && !formData.subLocalPanchayat) {
-      newErrors.subLocalPanchayat = "Please select a sub local panchayat";
-    }
-    
-    if (currentFields.includes("state") && !formData.state) {
-      newErrors.state = "Please select a state";
-    }
-    
-    //  family details 
+    // Family details validation
     if (currentFields.includes("familyDetails")) {
       [0, 1].forEach((index) => {
         if (!formData.familyDetails[index].name) {
           newErrors[`familyDetails.${index}.name`] = "This field is required";
         }
       });
-    }
-    
-    //  biographical details 
-    if (currentFields.includes("manglik") && !formData.manglik) {
-      newErrors.manglik = "This field is required";
-    }
-    
-    if (currentFields.includes("grah") && !formData.grah) {
-      newErrors.grah = "This field is required";
-    }
-    
-    if (currentFields.includes("handicap") && !formData.handicap) {
-      newErrors.handicap = "This field is required";
-    }
-    
-    // Only validate gotra and aakna if NOT married to another caste
-    if (currentFields.includes("gotra") && !formData.marriageToAnotherCaste && !formData.gotra) {
-      newErrors.gotra = "This field is required";
     }
     
     setErrors(newErrors);
@@ -649,139 +564,161 @@ const RegistrationForm = () => {
   };
 
   const uploadImage = async (file) => {
+    if (!file) return null;
+    
     const formData = new FormData();
     formData.append("files", file);
   
-    const response = await fetch("http://localhost:1337/api/upload", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
-      },
-      body: formData,
-    });
+    try {
+      console.log("Uploading image...");
+      const response = await fetch("http://localhost:1337/api/upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
+        },
+        body: formData,
+      });
   
-    const result = await response.json();
-    return result[0]?.id; 
+      if (!response.ok) {
+        console.error("Upload failed:", response.status);
+        return null;
+      }
+  
+      const result = await response.json();
+      console.log("Image upload response:", result);
+      return result[0]?.id;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      return null;
+    }
   };
 
   const handleSubmit = async () => {
     setLoading(true);
   
     try {
-      let displayPictureId = null;
-      if (formData.display_picture) {
-        displayPictureId = await uploadImage(formData.display_picture);
-      }
-  
+      // Upload image first if present
+      const displayPictureId = formData.display_picture 
+        ? await uploadImage(formData.display_picture)
+        : null;
+      
+      // Prepare data with optional chaining and nullish coalescing for safety
       const strapiData = {
         family_details: {
-          father_name: formData.familyDetails[0]?.name || "",
-          mother_name: formData.familyDetails[1]?.name || "",
-          phone_number: formData.mobileNumber || "",
-          spouse_name: formData.familyDetails[2]?.name || "",
+          father_name: formData.familyDetails[0]?.name ?? "",
+          mother_name: formData.familyDetails[1]?.name ?? "",
+          phone_number: formData.mobileNumber ?? "",
+          spouse_name: formData.familyDetails[2]?.name ?? "",
         },
         child_name: formData.familyDetails
           .slice(3)
-          .map((child) => ({ child_name: child.name })),
+          .map((child) => ({ child_name: child.name ?? "" })),
         biographical_details: {
-          Gotra: formData.marriageToAnotherCaste ? "Others" : formData.gotra || "",
-          Aakna: formData.marriageToAnotherCaste ? "Others" : formData.aakna || "",
-          manglik_status: formData.manglik || "",
-          Grah: formData.grah || "",
-          Handicap: formData.handicap || "",
+          Gotra: formData.marriageToAnotherCaste ? "Others" : (formData.gotra ?? ""),
+          Aakna: formData.marriageToAnotherCaste ? "Others" : (formData.aakna ?? ""),
+          manglik_status: formData.manglik ?? "",
+          Grah: formData.grah ?? "",
+          Handicap: formData.handicap ?? "",
           is_married: formData.isMarried ? "Married" : "Unmarried",
           marriage_to_another_caste: formData.marriageToAnotherCaste
             ? "Married to Another Caste"
             : "Same Caste Marriage",
         },
         personal_information: {
-          full_name: formData.name || "",
-          village: formData.village || "",
-          mobile_number: formData.mobileNumber || "",
-          email_address: formData.email || "",
-          display_picture: displayPictureId || null,
-          Gender: formData.gender || "",
+          full_name: formData.name ?? "",
+          village: formData.village ?? "",
+          mobile_number: formData.mobileNumber ?? "",
+          email_address: formData.email ?? "",
+          display_picture: displayPictureId,
+          Gender: formData.gender ?? "",
         },
         work_information: {
-          occupation: formData.occupation || "",
-          company_name: formData.companyName || "",
-          work_area: formData.workArea || "",
+          occupation: formData.occupation ?? "",
+          company_name: formData.companyName ?? "",
+          work_area: formData.workArea ?? "",
         },
         additional_details: {
-          blood_group: formData.bloodGroup || "",
-          date_of_birth: formData.birthDate || "",
-          date_of_marriage: formData.marriageDate || "",
-          higher_education: formData.education || "",
-          current_address: formData.currentAddress || "",
+          blood_group: formData.bloodGroup ?? "",
+          date_of_birth: formData.birthDate ?? "",
+          date_of_marriage: formData.marriageDate ?? "",
+          higher_education: formData.education ?? "",
+          current_address: formData.currentAddress ?? "",
           regional_information: {
-            RegionalAssembly: formData.regionalAssembly || "",
-            LocalPanchayatName: formData.localPanchayatName || "",
-            LocalPanchayat: formData.localPanchayat || "",
-            SubLocalPanchayat: formData.subLocalPanchayat || "",
-            State: formData.state || "",
+            RegionalAssembly: formData.regionalAssembly ?? "",
+            LocalPanchayatName: formData.localPanchayatName ?? "",
+            LocalPanchayat: formData.localPanchayat ?? "",
+            SubLocalPanchayat: formData.subLocalPanchayat ?? "",
+            State: formData.state ?? "",
           },
         },
         your_suggestions: {
-          suggestions: formData.suggestions || "",
+          suggestions: formData.suggestions ?? "",
         },
       };
-
+  
       const response = await fetch(
         "http://localhost:1337/api/registration-pages",
         {
           method: "POST",
-        headers: {
+          headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
-        },
-        body: JSON.stringify({ data: strapiData }),
+          },
+          body: JSON.stringify({ data: strapiData }),
         }
       );
   
       if (!response.ok) {
-        throw new Error("Failed to submit form");
+        const errorData = await response.json();
+        console.error("Server error:", errorData);
+        throw new Error(errorData.error?.message || "Failed to submit form");
       }
   
       const result = await response.json();
       console.log("Form submitted successfully:", result);
-  
-      const successPopup = document.createElement("div");
-      successPopup.className =
-        "fixed inset-0 flex items-center justify-center z-50";
-      successPopup.innerHTML = `
-        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div class="bg-white rounded-lg p-6 shadow-xl max-w-md w-full mx-4 relative z-10 border-2 border-[#FD7D01]">
-          <div class="text-center">
-            <div class="flex justify-center mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-[#FD7D01]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">Success!</h2>
-            <p class="text-gray-600 mb-6">Form submitted successfully! Redirecting to homepage...</p>
-            <div class="w-full bg-gray-200 h-2 rounded-full mt-4">
-              <div class="bg-[#FD7D01] h-2 rounded-full" style="width: 0%; transition: width 2s ease-in-out;" id="progress-bar"></div>
-            </div>
-          </div>
-        </div>
-      `;
-      document.body.appendChild(successPopup);
-      const progressBar = document.getElementById("progress-bar");
-      setTimeout(() => {
-        progressBar.style.width = "100%";
-      }, 100);
-
       
-      setTimeout(() => {
-        document.body.removeChild(successPopup);
-        window.location.href = "/";
-      }, 2500); 
+      showSuccessMessage();
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Failed to submit form. Please try again.");
+      alert(`Failed to submit form: ${error.message}`);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Separate function for showing success message
+  const showSuccessMessage = () => {
+    const successPopup = document.createElement("div");
+    successPopup.className = "fixed inset-0 flex items-center justify-center z-50";
+    successPopup.innerHTML = `
+      <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+      <div class="bg-white rounded-lg p-6 shadow-xl max-w-md w-full mx-4 relative z-10 border-2 border-[#FD7D01]">
+        <div class="text-center">
+          <div class="flex justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-[#FD7D01]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">Success!</h2>
+          <p class="text-gray-600 mb-6">Form submitted successfully! Redirecting to homepage...</p>
+          <div class="w-full bg-gray-200 h-2 rounded-full mt-4">
+            <div class="bg-[#FD7D01] h-2 rounded-full" style="width: 0%; transition: width 2s ease-in-out;" id="progress-bar"></div>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(successPopup);
+    const progressBar = document.getElementById("progress-bar");
+    
+    setTimeout(() => {
+      progressBar.style.width = "100%";
+    }, 100);
+
+    setTimeout(() => {
+      document.body.removeChild(successPopup);
+      window.location.href = "/";
+    }, 2500);
   };
 
   const hasError = (fieldName) => {
@@ -836,9 +773,7 @@ const RegistrationForm = () => {
                   }`}
                   placeholder="Enter your full name"
                 />
-                {hasError("name") && (
-                  <p className="text-red-500 text-xs">{errors.name}</p>
-                )}
+                {renderError("name")}
               </div>
 
               <div className="space-y-3">
@@ -2200,7 +2135,7 @@ const RegistrationForm = () => {
     return localPanchayatMapping[formData.localPanchayatName] || [];
   };
 
-  // local panchayats based on local panchayat and regional assembly
+  //  local panchayats based on local panchayat and regional assembly
   const getFilteredSubLocalPanchayats = () => {
     // For Northern Regional Assembly  mappings
     if (formData.regionalAssembly === "Northern Regional Assembly") {
@@ -2924,6 +2859,14 @@ const RegistrationForm = () => {
       </div>
     </div>
   );
+
+  // Create a reusable function to render form field errors
+  const renderError = (fieldName) => {
+    if (hasError(fieldName)) {
+      return <p className="text-red-500 text-xs">{errors[fieldName]}</p>;
+    }
+    return null;
+  };
 
   return (
     <div 
