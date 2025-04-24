@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import {
   Download,
   Search,
@@ -33,158 +33,167 @@ const CowIcon = ({ size = 24, className = "" }) => (
 const CowSevaCollection = () => {
   const { language } = useLanguage();
   const [currentPage, setCurrentPage] = useState(1);
-  const entriesPerPage = 5;
-
-  const content = {
-    title: {
-      hi: "गौ सेवा संग्रह",
-      en: "Cow Seva Collection",
-    },
-    description: {
-      hi: "हमारी गौशाला में किए गए कार्यों का संग्रह",
-      en: "Collection of works done in our gaushala",
-    },
-    donations: [
-      {
-        id: 1,
-        name: { hi: "राजेश ", en: "Rajesh " },
-        amount: 5000,
-        date: "2025-04-10",
-        place: { hi: " गोशाला", en: " Goshala" },
-        purpose: { hi: "चारा और चिकित्सा", en: "Feed and Medicine" },
-      },
-      {
-        id: 2,
-        name: { hi: "प्रिय ", en: "Priya " },
-        amount: 3000,
-        date: "2025-04-05",
-        place: { hi: "गाय आश्रय", en: " Cow Shelter" },
-        purpose: { hi: "रखरखाव", en: "Maintenance" },
-      },
-      {
-        id: 3,
-        name: { hi: "अमित ", en: "Amit " },
-        amount: 10000,
-        date: "2025-03-28",
-        place: { hi: " गोशाला", en: " Goshala" },
-        purpose: { hi: "नया आश्रय निर्माण", en: "New Shelter Construction" },
-      },
-      {
-        id: 4,
-        name: { hi: "सुनीता ", en: "Sunita " },
-        amount: 2500,
-        date: "2025-03-22",
-        place: { hi: " गोशाला", en: " Goshala" },
-        purpose: { hi: "चिकित्सा उपचार", en: "Medical Treatment" },
-      },
-      {
-        id: 5,
-        name: { hi: "विक्रम ", en: "Vikram " },
-        amount: 7500,
-        date: "2025-03-15",
-        place: { hi: " गाय आश्रय", en: " Cow Shelter" },
-        purpose: { hi: "चारा", en: "Feed" },
-      },
-      {
-        id: 6,
-        name: { hi: "विक्रम ", en: "Vikram " },
-        amount: 9500,
-        date: "2025-03-05",
-        place: { hi: " गाय आश्रय", en: " Cow Shelter" },
-        purpose: { hi: "चारा", en: "Feed" },
-      },
-    ],
-    monthlyExpenses: [
-      {
-        month: { hi: "जनवरी", en: "January" },
-        feed: 45000,
-        medical: 20000,
-        maintenance: 15000,
-        staff: 30000,
-        total: 110000,
-      },
-      {
-        month: { hi: "फरवरी", en: "February" },
-        feed: 42000,
-        medical: 18500,
-        maintenance: 16000,
-        staff: 30000,
-        total: 106500,
-      },
-      {
-        month: { hi: "मार्च", en: "March" },
-        feed: 47000,
-        medical: 25000,
-        maintenance: 12000,
-        staff: 32000,
-        total: 116000,
-      },
-      {
-        month: { hi: "अप्रैल", en: "April" },
-        feed: 44000,
-        medical: 19000,
-        maintenance: 14000,
-        staff: 32000,
-        total: 109000,
-      },
-    ],
-    sevaPlaces: [
-      {
-        name: { hi: "गौशाला 1", en: "Goshala 1" },
-        address: { hi: "भिंड रोड के पास, एमपी", en: "Near Bhind Road, MP" },
-        contact: "+91 99999 99999",
-        inCharge: "Ajay",
-      },
-      {
-        name: { hi: "एमपी गाय आश्रय", en: "MP Cow Shelter" },
-        address: { hi: "कृष्ण नगर, एमपी", en: "Krishna Nagar, MP" },
-        contact: "+91 99999 99999",
-        inCharge: "Ramesh",
-      },
-      {
-        name: { hi: "गोवर्धन गोशाला", en: "Govardhan Goshala" },
-        address: {
-          hi: "गोवर्धन हिल रोड, गोवर्धन, एमपी",
-          en: "Govardhan Hill Road, Govardhan, MP",
-        },
-       contact: "+91 99999 99999",
-        inCharge: "Dr. Mohan",
-      },
-    ],
-  };
-
-  const totalDonations = content.donations.reduce(
-    (sum, donation) => sum + donation.amount,
-    0
-  );
-  const totalYearlyExpenses = content.monthlyExpenses.reduce(
-    (sum, month) => sum + month.total,
-    0
-  );
-
-  const [activeTab, setActiveTab] = useState("donations");
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeTab, setActiveTab] = useState("donations");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [content, setContent] = useState({
+    donations: [],
+    monthlyExpenses: [],
+    sevaPlaces: []
+  });
 
-  // Pagination 
-  const filteredDonations = content.donations.filter(
-    (donation) =>
-      searchTerm === "" ||
-      donation.name[language].toLowerCase().includes(searchTerm.toLowerCase()) ||
-      donation.place[language].toLowerCase().includes(searchTerm.toLowerCase()) ||
-      donation.purpose[language].toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Memoize filtered donations to prevent unnecessary recalculations
+  const filteredDonations = useMemo(() => {
+    if (!content?.donations?.length) return [];
+    if (!searchTerm) return content.donations;
+    
+    const searchLower = searchTerm.toLowerCase();
+    return content.donations.filter(donation => 
+      donation?.Name?.toLowerCase().includes(searchLower) ||
+      donation?.place?.toLowerCase().includes(searchLower) ||
+      donation?.purpose?.toLowerCase().includes(searchLower)
+    );
+  }, [searchTerm, content.donations]);
 
+  // Reset page when search term or filtered results change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filteredDonations.length]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const API_TOKEN = import.meta.env.VITE_API_TOKEN;
+        const response = await fetch('http://localhost:1337/api/cowsevas?populate[donations][populate]=*&populate[monthlyExpenses][populate]=*&populate[sevaPlaces][populate]=*', {
+          headers: {
+            'Authorization': `Bearer ${API_TOKEN}`,
+            'Content-Type': 'application/json',
+          }
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => null);
+          throw new Error(errorData?.error?.message || `Server responded with status ${response.status}`);
+        }
+
+        const { data } = await response.json();
+        
+        if (!Array.isArray(data)) {
+          throw new Error('Invalid data format received from server');
+        }
+
+        // Process and combine data
+        const combinedData = data.reduce((acc, entry) => {
+          
+          if (Array.isArray(entry.donations)) {
+            acc.donations.push(...entry.donations
+              .filter(d => d?.Name)
+              .map(d => ({
+                id: d.id,
+                Name: d.Name,
+                Amount: Number(d.Amount) || 0,
+                Date: d.Date,
+                place: d.place,
+                purpose: d.purpose
+              })));
+          }
+
+          // Process monthly expenses
+          if (Array.isArray(entry.monthlyExpenses)) {
+            acc.monthlyExpenses.push(...entry.monthlyExpenses
+              .filter(e => e?.Month)
+              .map(e => ({
+                id: e.id,
+                Month: e.Month,
+                feed: Number(e.feed) || 0,
+                medical: Number(e.medical) || 0,
+                maintenance: Number(e.maintenance) || 0,
+                staff: Number(e.staff) || 0,
+                total: Number(e.total) || 0
+              })));
+          }
+
+          // Process seva places
+          if (Array.isArray(entry.sevaPlaces)) {
+            acc.sevaPlaces.push(...entry.sevaPlaces
+              .filter(p => p?.name)
+              .map(p => {
+                const imageData = p.image;
+                return {
+                  id: p.id,
+                  name: p.name,
+                  address: p.address,
+                  contact: p.contact,
+                  inCharge: p.inCharge,
+                  imageUrl: imageData?.url ? `http://localhost:1337${imageData.url}` : null,
+                  thumbnailUrl: imageData?.formats?.thumbnail?.url 
+                    ? `http://localhost:1337${imageData.formats.thumbnail.url}` 
+                    : null
+                };
+              }));
+          }
+
+          return acc;
+        }, { donations: [], monthlyExpenses: [], sevaPlaces: [] });
+
+        setContent(combinedData);
+      } catch (err) {
+        setError(err.message || 'Failed to fetch data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Memoize totals to prevent unnecessary recalculations
+  const { totalDonations, totalYearlyExpenses } = useMemo(() => ({
+    totalDonations: content?.donations?.reduce(
+      (sum, donation) => sum + (Number(donation?.Amount) || 0),
+      0
+    ) || 0,
+    totalYearlyExpenses: content?.monthlyExpenses?.reduce(
+      (sum, month) => sum + (Number(month?.total) || 0),
+      0
+    ) || 0
+  }), [content.donations, content.monthlyExpenses]);
+
+  const entriesPerPage = 5;
   const totalPages = Math.ceil(filteredDonations.length / entriesPerPage);
-  const startIndex = (currentPage - 1) * entriesPerPage;
-  const paginatedDonations = filteredDonations.slice(startIndex, startIndex + entriesPerPage);
 
   const handlePreviousPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
+    setCurrentPage(prev => Math.max(prev - 1, 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    setCurrentPage(prev => Math.min(prev + 1, totalPages));
   };
+
+  const handleExportDonations = useCallback(() => {
+    const donationsData = filteredDonations.map(donation => ({
+      [language === "hi" ? "दानकर्ता का नाम" : "Donor Name"]: donation.Name,
+      [language === "hi" ? "राशि" : "Amount"]: donation.Amount,
+      [language === "hi" ? "तारीख" : "Date"]: new Date(donation.Date).toLocaleDateString(),
+      [language === "hi" ? "स्थान" : "Place"]: donation.place,
+      [language === "hi" ? "उद्देश्य" : "Purpose"]: donation.purpose
+    }));
+    exportToExcel(donationsData, language === "hi" ? "दान-रिकॉर्ड" : "donation-records");
+  }, [filteredDonations, language]);
+
+  const handleExportExpenses = useCallback(() => {
+    const expensesData = content.monthlyExpenses.map(expense => ({
+      [language === "hi" ? "महीना" : "Month"]: expense.Month,
+      [language === "hi" ? "चारा" : "Feed"]: expense.feed,
+      [language === "hi" ? "चिकित्सा" : "Medical"]: expense.medical,
+      [language === "hi" ? "रखरखाव" : "Maintenance"]: expense.maintenance,
+      [language === "hi" ? "कर्मचारी" : "Staff"]: expense.staff,
+      [language === "hi" ? "कुल" : "Total"]: expense.total
+    }));
+    exportToExcel(expensesData, language === "hi" ? "मासिक-खर्च" : "monthly-expenses");
+  }, [content.monthlyExpenses, language]);
 
   const exportToExcel = (data, fileName) => {
     const ws = XLSX.utils.json_to_sheet(data);
@@ -193,40 +202,39 @@ const CowSevaCollection = () => {
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
 
-  const handleExportDonations = () => {
-    const donationsData = filteredDonations.map(donation => ({
-      [language === "hi" ? "दानकर्ता का नाम" : "Donor Name"]: donation.name[language],
-      [language === "hi" ? "राशि" : "Amount"]: donation.amount,
-      [language === "hi" ? "तारीख" : "Date"]: new Date(donation.date).toLocaleDateString(),
-      [language === "hi" ? "स्थान" : "Place"]: donation.place[language],
-      [language === "hi" ? "उद्देश्य" : "Purpose"]: donation.purpose[language]
-    }));
-    exportToExcel(donationsData, language === "hi" ? "दान-रिकॉर्ड" : "donation-records");
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+      </div>
+    );
+  }
 
-  const handleExportExpenses = () => {
-    const expensesData = content.monthlyExpenses.map(expense => ({
-      [language === "hi" ? "महीना" : "Month"]: `${expense.month[language]} 2025`,
-      [language === "hi" ? "चारा" : "Feed"]: expense.feed,
-      [language === "hi" ? "चिकित्सा" : "Medical"]: expense.medical,
-      [language === "hi" ? "रखरखाव" : "Maintenance"]: expense.maintenance,
-      [language === "hi" ? "कर्मचारी" : "Staff"]: expense.staff,
-      [language === "hi" ? "कुल" : "Total"]: expense.total
-    }));
-    exportToExcel(expensesData, language === "hi" ? "मासिक-खर्च" : "monthly-expenses");
-  };
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-red-500">
+          {language === "hi" ? "डेटा लोड करने में त्रुटि" : "Error loading data"}: {error}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-50 text-gray-800">
       <main className="container mx-auto py-6 px-3 sm:px-4 md:py-8">
         {/* Title and Description */}
         <div className="mb-6 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-            {content.title[language]}
+          <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-2">
+            {language === "hi" ? "गौ सेवा संग्रह" : "Cow Seva Collection"}
           </h2>
           <p className="text-gray-600">
-            {content.description[language]}
+            {language === "hi" 
+              ? "हमारी गौशाला में किए गए कार्यों का संग्रह" 
+              : "Collection of works done in our gaushala"
+            }
           </p>
+         
         </div>
         
         {/* Summary Cards */}
@@ -261,18 +269,18 @@ const CowSevaCollection = () => {
             </p>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+           <div className="bg-white rounded-lg shadow p-4 sm:p-6">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-base sm:text-lg font-medium text-gray-700">
                 {language === "hi" ? "संरक्षित गायें" : "Cows Sheltered"}
               </h3>
               <CowIcon className="text-orange-500" size={20} />
             </div>
-            <p className="text-2xl sm:text-3xl font-bold text-orange-600">775</p>
+            <p className="text-2xl sm:text-3xl font-bold text-orange-600">550</p>
             <p className="text-xs sm:text-sm text-gray-500 mt-2">
               {language === "hi" ? "सभी केंद्रों में" : "cross all centers"}
             </p>
-          </div>
+          </div> 
 
           <div className="bg-white rounded-lg shadow p-4 sm:p-6">
             <div className="flex items-center justify-between mb-2">
@@ -347,12 +355,12 @@ const CowSevaCollection = () => {
               </div>
             </div>
 
-            {/* Mobile Expenses Cards (shown on small screens) */}
+            {/* Mobile Expenses Cards  */}
             <div className="sm:hidden">
               {content.monthlyExpenses.map((expense, index) => (
                 <div key={index} className="p-4 border-b border-gray-200">
                   <div className="flex justify-between items-center mb-3">
-                    <h3 className="font-medium text-gray-900">{expense.month[language]} 2025</h3>
+                    <h3 className="font-medium text-gray-900">{expense.Month}</h3>
                     <div className="font-bold text-gray-900">₹{expense.total.toLocaleString()}</div>
                   </div>
                   <div className="space-y-1.5">
@@ -424,7 +432,7 @@ const CowSevaCollection = () => {
                   {content.monthlyExpenses.map((expense, index) => (
                     <tr key={index} className="hover:bg-gray-50">
                       <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap font-medium text-gray-900 text-xs sm:text-sm">
-                        {expense.month[language]} 2025
+                        {expense.Month}
                       </td>
                       <td className="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-gray-500 text-xs sm:text-sm">
                         ₹{expense.feed.toLocaleString()}
@@ -471,15 +479,24 @@ const CowSevaCollection = () => {
                     key={index}
                     className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition"
                   >
-                    <div className="h-32 sm:h-48 bg-orange-100 flex items-center justify-center">
-                      <CowIcon size={60} className="text-orange-500" />
+                    <div className="h-32 sm:h-48 bg-orange-100 overflow-hidden">
+                      <img
+                        src={place.imageUrl || '/cow-seva-place-1.webp'}
+                        alt={place.name}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.target.src = '/cow-seva-place-1.webp';
+                          e.target.onerror = null;
+                        }}
+                      />
                     </div>
                     <div className="p-3 sm:p-4">
                       <h3 className="font-bold text-base sm:text-lg mb-2">
-                        {place.name[language]}
+                        {place.name}
                       </h3>
                       <p className="text-gray-600 text-xs sm:text-sm mb-3">
-                        {place.address[language]}
+                        {place.address}
                       </p>
                       <div className="space-y-1 sm:space-y-2">
                        
@@ -545,23 +562,23 @@ const CowSevaCollection = () => {
 
             {/* Mobile Donation Cards */}
             <div className="sm:hidden">
-              {paginatedDonations.map((donation) => (
+              {filteredDonations.slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage).map((donation) => (
                 <div key={donation.id} className="p-4 border-b border-gray-200">
                   <div className="flex justify-between items-start mb-2">
                     <div className="font-medium text-gray-900 text-sm">
-                      {donation.name[language]}
+                      {donation.Name}
                     </div>
                     <div className="text-gray-900 font-bold text-sm">
-                      ₹{donation.amount.toLocaleString()}
+                      ₹{donation.Amount.toLocaleString()}
                     </div>
                   </div>
                   <div className="flex justify-between text-xs text-gray-500 mb-2">
-                    <div>{new Date(donation.date).toLocaleDateString()}</div>
-                    <div>{donation.place[language]}</div>
+                    <div>{new Date(donation.Date).toLocaleDateString()}</div>
+                    <div>{donation.place}</div>
                   </div>
                   <div className="flex justify-end">
                     <span className="px-2 py-1 inline-flex text-xs leading-4 font-semibold rounded-full bg-orange-100 text-orange-800">
-                      {donation.purpose[language]}
+                      {donation.purpose}
                     </span>
                   </div>
                 </div>
@@ -571,8 +588,8 @@ const CowSevaCollection = () => {
               <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
                 <div className="flex items-center text-sm text-gray-500">
                   {language === "hi" 
-                    ? `${startIndex + 1}-${Math.min(startIndex + entriesPerPage, filteredDonations.length)} कुल ${filteredDonations.length} में से`
-                    : `${startIndex + 1}-${Math.min(startIndex + entriesPerPage, filteredDonations.length)} of ${filteredDonations.length}`
+                    ? `${(currentPage - 1) * entriesPerPage + 1}-${Math.min((currentPage - 1) * entriesPerPage + entriesPerPage, filteredDonations.length)} कुल ${filteredDonations.length} में से`
+                    : `${(currentPage - 1) * entriesPerPage + 1}-${Math.min((currentPage - 1) * entriesPerPage + entriesPerPage, filteredDonations.length)} of ${filteredDonations.length}`
                   }
                 </div>
                 <div className="flex space-x-2">
@@ -589,9 +606,9 @@ const CowSevaCollection = () => {
                   </button>
                   <button
                     onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
+                    disabled={currentPage === Math.ceil(filteredDonations.length / entriesPerPage)}
                     className={`p-1 rounded ${
-                      currentPage === totalPages
+                      currentPage === Math.ceil(filteredDonations.length / entriesPerPage)
                         ? 'text-gray-400 cursor-not-allowed'
                         : 'text-gray-700 hover:bg-gray-100'
                     }`}
@@ -640,27 +657,27 @@ const CowSevaCollection = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {paginatedDonations.map((donation) => (
+                  {filteredDonations.slice((currentPage - 1) * entriesPerPage, currentPage * entriesPerPage).map((donation) => (
                     <tr key={donation.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="font-medium text-gray-900">
-                          {donation.name[language]}
+                          {donation.Name}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-gray-900">
-                          ₹{donation.amount.toLocaleString()}
+                          ₹{donation.Amount.toLocaleString()}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-gray-500">
-                        {new Date(donation.date).toLocaleDateString()}
+                        {new Date(donation.Date).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-gray-500">
-                        {donation.place[language]}
+                        {donation.place}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">
-                          {donation.purpose[language]}
+                          {donation.purpose}
                         </span>
                       </td>
                     </tr>
@@ -672,8 +689,8 @@ const CowSevaCollection = () => {
               <div className="flex items-center justify-between px-6 py-3 border-t border-gray-200">
                 <div className="flex items-center text-sm text-gray-500">
                   {language === "hi" 
-                    ? `${startIndex + 1}-${Math.min(startIndex + entriesPerPage, filteredDonations.length)} कुल ${filteredDonations.length} में से`
-                    : `${startIndex + 1}-${Math.min(startIndex + entriesPerPage, filteredDonations.length)} of ${filteredDonations.length}`
+                    ? `${(currentPage - 1) * entriesPerPage + 1}-${Math.min((currentPage - 1) * entriesPerPage + entriesPerPage, filteredDonations.length)} कुल ${filteredDonations.length} में से`
+                    : `${(currentPage - 1) * entriesPerPage + 1}-${Math.min((currentPage - 1) * entriesPerPage + entriesPerPage, filteredDonations.length)} of ${filteredDonations.length}`
                   }
                 </div>
                 <div className="flex space-x-2">
@@ -693,9 +710,9 @@ const CowSevaCollection = () => {
                   </button>
                   <button
                     onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
+                    disabled={currentPage === Math.ceil(filteredDonations.length / entriesPerPage)}
                     className={`px-3 py-1 rounded border ${
-                      currentPage === totalPages
+                      currentPage === Math.ceil(filteredDonations.length / entriesPerPage)
                         ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                         : 'bg-white text-gray-700 hover:bg-gray-50'
                     }`}
