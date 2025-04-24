@@ -8,82 +8,95 @@ const Contact = () => {
     name: "",
     mobile: "",
     subject: "",
-    message: "",
-
-    userInput: "",
+    message: ""
   });
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
 
   // Language-specific font class
-  const languageFontClass =
-    language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
+  const languageFontClass = language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       [name]: value,
     }));
-    // Clear error
+    // Clear error and status messages
     if (errors[name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "",
-      }));
+      setErrors(prev => ({ ...prev, [name]: "" }));
+    }
+    if (submitStatus.message) {
+      setSubmitStatus({ type: '', message: '' });
     }
   };
 
   const validateForm = () => {
     const newErrors = {};
     if (!formData.name.trim()) {
-      newErrors.name =
-        language === "hi"
-          ? "कृपया अपना नाम दर्ज करें"
-          : "Please enter your name";
+      newErrors.name = language === "hi" ? "कृपया अपना नाम दर्ज करें" : "Please enter your name";
     }
     if (!formData.mobile.trim()) {
-      newErrors.mobile =
-        language === "hi"
-          ? "कृपया अपना मोबाइल नंबर दर्ज करें"
-          : "Please enter your mobile number";
+      newErrors.mobile = language === "hi" ? "कृपया अपना मोबाइल नंबर दर्ज करें" : "Please enter your mobile number";
     } else if (!/^[0-9]{10}$/.test(formData.mobile)) {
-      newErrors.mobile =
-        language === "hi"
-          ? "कृपया सही मोबाइल नंबर दर्ज करें"
-          : "Please enter a valid mobile number";
+      newErrors.mobile = language === "hi" ? "कृपया सही मोबाइल नंबर दर्ज करें" : "Please enter a valid mobile number";
     }
     if (!formData.subject.trim()) {
-      newErrors.subject =
-        language === "hi" ? "कृपया विषय दर्ज करें" : "Please enter the subject";
+      newErrors.subject = language === "hi" ? "कृपया विषय दर्ज करें" : "Please enter the subject";
     }
     if (!formData.message.trim()) {
-      newErrors.message =
-        language === "hi"
-          ? "कृपया अपना संदेश दर्ज करें"
-          : "Please enter your message";
+      newErrors.message = language === "hi" ? "कृपया अपना संदेश दर्ज करें" : "Please enter your message";
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      console.log("Form submitted:", formData);
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    setSubmitStatus({ type: '', message: '' });
+
+    try {
+      const response = await fetch('http://localhost:1337/api/contacts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: formData })
+      });
+
+      if (!response.ok) {
+        throw new Error();
+      }
+
+      // Reset form
       setFormData({
         name: "",
         mobile: "",
         subject: "",
-        message: "",
-
-        userInput: "",
+        message: ""
       });
-      alert(
-        language === "hi"
-          ? "संदेश सफलतापूर्वक भेज दिया गया है!"
+
+      // Show success message
+      setSubmitStatus({
+        type: 'success',
+        message: language === "hi" 
+          ? "संदेश सफलतापूर्वक भेज दिया गया है!" 
           : "Message sent successfully!"
-      );
+      });
+    } catch {
+      setSubmitStatus({
+        type: 'error',
+        message: language === "hi"
+          ? "संदेश भेजने में त्रुटि हुई। कृपया पुनः प्रयास करें।"
+          : "Error sending message. Please try again."
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -114,10 +127,8 @@ const Contact = () => {
 
   // reusable styles
   const sectionStyles = "mb-8 md:mb-16";
-  const cardStyles =
-    "bg-white rounded-lg p-6 md:p-8 shadow-md border-l-4 border-red-700";
+  const cardStyles = "bg-white rounded-lg p-6 md:p-8 shadow-md border-l-4 border-red-700";
   const headingStyles = `text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-3 md:mb-4 ${languageFontClass}`;
-  const paragraphStyles = `text-gray-700 leading-relaxed text-sm md:text-base ${languageFontClass}`;
 
   const SectionTitle = ({ title }) => (
     <div className="text-center mb-8">
@@ -438,6 +449,16 @@ const Contact = () => {
             />
 
             <div className="bg-white shadow-md p-6 rounded-lg border-l-4 border-red-700">
+              {submitStatus.message && (
+                <div className={`mb-4 p-3 rounded-lg ${
+                  submitStatus.type === 'success' 
+                    ? 'bg-green-50 text-green-800 border border-green-200' 
+                    : 'bg-red-50 text-red-800 border border-red-200'
+                }`}>
+                  {submitStatus.message}
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="relative">
@@ -558,12 +579,20 @@ const Contact = () => {
                 </div>
 
                 <div className="flex justify-center pt-4">
-                  <button type="submit" className="relative group">
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-red-600 to-amber-500 rounded-full opacity-60 blur-sm group-hover:opacity-100 transition duration-300"></div>
-                    <div
-                      className={`relative bg-[#FD7D01] text-white px-8 py-3 rounded-full font-semibold shadow-lg group-hover:shadow-xl transition-all ${languageFontClass}`}
-                    >
-                      {language === "hi" ? "भेजें" : "Submit"}
+                  <button 
+                    type="submit" 
+                    className="relative group"
+                    disabled={isSubmitting}
+                  >
+                    <div className={`absolute -inset-0.5 bg-gradient-to-r from-red-600 to-amber-500 rounded-full blur-sm transition duration-300 ${
+                      isSubmitting ? 'opacity-30' : 'opacity-60 group-hover:opacity-100'
+                    }`}></div>
+                    <div className={`relative bg-[#FD7D01] text-white px-8 py-3 rounded-full font-semibold shadow-lg transition-all ${
+                      isSubmitting ? 'opacity-75 cursor-not-allowed' : 'group-hover:shadow-xl'
+                    } ${languageFontClass}`}>
+                      {isSubmitting 
+                        ? (language === "hi" ? "भेज रहा है..." : "Submitting...") 
+                        : (language === "hi" ? "भेजें" : "Submit")}
                     </div>
                   </button>
                 </div>
