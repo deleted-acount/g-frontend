@@ -207,7 +207,7 @@ const RegistrationForm = () => {
       "Kshankshar",
     ],
 
-    Gol: [
+    "Gol": [
       "Andhi",
       "Baderiya",
       "Bamoriya",
@@ -276,7 +276,9 @@ const RegistrationForm = () => {
     ],
 
     "Badal / Waghil / Bandal": [
-      "Chauda/Chodha/Choudaa",                            
+      "Chauda",
+      "Chodha",
+      "Chouda",                    
       "Soni",
       "Kharya/Khairya",
       "Seth (Kathori, Karoli ke)",
@@ -313,7 +315,7 @@ const RegistrationForm = () => {
       "Binaurya",
       "Kharya/Khara",
       "Iksade",
-      "Sulghanaya/Sulganiya",
+      "Sulganiya/Sulghaniya",
       "Kanjoulya",
       "Nigoti (Nigotiya)",
       "Rawat",
@@ -2860,9 +2862,9 @@ const RegistrationForm = () => {
               </option>
             ))}
           </select>
-          {errors.state && (
+          {/* {errors.state && (
             <p className="mt-1 text-xs text-red-500">{errors.state}</p>
-          )}
+          )} */}
         </div>
       </div>
     </div>
