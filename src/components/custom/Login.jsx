@@ -250,7 +250,7 @@ const Login = () => {
       className="min-h-screen py-4 sm:py-6 px-2 sm:px-4 flex items-center justify-center relative"
       style={
         {
-          backgroundImage: 'url("/decorative-bg.jpg")',
+          backgroundImage: 'url("/decorative-bg.webp")',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',

@@ -137,13 +137,6 @@ const Contact = () => {
     </div>
   );
 
-  // Add decorative images
-  const decorativeImages = {
-    hero: "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?auto=format&fit=crop&w=1200", // Office building/contact center image
-    pattern:
-      "https://www.transparenttextures.com/patterns/diamond-upholstery.png",
-  };
-
   // Additional styles
   const decorativeStyles = {
     gradientBg: "bg-gradient-to-br from-orange-50 via-white to-orange-50",
@@ -172,7 +165,7 @@ const Contact = () => {
       <div className="relative w-full bg-red-800 pt-24 md:pt-32 pb-12 md:pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <img
-          src={decorativeImages.hero}
+          src="/contactus-hero.webp"
           alt="Contact Us Background"
           className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
         />

@@ -75,10 +75,7 @@ const Header = () => {
     { 
       to: '/login', 
       label: t?.login || 'Login',
-     
-
-     
-    },
+     },
     
     { 
       to: '/about-us', 
@@ -93,16 +90,16 @@ const Header = () => {
       label: t?.gauseva || 'Gau Seva',
      
     },
+    
+    { 
+      to: '/gotra-aankna', 
+      label: t?.gotraankna || 'Gotra & Aankna',
+     
+    },
     { 
       to: '/executive', 
       label: t?.allassembly || 'All Assembly',
 },
-    { 
-      to: '/gotra-ankna', 
-      label: t?.gotraankna || 'Gotra & Ankna',
-     
-    },
-  
   ];
 
   return (
@@ -372,13 +369,6 @@ const Header = () => {
                   )}
                 </div>
               ))}
-              <Link 
-                to="/registration" 
-                className="block px-3 py-1.5 bg-red-700 text-white rounded-lg hover:bg-red-800 transition-colors font-semibold text-center text-sm mt-1"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {t?.register || 'Register'}
-              </Link>
             </div>
           </div>
         </div>

@@ -155,13 +155,6 @@ const AboutUs = () => {
     },
   ];
 
-  // Add decorative images
-  const decorativeImages = {
-    hero: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=1200", // Community gathering image
-    pattern:
-      "https://www.transparenttextures.com/patterns/diamond-upholstery.png",
-  };
-
   // Additional styles
   const decorativeStyles = {
     gradientBg: "bg-gradient-to-br from-orange-50 via-white to-orange-50",
@@ -191,13 +184,13 @@ const AboutUs = () => {
 
       {/* Hero Banner with Background Image */}
       <div className="relative w-full bg-red-800 pt-24 md:pt-32 pb-12 md:pb-16 overflow-hidden">
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="absolute inset-0 bg-black/50"></div>
         <img
-          src={decorativeImages.hero}
-          alt="About Us Background"
+          src="/aboutus-hero.webp"
+          alt="Community gathering representing our values and traditions"
           className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
         />
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-4 relative z-20">
           <div className="text-center">
             <div className="p-3 md:p-5 bg-white/10 rounded-full w-20 h-20 mx-auto mb-6 backdrop-blur-sm">
               <svg
@@ -229,7 +222,6 @@ const AboutUs = () => {
             </p>
           </div>
         </div>
-        {/* <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div> */}
       </div>
 
       <div className="container mx-auto px-3 md:px-4 max-w-6xl -mt-6 md:-mt-10">

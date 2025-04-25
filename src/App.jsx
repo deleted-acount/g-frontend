@@ -13,6 +13,7 @@ import Rite from "./components/custom/Rite";
 import FamilyLogin from "./components/custom/FamilyLogin";
 import { CowSeva } from "./components/cow-seva";
 import ScrollToTop from "./components/utils/ScrollToTop";
+import GotraAankna from "./components/custom/GotraAankna";
 
 import { LanguageProvider } from "./context/LanguageContext";
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/rite" element={<Rite />} />
           <Route path="/gau-seva" element={<CowSeva />} />
+          <Route path="/gotra-aankna" element={<GotraAankna />} />
         </Routes>
       </Layout>
     </LanguageProvider>

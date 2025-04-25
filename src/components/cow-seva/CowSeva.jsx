@@ -1,14 +1,48 @@
-import React from "react";
+import React, { memo } from "react";
 import { Helmet } from "react-helmet";
 import { useLanguage } from "../../context/LanguageContext";
 import { Link } from "react-router-dom";
 import { CowSevaCollection } from "./index";
 
+// Extracted components for better organization
+const SectionTitle = memo(({ title, language, headingStyles }) => (
+  <div className="text-center mb-8">
+    <h2 className={headingStyles}>{title[language]}</h2>
+    <div className="w-24 h-1 bg-red-700 mx-auto rounded-full"></div>
+  </div>
+));
+
+const ServiceCard = memo(({ method, language, languageFontClass, paragraphStyles }) => (
+  <div className="bg-gradient-to-br from-white to-orange-50 shadow-lg p-6 md:p-8 rounded-lg border-t-4 border-[#FD7D01]">
+    <div className="flex items-center gap-4 mb-4">
+      <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-orange-100 to-red-50 rounded-full flex items-center justify-center shadow-inner">
+        {method.icon}
+      </div>
+      <h3 className={`text-lg md:text-xl font-bold text-gray-800 ${languageFontClass}`}>
+        {method.title[language]}
+      </h3>
+    </div>
+    <p className={`${paragraphStyles} pl-16`}>
+      {method.description[language]}
+    </p>
+  </div>
+));
+
+const DonateButton = memo(({ language, languageFontClass }) => (
+  <Link to="/contact-us">
+    <button className="relative group">
+      <div className="absolute -inset-0.5 bg-gradient-to-r from-red-600 to-amber-500 rounded-full opacity-60 blur-sm group-hover:opacity-100 transition duration-300"></div>
+      <div className={`relative w-full bg-[#FD7D01] text-white px-8 md:px-12 py-4 md:py-5 rounded-full font-semibold shadow-lg group-hover:shadow-xl transition-all text-lg md:text-xl ${languageFontClass}`}>
+        {language === "hi" ? "दान करें" : "Donate Now"}
+      </div>
+    </button>
+  </Link>
+));
+
 const CowSeva = () => {
   const { language } = useLanguage();
 
-  const languageFontClass =
-    language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
+  const languageFontClass = language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
   const hindiTextClass =
     language === "hi" ? "text-base lg:text-lg" : "text-sm lg:text-base";
 
@@ -114,26 +148,10 @@ const CowSeva = () => {
     },
   ];
 
-  const SectionTitle = ({ title }) => (
-    <div className="text-center mb-8">
-      <h2 className={headingStyles}>{title[language]}</h2>
-      <div className="w-24 h-1 bg-red-700 mx-auto rounded-full"></div>
-    </div>
-  );
-
-  // images
-  const decorativeImages = {
-    hero: " https://images.unsplash.com/photo-1642958542747-e6a2456e462d?auto=format&fit=crop&w=1200",
-    pattern:
-      "https://www.transparenttextures.com/patterns/diamond-upholstery.png",
-   
-    leafPattern: "https://www.transparenttextures.com/patterns/leaves.png",
-  };
-
   // Additional styles
   const decorativeStyles = {
     gradientBg: "bg-gradient-to-br from-orange-50 via-white to-orange-50",
-    patternOverlay: `bg-repeat opacity-10 absolute inset-0`,
+    patternOverlay: `absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-overlay`,
   };
 
   return (
@@ -154,7 +172,7 @@ const CowSeva = () => {
       <div className="relative w-full bg-red-800 pt-24 md:pt-32 pb-12 md:pb-16 overflow-hidden ">
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <img
-          src={decorativeImages.hero}
+          src="/cowseva-hero.webp"
           alt="CowSeva Background"
           className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
         />
@@ -196,27 +214,26 @@ const CowSeva = () => {
       <div className="container mx-auto px-3 md:px-4 max-w-6xl -mt-6 md:-mt-10 ">
         {/* Main Content Card */}
         <div
-          className={`bg-white rounded-lg shadow-lg p-5 md:p-8 mb-6 md:mb-10  relative ${decorativeStyles.gradientBg}`}
+          className={`bg-white rounded-lg shadow-lg p-5 md:p-8 mb-6 md:mb-10 relative ${decorativeStyles.gradientBg}`}
         >
-          <div
-            className="absolute inset-0 opacity-5"
-            style={{ backgroundImage: `url(${decorativeImages.pattern})` }}
-          ></div>
+          <img
+            src="/decorative-pattern.png"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover opacity-5"
+            aria-hidden="true"
+          />
 
           {/* Introduction Section with Decorative Elements */}
           <div className={`${sectionStyles} relative`}>
-           
-
-
             {/* Introduction Card */}
             <div className="max-w-3xl mx-auto">
               <div className="bg-gradient-to-br from-orange-50 to-white p-6 md:p-8 rounded-lg border-l-4 border-[#FD7D01] shadow-lg relative overflow-hidden">
-                <div
+                <img
+                  src="/decorative-pattern.png"
+                  alt=""
                   className={decorativeStyles.patternOverlay}
-                  style={{
-                    backgroundImage: `url(${decorativeImages.pattern})`,
-                  }}
-                ></div>
+                  aria-hidden="true"
+                />
                 <p
                   className={`relative z-10 ${paragraphStyles} ${
                     language === "hi"
@@ -236,27 +253,18 @@ const CowSeva = () => {
           <div className={sectionStyles}>
             <SectionTitle
               title={{ hi: "गौ सेवा कैसे करें", en: "How to Serve Cows" }}
+              language={language}
+              headingStyles={headingStyles}
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
               {howToServe.map((method, index) => (
-                <div
+                <ServiceCard
                   key={index}
-                  className={`bg-gradient-to-br from-white to-orange-50 shadow-lg p-6 md:p-8 rounded-lg border-t-4 border-[#FD7D01]`}
-                >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-orange-100 to-red-50 rounded-full flex items-center justify-center shadow-inner">
-                      {method.icon}
-                    </div>
-                    <h3
-                      className={`text-lg md:text-xl font-bold text-gray-800 ${languageFontClass}`}
-                    >
-                      {method.title[language]}
-                    </h3>
-                  </div>
-                  <p className={`${paragraphStyles} pl-16`}>
-                    {method.description[language]}
-                  </p>
-                </div>
+                  method={method}
+                  language={language}
+                  languageFontClass={languageFontClass}
+                  paragraphStyles={paragraphStyles}
+                />
               ))}
             </div>
           </div>
@@ -269,10 +277,12 @@ const CowSeva = () => {
 
         {/* Donate Section */}
         <div className="bg-gradient-to-br from-white to-orange-50 rounded-lg shadow-lg p-8 md:p-10 mb-6 md:mb-10 text-center border-l-4 border-[#FD7D01] relative overflow-hidden">
-          <div
+          <img
+            src="/decorative-pattern.png"
+            alt=""
             className={decorativeStyles.patternOverlay}
-            style={{ backgroundImage: `url(${decorativeImages.pattern})` }}
-          ></div>
+            aria-hidden="true"
+          />
           <div className="relative z-10">
             <h2
               className={`text-2xl md:text-3xl lg:text-4xl font-bold text-[#FD7D01] mb-4 md:mb-6 ${languageFontClass}`}
@@ -288,16 +298,7 @@ const CowSeva = () => {
                 ? "गौ माता की सेवा करना हमारा धार्मिक और सामाजिक कर्तव्य है। आज ही अपना योगदान देकर इस पुण्य कार्य में भागीदार बनें।"
                 : "Serving mother cow is our religious and social duty. Become a part of this virtuous cause by contributing today."}
             </p>
-            <Link to="/contact-us">
-              <button className="relative group">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-red-600 to-amber-500 rounded-full opacity-60 blur-sm group-hover:opacity-100 transition duration-300"></div>
-                <div
-                  className={`relative w-full bg-[#FD7D01] text-white px-8 md:px-12 py-4 md:py-5 rounded-full font-semibold shadow-lg group-hover:shadow-xl transition-all text-lg md:text-xl ${languageFontClass}`}
-                >
-                  {language === "hi" ? "दान करें" : "Donate Now"}
-                </div>
-              </button>
-            </Link>
+            <DonateButton language={language} languageFontClass={languageFontClass} />
           </div>
         </div>
       </div>
@@ -305,4 +306,4 @@ const CowSeva = () => {
   );
 };
 
-export default CowSeva;
+export default memo(CowSeva);

@@ -6,7 +6,7 @@ const translations = {
     contact: "Contact Us",
     gauseva: "Gau Seva",
     allassembly: "All Assembly",
-    gotraankna: "Gotra & Ankna",
+    gotraankna: "Gotra & Aankna",
     family: "Family",
     gallery: "Gallery",
     history: "History",
