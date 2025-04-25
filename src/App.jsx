@@ -14,6 +14,7 @@ import FamilyLogin from "./components/custom/FamilyLogin";
 import { CowSeva } from "./components/cow-seva";
 import ScrollToTop from "./components/utils/ScrollToTop";
 import GotraAankna from "./components/custom/GotraAankna";
+import AllAssembly from "./components/custom/AllAssembly";
 
 import { LanguageProvider } from "./context/LanguageContext";
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/rite" element={<Rite />} />
           <Route path="/gau-seva" element={<CowSeva />} />
           <Route path="/gotra-aankna" element={<GotraAankna />} />
+          <Route path="/all-assembly" element={<AllAssembly />} />
         </Routes>
       </Layout>
     </LanguageProvider>

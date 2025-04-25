@@ -97,7 +97,7 @@ const Header = () => {
      
     },
     { 
-      to: '/executive', 
+      to: '/all-assembly', 
       label: t?.allassembly || 'All Assembly',
 },
   ];
