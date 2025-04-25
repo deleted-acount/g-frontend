@@ -32,8 +32,8 @@ const AllAssembly = () => {
       en: "Central Assembly"
     },
     executiveList: {
-      hi: "अ.भा.ग.वैश्य महासभा कार्यकारिणी सूची",
-      en: "All India Gahoi Vaishya Mahasabha Executive List"
+      hi: "अखिल भारतीय गहोई वैश्य महासभा के निर्वाचित पदाधिकारी गण",
+      en: "Elected Office Bearers of the All India Gahoi Vaishya Mahasabha"
     },
     executiveList2015: {
       hi: "अ.भा.ग.वैश्य महासभा कार्यकारिणी सूची-2015",
@@ -339,49 +339,66 @@ const AllAssembly = () => {
         name: language === "hi" ? "श्री कृष्ण कुमार कठिल (के के कठिल)" : "Shri Krishna Kumar Kathil (K K Kathil)",
         address: "",
         mobile: "",
-        image: "/executive/img-8.webp"
+        image: "/executive/16.webp"
       },
       {
         position: language === "hi" ? "महामंत्री" : "General Secretary",
         name: language === "hi" ? "श्री आलोक टिकरिया" : "Shri Alok Tikriya",
         address: "",
         mobile: "",
-        image: "/executive/img-8.webp"
+        image: "/executive/17.webp"
       },
       {
         position: language === "hi" ? "कोषाध्यक्ष" : "Treasurer",
         name: language === "hi" ? "श्री मोहन कनकने" : "Shri Mohan Kankane",
         address: "",
         mobile: "",
-        image: "/executive/img-8.webp"
+        image: "/executive/18.webp"
       },
       {
         position: language === "hi" ? "उपाध्यक्ष" : "Vice President",
         name: language === "hi" ? "श्री रमेश सेठ" : "Shri Ramesh Seth",
         address: "",
         mobile: "",
-        image: "/executive/img-8.webp"
+        image: "/executive/19.webp"
       },
       {
         position: language === "hi" ? "उपाध्यक्ष" : "Vice President",
         name: language === "hi" ? "श्री अशोक नगरिया" : "Shri Ashok Nagariya",
         address: "",
         mobile: "",
-        image: "/executive/img-8.webp"
+        image: "/executive/20.webp"
       },
       {
         position: language === "hi" ? "उपाध्यक्ष" : "Vice President",
         name: language === "hi" ? "श्री अशोक सेठ" : "Shri Ashok Seth",
         address: "",
         mobile: "",
-        image: "/executive/img-8.webp"
+        image: "/executive/21.webp"
       },
+
+      {
+        position: language === "hi" ? "उपाध्यक्ष" : "Vice President",
+        name: language === "hi" ? "श्री नरेश कुचिया" : "Shri Naresh Kuchia",
+        address: "",
+        mobile: "",
+        image: "/executive/22.webp"
+      },
+
+      {
+        position: language === "hi" ? "उपाध्यक्ष" : "Vice President",
+        name: language === "hi" ? "श्री केशव नीखरा" : "Shri Kesav Neekhra",
+        address: "",
+        mobile: "",
+        image: "/executive/23.webp"
+      },
+
       {
         position: language === "hi" ? "मंत्री" : "Minister",
         name: language === "hi" ? "श्री संतोष कुचिया" : "Shri Santosh Kuchia",
         address: "",
         mobile: "",
-        image: "/executive/img-8.webp"
+        image: "/executive/24.webp"
       },
       {
         position: language === "hi" ? "मंत्री" : "Minister",
@@ -402,14 +419,14 @@ const AllAssembly = () => {
         name: language === "hi" ? "श्री मनोज चौधरी" : "Shri Manoj Chaudhary",
         address: "",
         mobile: "",
-        image: "/executive/img-8.webp"
+        image: "/executive/25.webp"
       },
       {
         position: language === "hi" ? "मंत्री" : "Minister",
         name: language === "hi" ? "श्री मैथिली शरण सेठ" : "Shri Maithili Sharan Seth",
         address: "",
         mobile: "",
-        image: "/executive/img-8.webp"
+        image: "/executive/26.webp"
       }
     ],
     nominatedOfficials: [],
@@ -431,7 +448,52 @@ const AllAssembly = () => {
         address: language === "hi" ? "29 भोपाल विखारा वार्ड होशी" : "29 Bhopal Vikhara Ward Hoshi",
         mobile: language === "hi" ? "मोबा. 09415073295" : "Mob. 09415073295",
         image: "/executive/img-2.webp"
+      },
+      {
+        position: language === "hi" ? "वरिष्टउपाध्यक्ष" : "Senior Vice President",
+        name: language === "hi" ? "श्री भोगीलाल बिलैया" : "Shri Bhogilal Bilaiya",
+        address: language === "hi" ? "न्यू कालोनी, करेरा जिला- शिवपुरी" : "New Colony, Karera District- Shivpuri",
+        mobile: language === "hi" ? "मोबा. 09406589899" : "Mob. 09406589899",
+        image: "/executive/img-3.webp"
+      },
+      {
+        position: language === "hi" ? "प्रचार मंत्री" : "Publicity Minister",
+        name: language === "hi" ? "श्री रमेश चन्द्र सरावगी" : "Shri Ramesh Chandra Sarawgi",
+        address: language === "hi" ? "पुराने थाने के सामने ,गोहद जिला -भिंड मोबा" : "Opposite old police station, Gohad District-Bhind",
+        mobile: language === "hi" ? "मोबा. 9893140676" : "Mob. 9893140676",
+        image: "/executive/img-4.webp"
+      },
+      {
+        position: language === "hi" ? "प्रबंधक राजाबेटी" : "Manager Rajabeti",
+        name: language === "hi" ? "श्री परमानन्द कटारे" : "Shri Parmanand Katare",
+        address: language === "hi" ? "74 M.I.G, Wब्लाक केसव नगर जूही, कानपुर मोबा." : "74 M.I.G, W Block Keshav Nagar Juhi, Kanpur",
+        mobile: language === "hi" ? "मोबा. 09415044099" : "Mob. 09415044099",
+        image: "/executive/img-5.webp"
+      },
+      {
+        position: language === "hi" ? "प्रबंधक गहोई भवन चित्रकूट" : "Manager Gahoi Bhawan Chitrakoot",
+        name: language === "hi" ? "श्री हरीबाबू सेठ" : "Shri Haribabu Seth",
+        address: language === "hi" ? "जवाहर गंज ,गल्ला मंडी के सामने ,डबरा जिला -ग्वालियर" : "Jawahar Ganj, Opposite Galla Mandi, Dabra District-Gwalior",
+        mobile: language === "hi" ? "मोबा. 09300102240" : "Mob. 09300102240",
+        image: "/executive/img-6.webp"
+      },
+      {
+        position: language === "hi" ? "कोषाध्यक्ष" : "Treasurer",
+        name: language === "hi" ? "उमाशंकर कुचिया" : "Umashankar Kuchia",
+        address: language === "hi" ? "15 / 21 ए , सहयोग सदन ,सिविल लाइन, कानपुर (उ. प्र.)" : "15/21 A, Sahyog Sadan, Civil Line, Kanpur (U.P.)",
+        mobile: language === "hi" ? "मोबा. 09839240116" : "Mob. 09839240116",
+        image: "/executive/img-7.webp"
+      },
+      {
+        position: language === "hi" ? "लेखा परीक्षक" : "Auditor",
+        name: language === "hi" ? "श्री प्रदीप नीखरा" : "Shri Pradeep Neekhra",
+        address: language === "hi" ? "भोपाल" : "Bhopal",
+        mobile: "",
+        image: "/executive/img-8.webp"
       }
+
+
+
     ],
     nominatedOfficials: [
       {

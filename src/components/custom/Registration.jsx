@@ -1129,7 +1129,7 @@ const RegistrationForm = () => {
                       .join('\n')}`;
                     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
                   }}
-                  className="flex items-center justify-center w-8 h-8 rounded-full bg-[#25D366] hover:bg-[#20BD5A] transition-colors duration-200"
+                  className="flex items-center justify-center w-6 h-6 rounded-full bg-[#25D366] hover:bg-[#20BD5A] transition-colors duration-200"
                   title="Share on WhatsApp"
                 >
                   <svg
