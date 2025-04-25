@@ -255,9 +255,11 @@ const Login = () => {
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
           backgroundColor: '#1e293b',
+         
         }
       }
     >
+      
 
 <Helmet>
         <title>{language === "hi" ? "लॉगिन - श्री गहोई शक्ति जन कल्याण समिति" : "Login - Shri Gahoi Shakti Jan Kalyan Samiti"}</title>

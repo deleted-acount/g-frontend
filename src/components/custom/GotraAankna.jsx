@@ -192,8 +192,8 @@ const GotraAankna = () => {
               {/* Card Header */}
               <div className="bg-red-700 px-4 sm:px-6 py-3 sm:py-4 text-white">
                 <div className="flex items-center justify-between">
-                  <h2 className={`text-xl sm:text-2xl font-bold ${languageFontClass} leading-tight`}>
-                    {gotra.mainGotra}
+                  <h2 className={`text-base sm:text-xl font-bold ${languageFontClass} leading-tight`}>
+                  {language === "hi" ? "गोत्र :" : "Gotra :"} {gotra.mainGotra}
                   </h2>
                   <span className="bg-white/20 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-sm">
                     {index + 1}
