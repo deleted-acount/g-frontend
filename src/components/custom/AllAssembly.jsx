@@ -1,23 +1,68 @@
 "use client";
 import React, { useState } from "react";
+import { useLanguage } from "../../context/LanguageContext";
+import { Helmet } from "react-helmet";
 
 const AllAssembly = () => {
   const [activeTab, setActiveTab] = useState("2015");
+  const { language } = useLanguage();
+
+  // Language-specific font class
+  const languageFontClass = language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
+
+  const translations = {
+    pageTitle: {
+      hi: "गहोई वैश्य महासभा",
+      en: "Gahoi Vaishya Mahasabha"
+    },
+    pageSubtitle: {
+      hi: "सभी महासभाओं का विवरण",
+      en: "Details of All Assemblies"
+    },
+    tab2015: {
+      hi: "2015 महासभा",
+      en: "2015 Assembly"
+    },
+    tabCentral: {
+      hi: "कार्यकारिणी महासभा",
+      en: "Executive Assembly"
+    },
+    executiveList: {
+      hi: "अ.भा.ग.वैश्य महासभा कार्यकारिणी सूची",
+      en: "All India Gahoi Vaishya Mahasabha Executive List"
+    },
+    executiveList2015: {
+      hi: "अ.भा.ग.वैश्य महासभा कार्यकारिणी सूची-2015",
+      en: "All India Gahoi Vaishya Mahasabha Executive List-2015"
+    },
+    nominatedOfficials2015: {
+      hi: "मनोनीत पदाधिकारी गण 2015",
+      en: "Nominated Officials 2015"
+    },
+    nominatedOfficialsCentral: {
+      hi: "महासभा के मनोनीत पदाधिकारी एबं का. का. सदस्यों की सूची",
+      en: "List of Nominated Officials and Executive Members"
+    },
+    projectOfficials: {
+      hi: "प्रकल्पों के पधाधिकारी",
+      en: "Project Officials"
+    }
+  };
 
   const Assembly2015Data = {
     officials: [
       {
-        position: "राष्ट्रीय अध्यक्ष",
-        name: "श्री कैलाश नारायण सावला",
-        address: "5 / 45 कृष्णपुरा डबरा (ग्वालियर) (म. प्र.)",
-        mobile: "मोबा. 9425481606",
+        position: language === "hi" ? "राष्ट्रीय अध्यक्ष" : "National President",
+        name: language === "hi" ? "श्री कैलाश नारायण सावला" : "Shri Kailash Narayan Sawla",
+        address: language === "hi" ? "5 / 45 कृष्णपुरा डबरा (ग्वालियर) (म. प्र.)" : "5/45 Krishnapura Dabra (Gwalior) (M.P.)",
+        mobile: language === "hi" ? "मोबा. 9425481606" : "Mob. 9425481606",
         image: "/executive/1.webp"
       },
       {
-        position: "वरिष्ठ उपाध्यक्ष",
-        name: "श्रीमती पुष्पा ददरया",
-        address: "3664 मनमोहन नगर, गायत्री मन्दिर के पास, जबलपुर (म.प्र.)",
-        mobile: "मोबा. 9479495800",
+        position: language === "hi" ? "वरिष्ठ उपाध्यक्ष" : "Senior Vice President",
+        name: language === "hi" ? "श्रीमती पुष्पा ददरया" : "Smt. Pushpa Dadarya",
+        address: language === "hi" ? "3664 मनमोहन नगर, गायत्री मन्दिर के पास, जबलपुर (म.प्र.)" : "3664 Manmohan Nagar, Near Gayatri Mandir, Jabalpur (M.P.)",
+        mobile: language === "hi" ? "मोबा. 9479495800" : "Mob. 9479495800",
         image: "/executive/2.webp"
       }
     ],
@@ -44,10 +89,10 @@ const AllAssembly = () => {
   const ExecutiveCentralData = {
     officials: [
       {
-        position: "राष्ट्रीय अध्यक्ष",
-        name: "श्री राधेश्याम कुमिया",
-        address: "J -46 गांधी नगर,ग्वालियर",
-        mobile: "मोबा. 09425114006",
+        position: language === "hi" ? "राष्ट्रीय अध्यक्ष" : "National President",
+        name: language === "hi" ? "श्री राधेश्याम कुमिया" : "Shri Radheshyam Kumiya",
+        address: language === "hi" ? "J -46 गांधी नगर,ग्वालियर" : "J-46 Gandhi Nagar, Gwalior",
+        mobile: language === "hi" ? "मोबा. 09425114006" : "Mob. 09425114006",
         image: "/executive/img-1.webp"
       },
       {
@@ -93,17 +138,17 @@ const AllAssembly = () => {
         />
         <div className="absolute bottom-0 left-0 right-0 p-1.5 sm:p-2 z-20 flex justify-center">
           <div className="bg-red-800/90 backdrop-blur-sm rounded-lg px-1.5 sm:px-2 py-0.5 sm:py-1 inline-block">
-            <h3 className="text-white font-medium text-xs sm:text-sm md:text-base text-center whitespace-normal leading-tight">
+            <h3 className={`text-white font-medium text-xs sm:text-sm md:text-base text-center whitespace-normal leading-tight ${languageFontClass}`}>
               {official.position}
             </h3>
           </div>
         </div>
       </div>
       <div className="p-1.5 sm:p-2 md:p-3 text-center">
-        <h2 className="text-sm sm:text-base md:text-lg font-bold text-red-800 mb-0.5 sm:mb-1">
+        <h2 className={`text-sm sm:text-base md:text-lg font-bold text-red-800 mb-0.5 sm:mb-1 ${languageFontClass}`}>
           {official.name}
         </h2>
-        <div className="space-y-0.5 text-gray-700 text-xs sm:text-sm">
+        <div className={`space-y-0.5 text-gray-700 text-xs sm:text-sm ${languageFontClass}`}>
           <p className="leading-tight">{official.address}</p>
           <p className="font-medium">{official.mobile}</p>
         </div>
@@ -113,7 +158,7 @@ const AllAssembly = () => {
 
   const renderContent = () => {
     const data = activeTab === "2015" ? Assembly2015Data : ExecutiveCentralData;
-    const title = activeTab === "2015" ? "2015 महासभा" : "कार्यकारिणी महासभा";
+    const title = activeTab === "2015" ? translations.executiveList2015[language] : translations.executiveList[language];
 
     return (
       <>
@@ -121,7 +166,7 @@ const AllAssembly = () => {
         <div className="text-center py-3 sm:py-3 md:py-4 mb-3 sm:mb-3 md:mb-4">
           <div className="bg-white/95 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl border-2 border-red-200/50 p-3 sm:p-4 md:p-6">
             <div className="inline-block bg-red-800 rounded-full px-4 sm:px-6 md:px-8 py-1.5 sm:py-2 md:py-2.5 shadow-lg">
-              <p className="text-base sm:text-lg md:text-xl font-medium text-white">
+              <p className={`text-base sm:text-lg md:text-xl font-medium text-white ${languageFontClass}`}>
                 {title}
               </p>
             </div>
@@ -130,9 +175,8 @@ const AllAssembly = () => {
 
         {/* Officials Section */}
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl border-2 border-red-200/50 p-3 sm:p-4 md:p-6 mb-4 sm:mb-6 md:mb-8">
-          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-red-800 mb-4 sm:mb-5 md:mb-6 text-center">
-            अ.भा.ग.वैश्य महासभा कार्यकारिणी सूची
-            {activeTab === "2015" ? "-2015" : ""}
+          <h2 className={`text-lg sm:text-xl md:text-2xl font-bold text-red-800 mb-4 sm:mb-5 md:mb-6 text-center ${languageFontClass}`}>
+            {title}
           </h2>
           
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1.5 sm:gap-4 md:gap-6 lg:gap-8">
@@ -144,8 +188,8 @@ const AllAssembly = () => {
 
         {/* Nominated Officials Section */}
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl border-2 border-red-200/50 p-3 sm:p-4 md:p-6 mb-4 sm:mb-6 md:mb-8">
-          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-red-800 mb-4 sm:mb-5 md:mb-6 text-center">
-            {activeTab === "2015" ? "मनोनीत पदाधिकारी गण 2015" : "महासभा के मनोनीत पदाधिकारी एबं का. का. सदस्यों की सूची"}
+          <h2 className={`text-lg sm:text-xl md:text-2xl font-bold text-red-800 mb-4 sm:mb-5 md:mb-6 text-center ${languageFontClass}`}>
+            {activeTab === "2015" ? translations.nominatedOfficials2015[language] : translations.nominatedOfficialsCentral[language]}
           </h2>
           
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1.5 sm:gap-4 md:gap-6 lg:gap-8">
@@ -157,8 +201,8 @@ const AllAssembly = () => {
 
         {/* Project Officials Section */}
         <div className="bg-white/95 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl border-2 border-red-200/50 p-3 sm:p-4 md:p-6">
-          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-red-800 mb-4 sm:mb-5 md:mb-6 text-center">
-            प्रकल्पों के पधाधिकारी
+          <h2 className={`text-lg sm:text-xl md:text-2xl font-bold text-red-800 mb-4 sm:mb-5 md:mb-6 text-center ${languageFontClass}`}>
+            {translations.projectOfficials[language]}
           </h2>
           
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1.5 sm:gap-4 md:gap-6 lg:gap-8">
@@ -172,9 +216,23 @@ const AllAssembly = () => {
   };
 
   return (
-    <div 
-      className="min-h-screen bg-gray-50"
-    >
+    <div className="min-h-screen bg-gray-50">
+      <Helmet>
+        <title>
+          {language === "hi"
+            ? "सभी महासभाएँ - गहोई समाज"
+            : "All Assemblies - Gahoi Samaj"}
+        </title>
+        <meta
+          name="description"
+          content={
+            language === "hi"
+              ? "गहोई समाज की सभी महासभाओं का विवरण और कार्यकारिणी सूची।"
+              : "Details of all assemblies and executive committees of Gahoi Samaj."
+          }
+        />
+      </Helmet>
+
       {/* Hero Banner with Background Image */}
       <div className="relative w-full bg-red-800 pt-24 md:pt-32 pb-12 md:pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -201,11 +259,11 @@ const AllAssembly = () => {
                 />
               </svg>
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">
-              गहोई वैश्य महासभा
+            <h1 className={`text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 ${languageFontClass}`}>
+              {translations.pageTitle[language]}
             </h1>
-            <p className="text-xl md:text-2xl text-white opacity-90 max-w-3xl mx-auto">
-              सभी महासभाओं का विवरण
+            <p className={`text-xl md:text-2xl text-white opacity-90 max-w-3xl mx-auto ${languageFontClass}`}>
+              {translations.pageSubtitle[language]}
             </p>
           </div>
         </div>
@@ -217,23 +275,23 @@ const AllAssembly = () => {
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => setActiveTab("2015")}
-              className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
+              className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 ${languageFontClass} ${
                 activeTab === "2015"
                   ? "bg-red-800 text-white"
                   : "bg-red-100 text-red-800 hover:bg-red-200"
               }`}
             >
-              2015 महासभा
+              {translations.tab2015[language]}
             </button>
             <button
               onClick={() => setActiveTab("central")}
-              className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
+              className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 ${languageFontClass} ${
                 activeTab === "central"
                   ? "bg-red-800 text-white"
                   : "bg-red-100 text-red-800 hover:bg-red-200"
               }`}
             >
-              कार्यकारिणी महासभा
+              {translations.tabCentral[language]}
             </button>
           </div>
         </div>
