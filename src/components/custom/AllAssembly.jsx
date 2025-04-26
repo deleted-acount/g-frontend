@@ -501,10 +501,324 @@ const AllAssembly = () => {
         name: language === "hi" ? "श्री उमाशंकर लहारिया" : "Shri Umashankar Lahariya",
         address: language === "hi" ? "MZ-5, गुल मोहर, ग्रीन गार्डन, सिटी सेंटर, ग्वालियर" : "MZ-5, Gul Mohar, Green Garden, City Center, Gwalior",
         mobile: language === "hi" ? "मोबा. 09425150272" : "Mob. 09425150272",
+        image: "/executive/member-1.webp"
+      },
+      {
+        position: language === "hi" ? "उपाध्यक्ष" : "Vice President",
+        name: language === "hi" ? "श्रीराम गोपाल छिरोल्या (डल्लू भैया )" : "Shri Ram Gopal Chhirolia (Dallu Bhaiya)",
+        address: language === "hi" ? "13 ,दाता कालोनी ,एअरपोर्ट रोड ,भोपाल" : "13, Data Colony, Airport Road, Bhopal",
+        mobile: "9993953844",
+        image: "/executive/member-2.webp"
+
+      },
+      {
+        position: language === "hi" ? "उपाद्यक्ष" : "Vice President",
+        name: language === "hi" ? "श्रीमती पुष्पा ददरया" : "Smt. Pushpa Dadharya",
+        address: language === "hi" ? "1664, मनमोहन नगर, कृषि उपज मंडी के पास जबलपुर" : "1664, Manmohan Nagar, near Agricultural Produce Market, Jabalpur",
+        mobile: language === "hi" ? "मोबा. 9479495800" : "Mobile. 9479495800",
         image: "/executive/img-8.webp"
-      }
-    ],
-    projectOfficials: []
+      },
+      {
+        position: language === "hi" ? "उपाध्यक्ष" : "Vice President",
+        name: language === "hi" ? "श्री बाबू लाल डेंगरे" : "Shri Babu Lal Dengre",
+        address: language === "hi" ? "117, जावरा कम्पाउन्ड ,इंदौर" : "117, Jawra Compound, Indore",
+        mobile: language === "hi" ? "फोन 0731 -2705182" : "Phone 0731 -2705182",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "उपाद्यक्ष" : "Vice President",
+        name: language === "hi" ? "श्री सतीश सुहाने" : "Shri Satish Suhane",
+        address: language === "hi" ? "305 ,तानसेन अपार्टमेन्ट ,तानसेन रोड ग्वालियर" : "305, Tansen Apartment, Tansen Road, Gwalior",
+        mobile: language === "hi" ? "मोबा. 9425482181" : "Mobile. 9425482181",
+        image: "/executive/member-3.webp"
+      },
+      {
+        position: language === "hi" ? "उपाध्यक्ष" : "Vice President",
+        name: language === "hi" ? "श्री प्रकाश नौगरैया" : "Shri Prakash Naugariya",
+        address: language === "hi" ? "जैन नर्सिंग होम के पास ,सिविल लाइन , झाँसी" : "Near Jain Nursing Home, Civil Line, Jhansi",
+        mobile: language === "hi" ? "मोबा. 9415030373" : "Mobile. 9415030373",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "मंत्री" : "Minister",
+        name: language === "hi" ? "श्री शशिकांत निगोतिया" : "Shri Shashikant Nigotiya",
+        address: language === "hi" ? "160 ,गोपाल गंज ,उरई जिला -जालोन (उ.प्र.)" : "160, Gopal Ganj, Urai District - Jalon (U.P.)",
+        mobile: language === "hi" ? "मोबा. 9336031818" : "Mobile. 9336031818",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "मंत्री" : "Minister",
+        name: language === "hi" ? "डॉ . करुणेश गुप्ता (चपरा )" : "Dr. Karunesh Gupta (Chapra)",
+        address: language === "hi" ? "1 / 10074 ,बी गली न. 35 ,द्धितीय तल, वेस्ट गोरख पार्क ,दिल्ली" : "1 / 10074, B Lane No. 35, Second Floor, West Gorakh Park, Delhi",
+        mobile: language === "hi" ? "मोबा. 9891317151" : "Mobile. 9891317151",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "मंत्री" : "Minister",
+        name: language === "hi" ? "श्री भगवानदास बिलैया" : "Shri Bhagwandas Biliya",
+        address: language === "hi" ? "242 ,न्यू मिनरल जेससीम बंगला ,भोपाल" : "242, New Mineral Jessim Bungalow, Bhopal",
+        mobile: language === "hi" ? "मोबा. 9827049690" : "Mobile. 9827049690",
+        image: "/executive/member-4.webp"
+      },
+      {
+        position: language === "hi" ? "मंत्री" : "Minister",
+        name: language === "hi" ? "श्री अरुण नीखरा" : "Shri Arun Nikhra",
+        address: language === "hi" ? "बलदेव बाग, जबलपुर" : "Baldev Bagh, Jabalpur",
+        mobile: language === "hi" ? "मोबा. 9425163183" : "Mobile. 9425163183",
+        image: "/executive/member-5.webp"
+      },
+     
+      {
+        position: language === "hi" ? "उपकोषाध्यक्ष" : "Assistant Treasurer",
+        name: language === "hi" ? "श्री राकेश लहारिया" : "Shri Rakesh Lahariya",            
+        address: language === "hi" ? "लोहिया बाज़ार ,ग्वालियर" : "Lohiya Bazar, Gwalior",
+        mobile: language === "hi" ? "मोबा. 09425109949" : "Mobile. 09425109949",
+        image: "/executive/member-6.webp"
+      },
+      {
+        position: language === "hi" ? "केंद्रीय कार्यमंत्री" : " Central Minister",
+        name: language === "hi" ? "श्री राजेंद्र गेंडा" : " Shri Rajendra Genda",
+        address: language === "hi" ? "मो.परवारण, खोवा मंडी ,गाँधी रोड ,झाँसी" : " Mo. Parwaran, Khova Mandi, Gandhi Road, Jhansi",
+        mobile: language === "hi" ? "मोबा. 9415057005 " : "Mobile. 9415057005 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "संयुक्त मंत्री" : " Joint Minister",
+        name: language === "hi" ? "श्री अनिल खरय़ा" : " Shri Anil Kharya",
+        address: language === "hi" ? "ए-3,संजय उपवन कालोनी, सी.एच.सी. अपोलो हास्पीटल के पीछे,ऍम .आइ.जी .के पास, इंदौर" : " A-3, Sanjay Upvan Colony, C.H.C. Behind Apollo Hospital, M.I.G. Near Indore",
+        mobile: language === "hi" ? "मोबा. 9981128886 " : "Mobile. 9981128886 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "संयुक्त मंत्री" : " Joint Minister",
+        name: language === "hi" ? "श्री नितिन सरावगी" : " Shri Nitin Sarawagi",
+        address: language === "hi" ? "169, वासुदेव ,बड़ा बाज़ार ,झाँसी" : "169, Vasudev, Bada Bazar, Jhansi",
+        mobile: language === "hi" ? "मोबा. 9415031136 " : "Mobile. 9415031136 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "संयुक्त मंत्री" : " Joint Minister",
+        name: language === "hi" ? "श्री मैथिलीशरण सेठ" : " Shri Maithili Sharan Seth",
+        address: language === "hi" ? "642, खाती बाबा, कमलसिंग कालोनी,झाँसी" : "642, Khati Baba, Kamalsingh Colony, Jhansi",
+        mobile: language === "hi" ? "मोबा. 9415401600 " : "Mobile. 9415401600 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "संयुक्त मंत्री" : " Joint Minister",
+        name: language === "hi" ? "श्री बसंत तपा" : " Shri Basant Tapa",
+        address: language === "hi" ? "राधा बल्लभ वार्ड ,गाडरवारा जिला -नरसिंगपुर" : "Radha Ballabh Ward, Gadarwara District - Narsinghpur",
+        mobile: language === "hi" ? "मोबा. 9826829228 " : "Mobile. 9826829228 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "विकास मंत्री" : "Development Minister",
+        name: language === "hi" ? "श्री मनोज चौधरी" : " Shri Manoj Chaudhary",
+        address: language === "hi" ? "बड़ा बाज़ार ,पिछोर जिला -शिवपुरी" : " Bada Bazar, Pichhor District - Shivpuri",
+        mobile: language === "hi" ? "मोबा. 9425763324 " : "Mobile. 9425763324 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "विकास मंत्री" : "Development Minister",
+        name: language === "hi" ? "श्री पुरषोत्तम पोद्धार" : "Shri Purushottam Poddar",
+        address: language === "hi" ? "पोद्धार ज्वेलर्स , इन्द्रगड़ जिला -दतिया" : "Poddhar Jewelers, Indragad District - Datia",
+        mobile: language === "hi" ? "मोबा. 9893877819 " : "Mobile. 9893877819 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "विकास मंत्री" : "Development Minister",
+        name: language === "hi" ? "श्री मोहन मिसुरिया" : "Shri Mohan Misuriya",
+        address: language === "hi" ? "5 /122 पुराना गाड़ीअड्डा रोड , डबरा" : " 5/122 Old Gadi Adda Road, Dabra",
+        mobile: language === "hi" ? "मोबा. 9425481665 " : "Mobile. 9425481665 ",
+        image: "/executive/member-7.webp"
+      },
+      {
+        position: language === "hi" ? "विकास मंत्री" : "Development Minister",
+        name: language === "hi" ? "श्री राजकुमार लोहिया" : "Shri Rajkumar Lohiya",
+        address: language === "hi" ? "पूजा ज्वेलर्स ,सराफा बाज़ार ,इतवारी ,नागपुर" : "Puja Jewelers, Sarafa Bazar, Itwari, Nagpur",
+        mobile: language === "hi" ? "फोन 0712 - 221813 " : "Phone 0712 - 221813 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "संगठन मंत्री" : " Organization Minister",
+        name: language === "hi" ? "श्री धनिराम कनकने" : " Shri Dhaniram Kankane",
+        address: language === "hi" ? "ठाकुर कालोनी ,मोहन नगर , दुर्ग" : "Thakur Colony, Mohan Nagar, Durg",
+        mobile: language === "hi" ? "मोबा. 09827180913 " : "Mobile. 09827180913 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "संगठन मंत्री" : " Organization Minister",
+        name: language === "hi" ? "श्री रमेश मलैया" : " Shri Ramesh Malaiya",
+        address: language === "hi" ? "सी. 5556, राज श्री पुरम, लखनऊ " : "C. 5556, Raj Shri Puram, Lucknow",
+        mobile: language === "hi" ? "मोबा. 9415114356 " : "Mobile. 9415114356 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "संगठन मंत्री" : " Organization Minister",
+        name: language === "hi" ? "श्री अशोक नौगरैया" : " Shri Ashok Naugariya",
+        address: language === "hi" ? "163 ,सेंट्रल फोसीलिटी बिलिडिंग सेक्टर ,19 वासी (न्यू बोम्बे)" : " 163, Central Facility Building Sector, 19 Vasi (New Bombay)",
+        mobile: language === "hi" ? "मोबा. 09820341782 " : "Mobile. 09820341782 ",
+        image: "/executive/member-8.webp"
+      },
+
+      {
+        position: language === "hi" ? "संगठन मंत्री" : " Organization Minister",
+        name: language === "hi" ? "श्री जगदम्बा प्रसाद सुहाने" : " Shri Jagdamba Prasad Suhane",
+        address: language === "hi" ? "74 /99 धन कुट्टी ,कानपूर" : "74/99 Dhan Kuti, Kanpur",
+        mobile: language === "hi" ? "मोबा. 9795115747   " : "Mobile. 9795115747",
+        image: "/executive/member-9.webp"
+      },
+      {
+        position: language === "hi" ? "उपमंत्री" : "Assistant Minister",
+        name: language === "hi" ? "श्री पुरषोत्तम बरसैया" : "Shri Purushottam Barsaiya",
+        address: language === "hi" ? "द्वारा -महेश बलेचा का मकान,स्वर्णकार कालोनी ,विदिशा " : "Dvara - Mahesh Balesha's House, Swarnkar Colony, Vidisha",
+        mobile: language === "hi" ? "मोबा. 9425431588 " : "Mobile. 9425431588 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "उपमंत्री" : "Assistant Minister",
+        name: language === "hi" ? "श्री पुरषोत्तम बरसैया" : "Shri Purushottam Barsaiya",
+        address: language === "hi" ? "द्वारा -महेश बलेचा का मकान,स्वर्णकार कालोनी ,विदिशा " : "Dvara - Mahesh Balesha's House, Swarnkar Colony, Vidisha",
+        mobile: language === "hi" ? "मोबा. 9425431588 " : "Mobile. 9425431588 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "उपमंत्री" : "Assistant Minister",
+        name: language === "hi" ? "श्री रमेश लोहिया" : "Shri Ramesh Lohia",
+        address: language === "hi" ? "भोपाल " : "Bhopal",
+        mobile: language === "hi" ? "" : "",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "उपमंत्री" : "Assistant Minister",
+        name: language === "hi" ? "श्री कालीचरण मोदी" : "Shri Kalicharan Modi",
+        address: language === "hi" ? "मोदी सदन ,ठाकुर बाबा रोड ,डबरा" : "Modi Sadan, Thakur Baba Road, Dabra",
+        mobile: language === "hi" ? "मोबा. 9685233127 " : "Mobile. 9685233127 ",
+        image: "/executive/member-10.webp"
+      },
+      {
+        position: language === "hi" ? "उपमंत्री" : "Assistant Minister",
+        name: language === "hi" ? "श्री संतोष कुरेले" : "Shri Santosh Kurele",
+        address: language === "hi" ? "आनंद टाकीज के पास ,दतिया " : "Anand Talkies, Datia",
+        mobile: language === "hi" ? "मोबा. 9425113401 " : "Mobile. 9425113401 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "उपमंत्री" : "Assistant Minister",
+        name: language === "hi" ? "श्री संतोष कुरेले" : "Shri Santosh Kurele",
+        address: language === "hi" ? "आनंद टाकीज के पास ,दतिया " : "Near Anand Talkies, Datia",
+        mobile: language === "hi" ? "मोबा. 9425113401 " : "Mobile. 9425113401 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "उपमंत्री" : "Assistant Minister",
+        name: language === "hi" ? "श्री दिलीप लोहिया" : "Shri Dileep Lohiya",
+        address: language === "hi" ? "फ्लेट न. 805 ,सत्यम रेसीडेंसी ,सत्यदेव नगर , गाँधी रोड, ग्वालियर " : "Flat No. 805, Satyam Residency, Satyadev Nagar, Gandhi Road, Gwalior",
+        mobile: language === "hi" ? "मोबा. 9827221215 " : "Mobile. 9827221215 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "विशि. का. सदस्य" : "Member of the Committee",
+        name: language === "hi" ? "श्री कैलाशनारायण सावला" : "Shri Kailash Narayan Sawla",
+        address: language === "hi" ? "5/45 कृष्णपुरा, डबरा जिला- ग्वालियर" : "5/45 Krishnapura, Dabra District- Gwalior",
+        mobile: language === "hi" ? "मोबा. 09425481606 " : "Mobile. 09425481606 ",
+        image: "/executive/member-11.webp"
+      },
+      {
+        position: language === "hi" ? "विशि. का. सदस्य" : "Member of the Committee",
+        name: language === "hi" ? "श्री हरिनारायण बडेरिया" : "Shri Harinarayan Baderiya",
+        address: language === "hi" ? "बी-144 , ग्रीन पार्क कालोनी ,बेरसिया रोड भोपाल" : "B-144, Green Park Colony, Berasia Road Bhopal",
+        mobile: language === "hi" ? "मोबा. 9425301237 " : "Mobile. 9425301237 ",
+        image: "/executive/member-12.webp"
+      },
+      {
+        position: language === "hi" ? "विशि. का. सदस्य" : "Member of the Committee",
+        name: language === "hi" ? "श्री द्वारिका प्रसाद सुहाने" : "Shri Dwarika Prasad Suhane",
+        address: language === "hi" ? "418 -गोपाल गंज ,मोनीबाबा मंदिर के पीछे उरई जिला - जालोन" : "418 -Gopal Ganj, Behind Moni Baba Temple, Urai District - Jalon",
+        mobile: language === "hi" ? "मोबा. 09451317617 " : "Mobile. 09451317617 ",
+        image: "/executive/member-13.webp"
+      },
+      {
+        position: language === "hi" ? "विशि. का. सदस्य" : "Member of the Committee",
+        name: language === "hi" ? "श्रीमति शोभाखरैया" : "Smt. Shobha Khariya",
+        address: language === "hi" ? "40 ,खेरा नर्सिंग होम ,बड़ा बाज़ार, पन्ना  " : "40, Khera Nursing Home, Bada Bazar, Panna",
+        mobile: language === "hi" ? "" : "",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "विशि. का. सदस्य" : "Member of the Committee",
+        name: language === "hi" ? "श्री दिनेश गेंडा" : "Shri Dinesh Genda",
+        address: language === "hi" ? "खोड (शिवपुरी)" : "Khod (Shivpuri)",
+        mobile: language === "hi" ? "" : "",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "विशि. का. सदस्य" : "Member of the Committee",
+        name: language === "hi" ? "श्री भारत नीखरा" : "Shri Bharat Nikhra",
+        address: language === "hi" ? "जेपीका हॉउस ,म.न. 3 ,व्हाइट चर्च कालोनी इंदौर" : "JPK House, M.N. 3, White Church Colony Indore",
+        mobile: language === "hi" ? "मोबा. 9425057286 " : "Mobile. 9425057286 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "विशि. का. सदस्य" : "Member of the Committee",
+        name: language === "hi" ? "श्री रमेश सुहाने" : "Shri Ramesh Suhane",
+        address: language === "hi" ? "विनोद ट्रेडिंग कंपनी ,ए.बी. रोड ,शिवपुरी" : "Vinod Trading Company, A.B. Road, Shivpuri",
+        mobile: language === "hi" ? "मोबा. 9425136173 " : "Mobile. 9425136173 ",
+        image: "/executive/img-8.webp"
+      },
+ ],
+    projectOfficials: [
+      {
+        position: language === "hi" ? "अध्यक्ष न्यायाधिकरण" : "Chairman Tribunal",
+        name: language === "hi" ? "श्री सुन्दरलाल नौगरैया (पूर्ब न्याय़धीश )" : "Shri Sundarlal Naugariya (Former Judge)",
+        address: language === "hi" ? " ऍम.आइ.जी .173 ,माधव नगर ,ग्वालियर" : "M.I.G. 173, Madhav Nagar, Gwalior",
+        mobile: language === "hi" ? "मोबा. 09425112036 " : "Mobile. 09425112036 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "मंत्री न्यायाधिकरण" : "Minister Tribunal",
+        name: language === "hi" ? "श्री ब्रिजेश कुमार गुप्ता (मतेले) एडवो." : "Shri Brijesh Kumar Gupta (Matele) Adv.",
+        address: language === "hi" ? "मुख्य डाकखाने के पास ,भिंड" : "Near Main Post Office, Bhind",
+        mobile: language === "hi" ? "मोबा. 9425129575 " : "Mobile. 9425129575 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "अध्यक्ष अक्षय निधि" : "Chairman Akshay Nidhi",
+        name: language === "hi" ? "श्री सुभास कुचिया (पूर्ब आयकर अधिकारी)" : "Shri Subhas Kuchiya (Former Income Tax Officer)",
+        address: language === "hi" ? "वार्ड न. 27 ,गुप्ता काम्पलेक्स ,प्रेम नगर बालाघाट" : "Ward No. 27, Gupta Complex, Prem Nagar Balaghat",
+        mobile: language === "hi" ? "मोबा. 09425146302 " : "Mobile. 09425146302 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "अध्यक्ष गहोई ग्लो. चे.ऑ. कॉमर्स" : "Chairman Gahoi Global Che. Com. Commerce",
+        name: language === "hi" ? "श्री योगेश नौगरैया" : "Shri Yogesh Naugariya",
+        address: language === "hi" ? "ई 1 /121 ,अरेरा कालोनी ,भोपाल" : "E 1/121, Aarey Colony, Bhopal",
+        mobile: language === "hi" ? "मोबा. 09827052676 " : "Mobile. 09827052676 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "मंत्री गहोई ग्लो. चे.ऑ. कॉमर्स" : "Minister Gahoi Global Che. Com. Commerce",
+        name: language === "hi" ? "श्री सुभाष खर्द" : "Shri Subhash Khard",
+        address: language === "hi" ? "91 /92 ,सिविल लाइन , झाँसी" : "91/92, Civil Line, Jhansi",
+        mobile: language === "hi" ? "मोबा. 09415031397 " : "Mobile. 09415031397 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "अध्यक्ष - शास . कर्मचारी" : "Chairman - Shas. Employee",
+        name: language === "hi" ? "श्री रामगोपाल नीखरा" : "Shri Ramgopal Nikhra",
+        address: language === "hi" ? "मोटे गणेश जी मंदिर के पास, खासगी बाज़ार ग्वालियर " : "Near Mote Ganesh Ji Temple,  Khajgi Bazar Gwalior",
+        mobile: language === "hi" ? "मोबा. 09425243435 " : "Mobile. 09425243435 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "मंत्री - शास . कर्मचारी" : "Minister - Shas. Employee",
+        name: language === "hi" ? "श्री रामगोपाल नीखरा" : "Shri Ramgopal Nikhra",
+        address: language === "hi" ? "मोटे गणेश जी मंदिर के पास, खासगी बाज़ार ग्वालियर " : "Near Mote Ganesh Ji Temple,  Khajgi Bazar Gwalior",
+        mobile: language === "hi" ? "मोबा. 09425243435 " : "Mobile. 09425243435 ",
+        image: "/executive/img-8.webp"
+      },
+
+
+    ]
   };
 
   const OfficialCard = ({ official }) => (
