@@ -54,6 +54,10 @@ const AllAssembly = () => {
     projectOfficials: {
       hi: "प्रकल्पों के पधाधिकारी",
       en: "Project Officials"
+    },
+    gahoiBandhuEditorialBoard: {
+      hi: "गहोई बंधु संपादक मंडल",
+      en: "Gahoi Bandhu Editorial Board"
     }
   };
 
@@ -811,13 +815,121 @@ const AllAssembly = () => {
       },
       {
         position: language === "hi" ? "मंत्री - शास . कर्मचारी" : "Minister - Shas. Employee",
-        name: language === "hi" ? "श्री रामगोपाल नीखरा" : "Shri Ramgopal Nikhra",
-        address: language === "hi" ? "मोटे गणेश जी मंदिर के पास, खासगी बाज़ार ग्वालियर " : "Near Mote Ganesh Ji Temple,  Khajgi Bazar Gwalior",
-        mobile: language === "hi" ? "मोबा. 09425243435 " : "Mobile. 09425243435 ",
+        name: language === "hi" ? "श्री विनोद सिपौलिया" : "Shri Vinod Sipoliya",
+        address: language === "hi" ? "नेताजी चोक ,दुर्गा मंदिर के पास, न्यू शांति नगर ,रायपुर " : "Netaji Chok, Near Durga Temple, New Shanti Nagar, Raipur",
+        mobile: language === "hi" ? "मोबा. 9424218451 " : "Mobile. 9424218451 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "अध्यक्ष राजनीतिज्ञ" : "Chairman Politician",
+        name: language === "hi" ? "श्री जुगलकिशोर इटोरिया" : "Shri Jugalkishore Itoriya",
+        address: language === "hi" ? "ई -6 , 42 अरोरा कालोनी ,भोपाल " : "E -6, 42 Arora Colony, Bhopal",
+        mobile: language === "hi" ? "मोबा. 09826025346 " : "Mobile. 09826025346 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "अध्यक्ष राजनीतिज्ञ" : "Chairman Politician",
+        name: language === "hi" ? "श्री जुगलकिशोर इटोरिया" : "Shri Jugalkishore Itoriya",
+        address: language === "hi" ? "ई -6 , 42 अरोरा कालोनी ,भोपाल " : "E -6, 42 Arora Colony, Bhopal",
+        mobile: language === "hi" ? "मोबा. 09826025346 " : "Mobile. 09826025346 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "मंत्री राजनीतिज्ञ" : "Minister Politician",
+        name: language === "hi" ? "श्री राजकुमार नीखरा" : "Shri Rajkumar Nikhra",
+        address: language === "hi" ? "सागर कंसयानी प्रा.लिम. कासिम खां का बड़ा ,दाल बाज़ार,ग्वालियर " : "Sagar Kansyani Pra. Lim. Kasim Khan Ka Bada, Dal Bazar, Gwalior",
+        mobile: language === "hi" ? "मोबा. 09826344311 " : "Mobile. 09826344311 ",
+        image: "/executive/member-14.webp"
+      },
+      {
+        position: language === "hi" ? "गहोई कल्याण कोष" : " Gahoi Welfare Fund",
+        name: language === "hi" ? "श्री कैलाश नारायण सुहाने" : " Shri Kailash Narayan Suhane",
+        address: language === "hi" ? "ई -२5,अरेरा कालोनी ,भोपाल" : " E -25, Areea Colony, Bhopal",
+        mobile: language === "hi" ? "मोबा. 09452012411 " : "Mobile. 09452012411 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "मंत्री" : "Minister",
+        name: language === "hi" ? "श्री अलोक टिकरिया" : " Shri Alok Tikaria",
+        address: language === "hi" ? "383 ,टिकरया मार्ग ,छतरपुर" : " 383, Tikaria Marg, Chhatarpur",
+        mobile: language === "hi" ? "मोबा. 9425304544 " : "Mobile. 9425304544 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "अध्यक्ष, अखिल भारतीय गहोई वैश्य महिला सभा" : "President, All India Gahoi Vaishya Women's Association",
+        name: language === "hi" ? "श्रीमती संध्या नगरिया" : "Smt. Sandhya Nagariya",
+        address: language === "hi" ? "कोठी न. 8 प्रियंका नगर, कोलार रोड,भोपाल मोबा" : "Kothi No. 8 Priyanka Nagar, Kolar Road, Bhopal Mob",
+        mobile: language === "hi" ? "मोबा. 09893041693 " : "Mobile. 09893041693 ",
         image: "/executive/img-8.webp"
       },
 
+      {
+        position: language === "hi" ? "मंत्री, अखिल भारतीय गहोई वैश्य महिला सभा" : "Minister, All India Gahoi Vaishya Women's Association",
+        name: language === "hi" ? "श्रीमती रजनी रावत" : "Smt. Rajni Rawat",
+        address: language === "hi" ? "ग्वाल मंगरा तालाब के पास, छतरपुर" : "Gwal Mangra Talab Ke Paas, Chhatarpur",
+        mobile: language === "hi" ? "मोबा. 09425146234 " : "Mobile. 09425146234 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "अध्यक्ष अखिल भारतीय गहोई वैश्य" : "President All India Gahoi Vaishya",
+        name: language === "hi" ? "श्री प्रोमोद सेठ (भारती )" : "Shri Promod Seth (Bharati)",
+        address: language === "hi" ? "करेरा, जिला शिवपुरी" : "Kareera, District Shivpuri",
+        mobile: language === "hi" ? "मोबा. 09425489922 " : "Mobile. 09425489922 ",
+        image: "/executive/member-15.webp"
+      },
+      {
+        position: language === "hi" ? "मंत्री, अखिल भारतीय गहोई वैश्य युवक मण्डल" : "Minister, All India Gahoi Vaishya Youth Council",
+        name: language === "hi" ? "श्री राहुल नगरिया" : "Shri Rahul Nagariya",
+        address: language === "hi" ? "घंटा घर चौराहा, मेन रोड, उरई" : "Kareera, District Shivpuri",
+        mobile: language === "hi" ? "मोबा. 09415153212 " : "Mobile. 09415153212 ",
+        image: "/executive/member-16.webp"
+      },
+      {
+        position: language === "hi" ? "अध्यक्ष, अखिल भारतीय गहोई वैश्य वरिष्ठ संघ" : "President, All India Gahoi Vaishya Senior Association",
+        name: language === "hi" ? "श्री गनपत राम निखरा" : "Shri Ganpat Ram Nikhra",
+        address: language === "hi" ? "विवेकानंद कालोनी, फलका बाज़ार, ग्वालियर मोबा" : "Vivekanand Colony, Falka Bazar, Gwalior Mob",
+        mobile: language === "hi" ? "मोबा. 09425113476 " : "Mobile. 09425113476 ",
+        image: "/executive/member-19.webp"
+      },
+      {
+        position: language === "hi" ? "मंत्री, अखिल भारतीय गहोई वैश्य वरिष्ठ संघ" : "Minister, All India Gahoi Vaishya Senior Association",
+        name: language === "hi" ? "श्री एम. सी. सुहाने" : "Shri M. C. Suhane",
+        address: language === "hi" ? "2 बी/540 वसुन्धरा, गाज़ियाबाद" : "2 B/540 Vasundhara, Ghaziabad",
+        mobile: language === "hi" ? "मोबा. 09873666369 " : "Mobile. 09873666369 ",
+        image: "/executive/img-8.webp"
+      },
+      {
+        position: language === "hi" ? "मुख्या चुनाव आयुक्त" : "Chief Election Commissioner",
+        name: language === "hi" ? "श्री आर. एन. गुप्ता" : "Shri R. N. Gupta",
+        address: language === "hi" ? "ग्वालियर" : "Gwalior",
+        mobile: language === "hi" ? "मोबा. 09425111349 " : "Mobile. 09425111349 ",
+        image: "/executive/member-17.webp"
+      },
+      {
+        position: language === "hi" ? "संयोजक जनगणना" : "Coordinator Census",
+        name: language === "hi" ? "श्री कुबेर चन्द्र रेजा" : "Shri Kuber Chandra Reja",
+        address: language === "hi" ? "भोपाल" : "Bhopal",
+        mobile: language === "hi" ? "मोबा. 09303135377 " : "Mobile. 09303135377 ",
+        image: "/executive/member-18.webp"
+      },
 
+    ],
+    GahoiBandhuEditorialBoard: [
+      {
+        position: language === "hi" ? "राष्ट्रीय अध्यक्ष" : "National President",
+        name: language === "hi" ? "राधेश्याम कुचिया" : "Radheshyam Kuchiya",
+        address: language === "hi" ? "" : "",
+        mobile: language === "hi" ? "मोबा. 09425114006" : "Mob. 09425114006",
+        image: "/executive/member-21.webp"
+      },
+      {
+        position: language === "hi" ? "कार्यकारी अध्यक्ष" : "Executive President",
+        name: language === "hi" ? "उमा शंकर लहारिया (प्रबंध संपादक )" : "Uma Shankar Lahariya (Managing Editor)",
+        address: language === "hi" ? "जबलपुर" : "Jabalpur",
+        mobile: language === "hi" ? "मोबा. 09425150272" : "Mob. 09425150272",
+      image: "/executive/member-20.webp"
+      },
+     
     ]
   };
 
@@ -924,6 +1036,21 @@ const AllAssembly = () => {
             ))}
           </div>
         </div>
+        )}
+
+        {/* Gahoi Bandhu Editorial Board Section */}
+        {data.GahoiBandhuEditorialBoard && data.GahoiBandhuEditorialBoard.length > 0 && (
+          <div className="bg-white/95 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl border-2 border-red-200/50 p-3 sm:p-4 md:p-6">
+            <h2 className={`text-lg sm:text-xl md:text-2xl font-bold text-red-800 mb-4 sm:mb-5 md:mb-6 text-center ${languageFontClass}`}>
+              {language === "hi" ? "गहोई बंधु संपादक मंडल" : "Gahoi Bandhu Editorial Board"}
+            </h2>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1.5 sm:gap-4 md:gap-6 lg:gap-8">
+              {data.GahoiBandhuEditorialBoard.map((official, index) => (
+                <OfficialCard key={index} official={official} />
+              ))}
+            </div>
+          </div>
         )}
       </>
     );

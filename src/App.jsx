@@ -10,11 +10,13 @@ import SocialFlagSong from "./components/custom/SocialFlagSong";
 import Contact from "./components/custom/Contact";
 import AboutUs from "./components/custom/AboutUs";
 import Rite from "./components/custom/Rite";
+import Video from "./components/custom/VideoPage";
 import FamilyLogin from "./components/custom/FamilyLogin";
 import { CowSeva } from "./components/cow-seva";
 import ScrollToTop from "./components/utils/ScrollToTop";
 import GotraAankna from "./components/custom/GotraAankna";
 import AllAssembly from "./components/custom/AllAssembly";
+import LatestNews from "./components/custom/LatestNews";
 
 import { LanguageProvider } from "./context/LanguageContext";
 
@@ -37,6 +39,8 @@ function App() {
           <Route path="/gau-seva" element={<CowSeva />} />
           <Route path="/gotra-aankna" element={<GotraAankna />} />
           <Route path="/all-assembly" element={<AllAssembly />} />
+          <Route path="/video" element={<Video />} />
+          <Route path="/latestnews" element={<LatestNews />} />
         </Routes>
       </Layout>
     </LanguageProvider>

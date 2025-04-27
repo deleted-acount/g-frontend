@@ -101,28 +101,20 @@ const Contact = () => {
   };
 
   const contact1 = {
-    name: { hi: "श्री. wwwww www wwwww", en: "Mr. wwwww www wwwww" },
-    designation: { hi: "ww - wwww wwww wwwwww", en: "ww - wwww wwww wwwwww" },
-    address1: { hi: "ww wwww ww wwwwww Pwwwu", en: "ww wwww ww wwwwww Pwwwu" },
-    address2: { hi: "wwww www (M.P.)", en: "wwww www (M.P.)" },
-    phone: "+91-000000000",
-    email1: "www@gmail.com",
-    email2: "www@yahoo.co.in",
+    name: { hi: "श्री प्रदीप पहरिया", en: "Shri Pradeep Paharia" },    
+    address1: { hi: "12, तरुण विहार कॉलोनी, थाटीपुर", en: "12, Tarun Vihar Colony, Thatipur" },
+    address2: { hi: " ग्वालियर - 474011 (म.प्र.)", en: "Gwalior – 474011 (Madhya Pradesh)" },
+    phone: "+91-9303872220",
+    email1: "gahoishakti@gmail.com",
+    email2: "",
   };
 
   const contact2 = {
-    name: { hi: "श्री. wwwww www", en: "Mr. wwwww www" },
-    address1: {
-      hi: "www, 3rd ww, G6 wwwww wwww",
-      en: "www, 3rd ww, G6 wwwww wwww",
-    },
-    address2: {
-      hi: "www Maya ww, City Center",
-      en: "www Maya ww, City Center",
-    },
-    address3: { hi: "ww (M.P.)", en: "ww (M.P.)" },
-    phone: "+91-000000",
-    email: "wwwa@www.com",
+    name: { hi: "श्री सुधीर रावत", en: "Shri Sudhir Rawat" },
+    address1: { hi: "12, तरुण विहार कॉलोनी, थाटीपुर", en: "12, Tarun Vihar Colony, Thatipur" },
+    address2: { hi: " ग्वालियर - 474011 (म.प्र.)", en: "Gwalior – 474011 (Madhya Pradesh)" },  
+    phone: "+91-9826260742",
+    email1: "gahoishakti@gmail.com",
   };
 
   // reusable styles
@@ -233,7 +225,7 @@ const Contact = () => {
                 <h3
                   className={`text-lg md:text-xl font-bold text-gray-800 ${languageFontClass}`}
                 >
-                  {language === "hi" ? "संपर्क 1" : "Contact 1"}
+                  {language === "hi" ? "संस्थापकगण" : "Founders"}
                 </h3>
               </div>
 
@@ -245,11 +237,7 @@ const Contact = () => {
                     {contact1.name[language]}
                   </span>
                 </li>
-                <li className="flex items-start">
-                  <span className={`text-gray-700 ${languageFontClass}`}>
-                    {contact1.designation[language]}
-                  </span>
-                </li>
+              
                 <li className="flex items-start">
                   <span className={`text-gray-700 ${languageFontClass}`}>
                     {contact1.address1[language]}
@@ -337,7 +325,7 @@ const Contact = () => {
             >
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-10 h-10 md:w-12 md:h-12 bg-red-50 rounded-full flex items-center justify-center">
-                  <svg
+                <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 md:h-6 md:w-6 text-red-700"
                     fill="none"
@@ -348,14 +336,14 @@ const Contact = () => {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                     />
                   </svg>
                 </div>
                 <h3
                   className={`text-lg md:text-xl font-bold text-gray-800 ${languageFontClass}`}
                 >
-                  {language === "hi" ? "संपर्क 2" : "Contact 2"}
+                    {language === "hi" ? "संस्थापकगण" : "Founders"}
                 </h3>
               </div>
 
@@ -377,11 +365,7 @@ const Contact = () => {
                     {contact2.address2[language]}
                   </span>
                 </li>
-                <li className="flex items-start">
-                  <span className={`text-gray-700 ${languageFontClass}`}>
-                    {contact2.address3[language]}
-                  </span>
-                </li>
+              
                 <li className="flex items-start">
                   <span className="inline-flex items-center">
                     <svg
@@ -421,10 +405,10 @@ const Contact = () => {
                       />
                     </svg>
                     <a
-                      href={`mailto:${contact2.email}`}
+                      href={`mailto:${contact2.email1}`}
                       className="text-red-600 hover:text-red-700 transition-colors"
                     >
-                      {contact2.email}
+                      {contact2.email1}
                     </a>
                   </span>
                 </li>
