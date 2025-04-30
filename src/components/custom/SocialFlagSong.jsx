@@ -1,8 +1,12 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import flagImage from "/flag.png";
+import { useLanguage } from "../../context/LanguageContext";
 
 const SocialFlagSong = () => {
+  const { language } = useLanguage();
+  const languageFontClass = language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Helmet>
@@ -39,11 +43,11 @@ const SocialFlagSong = () => {
                 />
               </svg>
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">
-              अखिल भारतीय गहोई वैश्य महासभा
+            <h1 className={`text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 ${languageFontClass}`}>
+              {language === "hi" ? "अखिल भारतीय गहोई वैश्य महासभा" : "All India Gahoi Vaishya Mahasabha"}
             </h1>
-            <p className="text-xl md:text-2xl text-white opacity-90 max-w-3xl mx-auto">
-              ध्वज गीत
+            <p className={`text-xl md:text-2xl text-white opacity-90 max-w-3xl mx-auto ${languageFontClass}`}>
+              {language === "hi" ? "ध्वज गीत" : "Flag Song"}
             </p>
           </div>
         </div>

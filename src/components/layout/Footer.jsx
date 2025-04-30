@@ -26,7 +26,7 @@ const Footer = () => {
       followUs: "Follow Us",
       copyright: "All rights reserved.",
       email : "Email: gahloishakti@gmail.com",
-      phone: "Phone: +91 000 000 0000",
+      phone: "Phone: +91 9303872220",
       address: " 12, Tarun Vihar Colony, Thatipur, Gwalior-474011 (M.P.)",
       footer: "Gahoi Shakti Jan Kalyan Samiti India 2025.",
 
@@ -49,7 +49,7 @@ const Footer = () => {
       followUs: "हमें फॉलो करें",
       copyright: "सभी अधिकार सुरक्षित।",
       email: "ईमेल: gahloishakti@gmail.com",
-      phone: "फ़ोन: +91 000 000 0000",
+      phone: "फ़ोन: +91 9303872220",
       address: " 12, तरुण विहार कॉलोनी, थाटीपुर, ग्वालियर-474011 (म.प्र.)",
       footer: "गहोई शक्ति जन कल्याण समिति भारत २०२५",
     }

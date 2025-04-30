@@ -13,7 +13,7 @@ const Header = () => {
   const timeoutRef = useRef(null);
   const { language } = useLanguage();
   const t = translations[language];
-  const languageFontClass = language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
+
   const hindiTextClass = language === "hi" 
     ? "text-base lg:text-lg" 
     : "text-sm md:text-xs lg:text-base";
@@ -103,7 +103,7 @@ const Header = () => {
   ];
 
   return (
-    <header className={`absolute top-0 left-0 right-0 z-50 ${languageFontClass}`}>
+    <header className="absolute top-0 left-0 right-0 z-50" >
       <nav className="container mx-auto px-4 py-2">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center space-x-3">

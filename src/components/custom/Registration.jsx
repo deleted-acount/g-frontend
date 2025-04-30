@@ -1,60 +1,105 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import PhotoUpload from "./PhotoUpload";
+import {
+  STATE_TO_ASSEMBLIES,
+  INDUSTRY_SECTORS,
+  BUSINESS_SIZES,
+  WORK_TYPES,
+  EMPLOYMENT_TYPES,
+  HANDICAP_OPTIONS,
+  BLOOD_GROUPS,
+  INITIAL_FAMILY_MEMBERS,
+  MAX_CHILDREN,
+  MAX_SIBLINGS,
+  MARITAL_STATUS_OPTIONS,
+  EDUCATION_OPTIONS,
+  OCCUPATION_OPTIONS,
+  SIBLING_RELATION_OPTIONS,
+  FORM_STEPS,
+  PROCESS_STEPS,
+  INITIAL_FORM_DATA
+} from "../../constants/formConstants";
+import {
+  validateStep,
+  formatFormData,
+  hasErrors
+} from "../../utils/formUtils";
 
 const RegistrationForm = () => {
   const location = useLocation();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
-    name: "",
+    ...INITIAL_FORM_DATA,
     mobileNumber: location.state?.mobileNumber || "",
-    display_picture: null,
-    village: "",
-    email: "",
-    bloodGroup: "",
-    birthDate: "",
-    marriageDate: "",
-    education: "",
-    currentAddress: "",
-    familyDetails: [
-      { relation: "Father", name: "", mobileNumber: "" },
-      { relation: "Mother", name: "", mobileNumber: "" },
-      { relation: "Spouse", name: "", mobileNumber: "" },
-      { relation: "Child", name: "", mobileNumber: "" },
-    ],
-    manglik: "",
-    grah: "",
-    handicap: "",
-    gotra: "",
-    aakna: "",
-    occupation: "",
-    companyName: "",
-    workArea: "",
-    helpOthers: null,
-    provideDiscount: null,
-    suggestions: "",
-    referenceBy: "",
-    gender: "",
-    isMarried: "Unmarried",
-    marriageToAnotherCaste: "Same Caste Marriage",
-    state: "",
-    regionalAssembly: "",
-    localPanchayat: "",
-    localPanchayatName: "",
-    subLocalPanchayat: "",
   });
-
-  const [processSteps, setProcessSteps] = useState([
-    { name: "Login", completed: true },
-    { name: "OTP Verification", completed: true },
-    { name: "Registration", completed: false },
-    { name: "Completion", completed: false },
-  ]);
+  const [processSteps, setProcessSteps] = useState(PROCESS_STEPS);
   const [progress, setProgress] = useState(50);
-
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const indianCities = [
+    "Ahmedabad",
+    "Amravati",
+    "Ashok Nagar",
+    "Auraiya",
+    "Baikunthpur",
+    "Banda",
+    "Bhind",
+    "Bilaspur",
+    "Bhopal",
+    "Chalisgaon",
+    "Chhatarpur",
+    "Chhindwara",
+    "Datia",
+    "Delhi",
+    "Dhamtari",
+    "Dhuliya",
+    "Dindori",
+    "Durg",
+    "Ghasan",
+    "Guna",
+    "Gwalior",
+    "Hata",
+    "Hoshangabad",
+    "Indore",
+    "Jabalpur",
+    "Jagdalpur",
+    "Jaipur",
+    "Jalaun",
+    "Jhansi",
+    "Kanpur",
+    "Karvi",
+    "Katni",
+    "Lalitpur",
+    "Lucknow",
+    "Mahoba",
+    "Mandla",
+    "Mathura",
+    "Morena",
+    "Mumbai",
+    "Nagpur",
+    "Narsinghpur",
+    "Other",
+    "Panna",
+    "Patna City",
+    "Pune",
+    "Raisen",
+    "Raipur",
+    "Rajnandgaon",
+    "Rewa",
+    "Sagar",
+    "Satna",
+    "Seoni",
+    "Shahdol",
+    "Shivpuri",
+    "Sultanpur",
+    "Tikamgarh",
+    "Ujjain",
+    "Umariya",
+    "Vidisha"
+  ];
 
   const handleImageSelect = (file) => {
     setFormData((prev) => ({
@@ -83,46 +128,8 @@ const RegistrationForm = () => {
     };
   }, []);
 
-  const formSteps = [
-    {
-      name: "Personal Information",
-      fields: ["name", "mobileNumber", "village", "id", "email", "gender"],
-    },
-    {
-      name: "Additional Details",
-      fields: [
-        "bloodGroup",
-        "birthDate",
-        "marriageDate",
-        "education",
-        "currentAddress",
-        "regionalAssembly",
-        "localPanchayatName",
-        "localPanchayat",
-        "subLocalPanchayat",
-        "state",
-      ],
-    },
-    { name: "Family Information", fields: ["familyDetails"] },
-    {
-      name: "Biographical Details",
-      fields: ["manglik", "grah", "handicap", "gotra", "aakna"],
-    },
-    {
-      name: "Work Information",
-      fields: [
-        "occupation",
-        "companyName",
-        "workArea",
-        "helpOthers",
-        "provideDiscount",
-      ],
-    },
-    {
-      name: "Final Submission",
-      fields: ["suggestions", "date", "referenceBy"],
-    },
-  ];
+  // Optimize form steps by using constants
+  const formSteps = useMemo(() => FORM_STEPS, []);
  
   useEffect(() => {
     if (location.state?.fromLogin) {
@@ -432,38 +439,488 @@ const RegistrationForm = () => {
     return formData.gotra ? gotraAaknaMap[formData.gotra] || [] : [];
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const pincodeData = {
+    // Delhi
+    "110": {
+      state: "Delhi",
+      city: "Delhi",
+      districts: {
+        "110001-110012": "Central Delhi",
+        "110013-110019": "East Delhi",
+        "110020-110029": "New Delhi",
+        "110030-110039": "North Delhi",
+        "110040-110049": "South Delhi",
+        "110050-110059": "West Delhi",
+        "110060-110069": "North East Delhi",
+        "110070-110079": "South West Delhi",
+        "110080-110089": "North West Delhi",
+        "110090-110099": "Shahdara"
+      }
+    },
+    // Madhya Pradesh - Gwalior
+    "474": {
+      state: "Madhya Pradesh",
+      city: "Gwalior",
+      districts: {
+        "474001-474012": "Gwalior City and Surrounding Areas",
+        "474015": "Thatipur",
+        "474020": "Sithouli"
+      }
+    },
+    "475": {
+      state: "Madhya Pradesh",
+      city: "Gwalior",
+      districts: {
+        "475001": "Dabra",
+        "475110": "Morar Cantt",
+        "475661": "Datia City",
+        "475686": "Seondha",
+        "475675": "Indergarh"
+      }
+    },
+    "477": {
+      state: "Madhya Pradesh",
+      city: "Bhind",
+      districts: {
+        "477001": "Bhind City",
+        "477116": "Ater",
+        "477441": "Mehgaon",
+        "477333": "Gohad"
+      }
+    },
+    "476": {
+      state: "Madhya Pradesh",
+      city: "Morena",
+      districts: {
+        "476001": "Morena City",
+        "476221": "Ambah",
+        "476554": "Porsa",
+        "476115": "Joura"
+      }
+    },
+    // Rajasthan - Jaipur
+    "302": {
+      state: "Rajasthan",
+      city: "Jaipur",
+      districts: {
+        "302001-302039": "Jaipur City and Suburbs"
+      }
+    },
+    "303": {
+      state: "Rajasthan",
+      city: "Jaipur",
+      districts: {
+        "303001": "Chomu",
+        "303103": "Jobner",
+        "303702": "Dudu"
+      }
+    },
+    // Uttar Pradesh
+    "285": {
+      state: "Uttar Pradesh",
+      city: "Jalaun",
+      districts: {
+        "285123": "Jalaun City",
+        "285001": "Orai",
+        "285130": "Kalpi"
+      }
+    },
+    "226": {
+      state: "Uttar Pradesh",
+      city: "Lucknow",
+      districts: {
+        "226001-226031": "Lucknow Urban and Rural",
+        "226010": "Gomti Nagar",
+        "226012": "Alambagh"
+      }
+    },
+    "227": {
+      state: "Uttar Pradesh",
+      city: "Lucknow",
+      districts: {
+        "227105": "Malihabad"
+      }
+    },
+    "208": {
+      state: "Uttar Pradesh",
+      city: "Kanpur",
+      districts: {
+        "208001-208027": "Kanpur City Urban Areas"
+      }
+    },
+    "209": {
+      state: "Uttar Pradesh",
+      city: "Kanpur",
+      districts: {
+        "209214": "Rural Kanpur Areas"
+      }
+    },
+    "210": {
+      state: "Uttar Pradesh",
+      districts: {
+        "210205": "Karvi Town",
+        "210204": "Nearby Villages",
+        "210001": "Banda City",
+        "210120": "Naraini"
+      }
+    },
+    "206": {
+      state: "Uttar Pradesh",
+      city: "Auraiya",
+      districts: {
+        "206122": "Auraiya City",
+        "206128": "Phaphund"
+      }
+    },
+    "284": {
+      state: "Uttar Pradesh",
+      city: "Jhansi",
+      districts: {
+        "284001-284003": "Jhansi City and Suburbs"
+      }
+    },
+    // Madhya Pradesh 
+    "472": {
+      state: "Madhya Pradesh",
+      city: "Tikamgarh",
+      districts: {
+        "472001": "Tikamgarh City",
+        "472339": "Jatara"
+      }
+    },
+    "473": {
+      state: "Madhya Pradesh",
+      districts: {
+        "473551": "Shivpuri City",
+        "473331": "Ashok Nagar City",
+        "473001": "Guna City"
+      }
+    },
+    // Gujarat - Ahmedabad
+    "380": {
+      state: "Gujarat",
+      city: "Ahmedabad",
+      districts: {
+        "380001-382470": "Ahmedabad City Zones"
+      }
+    },
+    // Madhya Pradesh - More Cities
+    "452": {
+      state: "Madhya Pradesh",
+      city: "Indore",
+      districts: {
+        "452001-452020": "Indore City Areas"
+      }
+    },
+    "456": {
+      state: "Madhya Pradesh",
+      city: "Ujjain",
+      districts: {
+        "456001-456668": "Ujjain City and District"
+      }
+    },
+    "462": {
+      state: "Madhya Pradesh",
+      city: "Bhopal",
+      districts: {
+        "462001-462047": "Bhopal City Zones"
+      }
+    },
+    "464": {
+      state: "Madhya Pradesh",
+      districts: {
+        "464001": "Vidisha City",
+        "464551": "Raisen City"
+      }
+    },
+    "487": {
+      state: "Madhya Pradesh",
+      city: "Narsinghpur",
+      districts: {
+        "487001": "Narsinghpur City"
+      }
+    },
+    "482": {
+      state: "Madhya Pradesh",
+      city: "Jabalpur",
+      districts: {
+        "482001-482008": "Jabalpur Urban Areas"
+      }
+    },
+    "484": {
+      state: "Madhya Pradesh",
+      districts: {
+        "484661": "Umariya City",
+        "484001": "Shahdol City"
+      }
+    },
+    "470": {
+      state: "Madhya Pradesh",
+      districts: {
+        "470001": "Sagar City",
+        "470775": "Hata City"
+      }
+    },
+    "480": {
+      state: "Madhya Pradesh",
+      districts: {
+        "480661": "Seoni City",
+        "480001": "Chhindwara City"
+      }
+    },
+    "483": {
+      state: "Madhya Pradesh",
+      city: "Katni",
+      districts: {
+        "483501": "Katni City"
+      }
+    },
+    "488": {
+      state: "Madhya Pradesh",
+      city: "Panna",
+      districts: {
+        "488001": "Panna City"
+      }
+    },
+    "461": {
+      state: "Madhya Pradesh",
+      city: "Hoshangabad",
+      districts: {
+        "461001": "Hoshangabad City"
+      }
+    },
+    "481": {
+      state: "Madhya Pradesh",
+      districts: {
+        "481661": "Mandla City",
+        "481880": "Dindori City"
+      }
+    },
+    // Uttar Pradesh 
+    "228": {
+      state: "Uttar Pradesh",
+      city: "Sultanpur",
+      districts: {
+        "228001": "Sultanpur City"
+      }
+    },
+    "471": {
+      state: "Madhya Pradesh",
+      city: "Chhatarpur",
+      districts: {
+        "471001": "Chhatarpur City"
+      }
+    },
+    "485": {
+      state: "Madhya Pradesh",
+      city: "Satna",
+      districts: {
+        "485001": "Satna City"
+      }
+    },
+    "800": {
+      state: "Bihar",
+      city: "Patna City",
+      districts: {
+        "800008": "Patna City Area"
+      }
+    },
+    "486": {
+      state: "Madhya Pradesh",
+      city: "Rewa",
+      districts: {
+        "486001": "Rewa City"
+      }
+    },
+    // Chhattisgarh Cities
+    "491": {
+      state: "Chhattisgarh",
+      districts: {
+        "491001": "Durg City",
+        "491441": "Rajnandgaon City"
+      }
+    },
+    "493": {
+      state: "Chhattisgarh",
+      city: "Dhamtari",
+      districts: {
+        "493773": "Dhamtari City"
+      }
+    },
+    "492": {
+      state: "Chhattisgarh",
+      city: "Raipur",
+      districts: {
+        "492001-492099": "Raipur Urban and Suburban Areas"
+      }
+    },
+    "495": {
+      state: "Chhattisgarh",
+      city: "Bilaspur",
+      districts: {
+        "495001": "Bilaspur City"
+      }
+    },
+    "494": {
+      state: "Chhattisgarh",
+      city: "Jagdalpur",
+      districts: {
+        "494001": "Jagdalpur City"
+      }
+    },
+    "497": {
+      state: "Chhattisgarh",
+      city: "Baikunthpur",
+      districts: {
+        "497335": "Baikunthpur City"
+      }
+    },
+    // Maharashtra Cities
+    "440": {
+      state: "Maharashtra",
+      city: "Nagpur",
+      districts: {
+        "440001-440037": "Nagpur Urban and Suburban Areas",
+        "440001": "Nagpur City",
+        "440002": "Nagpur West",
+        "440003": "Nagpur East"
+      }
+    },
+    "424": {
+      state: "Maharashtra",
+      city: "Chalisgaon",
+      districts: {
+        
+        "424101": "Chalisgaon City"
+      }
+    },
+    "411": {
+      state: "Maharashtra",
+      city: "Pune",
+      districts: {
+        "411001-411062": "Pune Urban and Rural Areas",
+        "411001": "Pune City",
+        "411002": "Pune Cantonment",
+        "411003": "Pune University"
+      }
+    },
+    "444": {
+      state: "Maharashtra",
+      city: "Amravati",
+      districts: {
+        "444601": "Amravati City",
+        "444602": "Amravati Rural",
+        "444603": "Amravati Industrial"
+      }
+    },
+    "400": {
+      state: "Maharashtra",
+      city: "Mumbai",
+      districts: {
+        "400001-400104": "Mumbai City Zones",
+        "400001": "Fort",
+        "400002": "Colaba",
+        "400003": "Churchgate"
+      }
+    },
+    "281": {
+      state: "Uttar Pradesh",
+      city: "Mathura",
+      districts: {
+        "281001": "Mathura City"
+      }
+    }
+  };
 
-    // Handle number-only fields
+  // Memoized helper functions
+  const memoizedGetLocationFromPincode = (pincode) => {
+    if (!pincode || pincode.length !== 6) return null;
+    
+    const areaCode = pincode.substring(0, 3);
+    const location = pincodeData[areaCode];
+    
+    if (!location) return null;
+
+    const numericPincode = parseInt(pincode);
+    let district = null;
+    let city = location.city;
+
+    // Find matching district based on pincode range
+    for (const [range, districtName] of Object.entries(location.districts)) {
+      const [start, end] = range.split('-').map(p => parseInt(p));
+      if (!end) {
+        // Single pincode match
+        if (parseInt(range) === numericPincode) {
+          district = districtName;
+          // If city isn't set at the area code level, try to determine from district name
+          if (!city) {
+            city = districtName.replace(" City", "").replace(" Town", "");
+          }
+          break;
+        }
+      } else {
+        // Pincode range match
+        if (numericPincode >= start && numericPincode <= end) {
+          district = districtName;
+          break;
+        }
+      }
+    }
+
+    return {
+      state: location.state,
+      city: city,
+      district: district
+    };
+  };
+
+  const extractPincodeFromAddress = (address) => {
+    const pincodeMatch = address.match(/\b\d{6}\b/);
+    return pincodeMatch ? pincodeMatch[0] : null;
+  };
+
+  // Optimize handlers with useCallback
+  const handleInputChange = useCallback((e) => {
+    const { name, value } = e.target;
+    
     if (name === "mobileNumber" && !/^\d*$/.test(value)) {
       return;
     }
 
-    setFormData((prev) => {
+    if (name === "currentAddress") {
+      const pincode = extractPincodeFromAddress(value);
+      if (pincode) {
+        const locationInfo = memoizedGetLocationFromPincode(pincode);
+        if (locationInfo) {
+          setFormData(prev => ({
+            ...prev,
+            [name]: value,
+            city: locationInfo.city,
+            district: locationInfo.district,
+            state: locationInfo.state
+          }));
+          return;
+        }
+      }
+    }
+
+    setFormData(prev => {
       const newData = { ...prev, [name]: value };
 
-      // Auto-update state based on mappings
+      // Auto-update dependent fields
       if (name === "localPanchayat") {
         newData.subLocalPanchayat = "";
-        newData.state = stateMapping[value] ?? "";
       } else if (name === "regionalAssembly") {
-        // Reset dependent fields when parent field changes
         newData.localPanchayatName = "";
         newData.localPanchayat = "";
         newData.subLocalPanchayat = "";
-        newData.state = "";
       } else if (name === "localPanchayatName") {
-        // Reset dependent fields
         newData.localPanchayat = "";
         newData.subLocalPanchayat = "";
-        newData.state = "";
       } else if (name === "gotra") {
-        // Update aakna options based on gotra
         newData.aakna = "";
       } else if (name === "isMarried") {
         newData.isMarried = value === "yes";
-        // Reset date if unmarried
         if (value === "no") {
           newData.marriageDate = "";
         }
@@ -472,78 +929,90 @@ const RegistrationForm = () => {
       return newData;
     });
 
-    // Clear any errors for this field
+    // Clear field error
     if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
+      setErrors(prev => ({ ...prev, [name]: "" }));
     }
-  };
+  }, [errors]);
 
-  const handleFamilyDetailChange = (index, field, value) => {
+  // Optimize family detail handler
+  const handleFamilyDetailChange = useCallback((index, field, value) => {
     if (field === "mobileNumber" && !/^\d*$/.test(value)) {
       return; 
     }
     
-    const newFamilyDetails = [...formData.familyDetails];
-    newFamilyDetails[index] = {
-      ...newFamilyDetails[index],
-      [field]: value,
-    };
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      familyDetails: newFamilyDetails,
+      familyDetails: prev.familyDetails.map((member, i) => 
+        i === index ? { ...member, [field]: value } : member
+      )
     }));
     
     if (errors[`familyDetails.${index}.${field}`]) {
-      setErrors((prev) => ({
+      setErrors(prev => ({
         ...prev,
         [`familyDetails.${index}.${field}`]: "",
       }));
     }
-  };
+  }, [errors]);
 
-  const validateCurrentStep = () => {
-    const newErrors = {};
-    const currentFields = formSteps[currentStep].fields;
-    
-    // Use a loop to check required fields instead of repeating code
-    const requiredFields = [
-      "name", "mobileNumber", "village", "email", "bloodGroup", 
-      "birthDate", "education", "currentAddress", "gender",
-      "regionalAssembly", "localPanchayatName", "localPanchayat", 
-      "subLocalPanchayat", "state", "manglik", "grah", "handicap"
-    ];
-    
-    requiredFields.forEach(field => {
-      if (currentFields.includes(field) && !formData[field]) {
-        newErrors[field] = field === "gender" 
-          ? "Please select your gender" 
-          : "This field is required";
-      }
-    });
-    
-    // Special validation for mobile number
-    if (currentFields.includes("mobileNumber") && formData.mobileNumber && 
-        formData.mobileNumber.length !== 10) {
-      newErrors.mobileNumber = "Mobile number must be 10 digits";
+  // Optimize add child function
+  const addChild = useCallback(() => {
+    if (formData.familyDetails.filter(member => member.relation === "Child").length < MAX_CHILDREN) {
+      setFormData(prev => ({
+        ...prev,
+        familyDetails: [
+          ...prev.familyDetails,
+          { relation: "Child", name: "", mobileNumber: "", gender: "" }
+        ]
+      }));
     }
-    
-    // Only validate gotra if NOT married to another caste
-    if (currentFields.includes("gotra") && !formData.marriageToAnotherCaste && !formData.gotra) {
-      newErrors.gotra = "This field is required";
+  }, [formData.familyDetails]);
+
+  // Add a function to add sibling
+  const addSibling = useCallback(() => {
+    if (formData.familyDetails.filter(member => member.relation === "Sibling").length < MAX_SIBLINGS) {
+      setFormData(prev => ({
+        ...prev,
+        familyDetails: [
+          ...prev.familyDetails,
+          { 
+            relation: "Sibling", 
+            name: "", 
+            mobileNumber: "", 
+            gender: "", 
+            age: "", 
+            occupation: "", 
+            education: "", 
+            maritalStatus: "", 
+            isDependent: false 
+          }
+        ]
+      }));
     }
-    
-    // Family details validation
-    if (currentFields.includes("familyDetails")) {
-      [0, 1].forEach((index) => {
-        if (!formData.familyDetails[index].name) {
-          newErrors[`familyDetails.${index}.name`] = "This field is required";
-        }
-      });
-    }
-    
+  }, [formData.familyDetails]);
+
+  // Add remove functions
+  const removeChild = useCallback((indexToRemove) => {
+    setFormData(prev => ({
+      ...prev,
+      familyDetails: prev.familyDetails.filter((_, index) => index !== indexToRemove)
+    }));
+  }, []);
+
+  const removeSibling = useCallback((indexToRemove) => {
+    setFormData(prev => ({
+      ...prev,
+      familyDetails: prev.familyDetails.filter((_, index) => index !== indexToRemove)
+    }));
+  }, []);
+
+  // Update validateCurrentStep function
+  const validateCurrentStep = useCallback(() => {
+    const newErrors = validateStep(currentStep, formData);
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    return !hasErrors(newErrors);
+  }, [currentStep, formData]);
 
   const handleNext = () => {
     setSubmitted(true);
@@ -607,64 +1076,11 @@ const RegistrationForm = () => {
     setLoading(true);
   
     try {
-      // Upload image first if present
       const displayPictureId = formData.display_picture 
         ? await uploadImage(formData.display_picture)
         : null;
       
-      // Prepare data with optional chaining and nullish coalescing for safety
-      const strapiData = {
-        family_details: {
-          father_name: formData.familyDetails[0]?.name ?? "",
-          mother_name: formData.familyDetails[1]?.name ?? "",
-          phone_number: formData.mobileNumber ?? "",
-          spouse_name: formData.familyDetails[2]?.name ?? "",
-        },
-        child_name: formData.familyDetails
-          .slice(3)
-          .map((child) => ({ child_name: child.name ?? "" })),
-        biographical_details: {
-          Gotra: formData.marriageToAnotherCaste ? "Others" : (formData.gotra ?? ""),
-          Aakna: formData.marriageToAnotherCaste ? "Others" : (formData.aakna ?? ""),
-          manglik_status: formData.manglik ?? "",
-          Grah: formData.grah ?? "",
-          Handicap: formData.handicap ?? "",
-          is_married: formData.isMarried ? "Married" : "Unmarried",
-          marriage_to_another_caste: formData.marriageToAnotherCaste
-            ? "Married to Another Caste"
-            : "Same Caste Marriage",
-        },
-        personal_information: {
-          full_name: formData.name ?? "",
-          village: formData.village ?? "",
-          mobile_number: formData.mobileNumber ?? "",
-          email_address: formData.email ?? "",
-          display_picture: displayPictureId,
-          Gender: formData.gender ?? "",
-        },
-        work_information: {
-          occupation: formData.occupation ?? "",
-          company_name: formData.companyName ?? "",
-          work_area: formData.workArea ?? "",
-        },
-        additional_details: {
-          blood_group: formData.bloodGroup ?? "",
-          date_of_birth: formData.birthDate ?? "",
-          date_of_marriage: formData.marriageDate ?? "",
-          higher_education: formData.education ?? "",
-          current_address: formData.currentAddress ?? "",
-          regional_information: {
-            RegionalAssembly: formData.regionalAssembly ?? "",
-            LocalPanchayatName: formData.localPanchayatName ?? "",
-            LocalPanchayat: formData.localPanchayat ?? "",
-            SubLocalPanchayat: formData.subLocalPanchayat ?? "",
-            State: formData.state ?? "",
-          },
-        },
-        your_suggestions: {
-          suggestions: formData.suggestions ?? "",
-        },
-      };
+      const strapiData = formatFormData(formData, displayPictureId);
   
       const response = await fetch(
         "http://localhost:1337/api/registration-pages",
@@ -681,7 +1097,11 @@ const RegistrationForm = () => {
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Server error:", errorData);
-        throw new Error(errorData.error?.message || "Failed to submit form");
+        throw new Error(
+          errorData.error?.message || 
+          (errorData.error?.details?.errors?.[0]?.message) || 
+          "Failed to submit form"
+        );
       }
   
       const result = await response.json();
@@ -737,16 +1157,6 @@ const RegistrationForm = () => {
 
   const hasFamilyError = (index, field) => {
     return submitted && errors[`familyDetails.${index}.${field}`];
-  };
-
-  const addChild = () => {
-    setFormData((prev) => ({
-      ...prev,
-      familyDetails: [
-        ...prev.familyDetails,
-        { relation: "Child", name: "", mobileNumber: "" },
-      ],
-    }));
   };
 
   const renderStepContent = () => {
@@ -1024,11 +1434,7 @@ const RegistrationForm = () => {
                   name="marriageDate"
                   value={formData.marriageDate}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError("marriageDate")
-                      ? "border-red-500 bg-red-50"
-                      : "border-gray-300"
-                  }`}
+                  className="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 border-gray-300"
                 />
               </div>
 
@@ -1040,7 +1446,11 @@ const RegistrationForm = () => {
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
-                    <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+                    <path
+                      fillRule="evenodd"
+                      d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   Highest Education
                 </label>
@@ -1096,6 +1506,77 @@ const RegistrationForm = () => {
                 )}
               </div>
 
+              <div className="space-y-3">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M14.243 5.757a6 6 0 10-.986 9.284 1 1 0 111.087 1.678A8 8 0 1118 10a3 3 0 01-4.8 2.401A4 4 0 1114 10a1 1 0 102 0c0-1.537-.586-3.07-1.757-4.243zM12 10a2 2 0 10-4 0 2 2 0 004 0z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  City
+                </label>
+                <select
+                  name="city"
+                  value={formData.city}
+                  onChange={handleInputChange}
+                  className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
+                    hasError("city")
+                      ? "border-red-500 bg-red-50 error-field"
+                      : "border-gray-300"
+                  }`}
+                >
+                  <option value="">Select City</option>
+                  {indianCities.map((city) => (
+                    <option key={city} value={city}>
+                      {city}
+                    </option>
+                  ))}
+                </select>
+                {hasError("city") && (
+                  <p className="text-red-500 text-xs">{errors.city}</p>
+                )}
+              </div>
+
+              <div className="space-y-3">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M14.243 5.757a6 6 0 10-.986 9.284 1 1 0 111.087 1.678A8 8 0 1118 10a3 3 0 01-4.8 2.401A4 4 0 1114 10a1 1 0 102 0c0-1.537-.586-3.07-1.757-4.243zM12 10a2 2 0 10-4 0 2 2 0 004 0z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  District
+                </label>
+                <input
+                  type="text"
+                  name="district"
+                  value={formData.district}
+                  onChange={handleInputChange}
+                  className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
+                    hasError("district")
+                      ? "border-red-500 bg-red-50 error-field"
+                      : "border-gray-300"
+                  }`}
+                  placeholder="Enter your district"
+                />
+                {hasError("district") && (
+                  <p className="text-red-500 text-xs">{errors.district}</p>
+                )}
+              </div>
+
               {/* Regional Information Section */}
               {renderRegionalInformation()}
             </div>
@@ -1104,152 +1585,397 @@ const RegistrationForm = () => {
         
       case 2:
         return (
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2 text-red-700"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-                </svg>
-                <h2 className="text-base font-semibold text-gray-800">
-                  Family Details
-                </h2>
-              </div>
-              <div className="flex items-center space-x-2">
-                {/* WhatsApp Share Icon */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    const text = `Family Details:\n${formData.familyDetails
-                      .map(member => `${member.relation}: ${member.name} ${member.mobileNumber ? `(${member.mobileNumber})` : ''}`)
-                      .join('\n')}`;
-                    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
-                  }}
-                  className="flex items-center justify-center w-6 h-6 rounded-full bg-[#25D366] hover:bg-[#20BD5A] transition-colors duration-200"
-                  title="Share on WhatsApp"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="white"
-                    className="h-5 w-5"
-                    viewBox="0 0 448 512"
-                  >
-                    <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+          <div className="space-y-6">
+            {/* Parents Card */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="bg-gradient-to-r from-red-50 to-white px-6 py-4 border-b border-gray-100">
+                <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
                   </svg>
-                </button>
-                {formData.familyDetails.filter(
-                  (member) => member.relation === "Child"
-                ).length < 4 && (
+                  Parents Information
+                </h3>
+              </div>
+              <div className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {formData.familyDetails.slice(0, 2).map((member, index) => (
+                    <div key={index} className="space-y-4">
+                      <div className="flex items-center mb-2">
+                        <span className="text-sm font-medium text-gray-700">{member.relation}</span>
+                        {hasFamilyError(index, "name") && (
+                          <span className="ml-2 text-xs text-red-500">*Required</span>
+                        )}
+                      </div>
+                      <div className="space-y-3">
+                        <input
+                          type="text"
+                          value={member.name}
+                          onChange={(e) => handleFamilyDetailChange(index, "name", e.target.value)}
+                          className={`block w-full px-4 py-2.5 text-gray-700 bg-white border ${
+                            hasFamilyError(index, "name") ? "border-red-300 bg-red-50" : "border-gray-300"
+                          } rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent`}
+                          placeholder={`Enter ${member.relation}'s name`}
+                        />
+                        <input
+                          type="tel"
+                          value={member.mobileNumber}
+                          onChange={(e) => handleFamilyDetailChange(index, "mobileNumber", e.target.value)}
+                          className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                          pattern="[0-9]*"
+                          inputMode="numeric"
+                          maxLength={10}
+                          placeholder={`${member.relation}'s mobile number`}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Spouse Card */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="bg-gradient-to-r from-pink-50 to-white px-6 py-4 border-b border-gray-100">
+                <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-pink-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+                  </svg>
+                  Spouse Information
+                </h3>
+              </div>
+              <div className="p-6">
+                {formData.familyDetails.slice(2, 3).map((member, index) => (
+                  <div key={index + 2} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input
+                      type="text"
+                      value={member.name}
+                      onChange={(e) => handleFamilyDetailChange(index + 2, "name", e.target.value)}
+                      className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                      placeholder="Enter spouse's name"
+                    />
+                    <input
+                      type="tel"
+                      value={member.mobileNumber}
+                      onChange={(e) => handleFamilyDetailChange(index + 2, "mobileNumber", e.target.value)}
+                      className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                      pattern="[0-9]*"
+                      inputMode="numeric"
+                      maxLength={10}
+                      placeholder="Spouse's mobile number"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Children Section */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="bg-gradient-to-r from-blue-50 to-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                  </svg>
+                  Children Information
+                </h3>
+                {formData.familyDetails.filter((member) => member.relation === "Child").length < MAX_CHILDREN && (
                   <button
                     type="button"
                     onClick={addChild}
-                    className="flex items-center text-sm text-red-700 hover:text-red-800 transition-colors duration-200"
+                    className="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors duration-200"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 mr-1"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                        clipRule="evenodd"
-                      />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
                     </svg>
                     Add Child
                   </button>
                 )}
               </div>
-            </div>
-            
-            <div className="overflow-hidden">
-              <div className="inline-block align-middle w-full">
-                <table className="w-full text-xs divide-y divide-slate-200 border border-slate-200 rounded-lg overflow-hidden">
-                  <thead>
-                    <tr className="bg-slate-50">
-                      <th className="px-2 py-2 text-left font-medium text-slate-700">
-                        Sr.
-                      </th>
-                      <th className="px-2 py-2 text-left font-medium text-slate-700">
-                        Relation
-                      </th>
-                      <th className="px-2 py-2 text-left font-medium text-slate-700">
-                        Name
-                      </th>
-                      <th className="px-2 py-2 text-left font-medium text-slate-700">
-                        Mobile
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    {formData.familyDetails.map((member, index) => (
-                      <tr
-                        key={index}
-                        className="hover:bg-slate-50/50 transition-colors duration-150"
-                      >
-                        <td className="px-2 py-2 whitespace-nowrap">
-                          {index + 1}
-                        </td>
-                        <td className="px-2 py-2 whitespace-nowrap font-medium text-slate-700">
-                          {member.relation}
-                        </td>
-                        <td className="px-2 py-2">
-                          <input
-                            type="text"
-                            value={member.name}
-                            onChange={(e) =>
-                              handleFamilyDetailChange(
-                                index,
-                                "name",
-                                e.target.value
-                              )
-                            }
-                            className={`w-full px-2 py-1 text-xs border rounded focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                              hasFamilyError(index, "name")
-                                ? "border-red-500 bg-red-50 error-field"
-                                : "border-gray-300"
-                            }`}
-                            placeholder="Enter name"
-                          />
-                          {hasFamilyError(index, "name") && (
-                            <p className="text-red-500 text-xs mt-1">
-                              {errors[`familyDetails.${index}.name`]}
-                            </p>
+              <div className="p-6">
+                <div className="space-y-6">
+                  {formData.familyDetails.filter(member => member.relation === "Child").map((member, childIndex) => {
+                    const index = formData.familyDetails.indexOf(member);
+                    return (
+                      <div key={index} className="bg-gray-50 rounded-lg p-4 space-y-4 relative">
+                        {/* Add Remove Button for Children */}
+                        {index > 2 && (
+                          <button
+                            type="button"
+                            onClick={() => removeChild(index)}
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-md hover:bg-red-600 transition-all duration-200"
+                            aria-label="Remove child"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                            </svg>
+                          </button>
+                        )}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="space-y-1">
+                            <input
+                              type="text"
+                              value={member.name}
+                              onChange={(e) => handleFamilyDetailChange(index, "name", e.target.value)}
+                              className={`block w-full px-4 py-2.5 text-gray-700 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                                hasFamilyError(index, "name") ? "border-red-500 bg-red-50" : "border-gray-300"
+                              }`}
+                              placeholder={`Child ${childIndex + 1}'s name`}
+                            />
+                            {hasFamilyError(index, "name") && (
+                              <p className="text-red-500 text-xs">{errors[`familyDetails.${index}.name`]}</p>
+                            )}
+                          </div>
+                          <div className="space-y-1">
+                            <input
+                              type="tel"
+                              value={member.mobileNumber}
+                              onChange={(e) => handleFamilyDetailChange(index, "mobileNumber", e.target.value)}
+                              className={`block w-full px-4 py-2.5 text-gray-700 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                                hasFamilyError(index, "mobileNumber") ? "border-red-500 bg-red-50" : "border-gray-300"
+                              }`}
+                              pattern="[0-9]*"
+                              inputMode="numeric"
+                              maxLength={10}
+                              placeholder="Mobile number (optional)"
+                            />
+                            {hasFamilyError(index, "mobileNumber") && (
+                              <p className="text-red-500 text-xs">{errors[`familyDetails.${index}.mobileNumber`]}</p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <div className={`flex items-center space-x-6 px-4 py-2.5 border rounded-lg ${
+                            hasFamilyError(index, "gender") ? "border-red-500 bg-red-50" : "border-gray-300"
+                          }`}>
+                            <label className="inline-flex items-center">
+                              <input
+                                type="radio"
+                                name={`child-gender-${index}`}
+                                value="Male"
+                                checked={member.gender === "Male"}
+                                onChange={(e) => handleFamilyDetailChange(index, "gender", e.target.value)}
+                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                              />
+                              <span className="ml-2 text-sm text-gray-700">Male</span>
+                            </label>
+                            <label className="inline-flex items-center">
+                              <input
+                                type="radio"
+                                name={`child-gender-${index}`}
+                                value="Female"
+                                checked={member.gender === "Female"}
+                                onChange={(e) => handleFamilyDetailChange(index, "gender", e.target.value)}
+                                className="h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300"
+                              />
+                              <span className="ml-2 text-sm text-gray-700">Female</span>
+                            </label>
+                          </div>
+                          {hasFamilyError(index, "gender") && (
+                            <p className="text-red-500 text-xs">{errors[`familyDetails.${index}.gender`]}</p>
                           )}
-                        </td>
-                        <td className="px-2 py-2">
-                          <input
-                            type="tel"
-                            value={member.mobileNumber}
-                            onChange={(e) =>
-                              handleFamilyDetailChange(
-                                index,
-                                "mobileNumber",
-                                e.target.value
-                              )
-                            }
-                            className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200"
-                            pattern="[0-9]*"
-                            inputMode="numeric"
-                            maxLength={10}
-                            placeholder="Mobile number"
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-            <p className="text-xs text-gray-500 italic mt-2">
-              Note: Fill in details for family members you wish to register.
-              Father and Mother details are required.
-            </p>
+
+            {/* Siblings Section */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="bg-gradient-to-r from-purple-50 to-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-purple-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                  </svg>
+                  Siblings Information
+                </h3>
+                {formData.familyDetails.filter((member) => member.relation === "Sibling").length < MAX_SIBLINGS && (
+                  <button
+                    type="button"
+                    onClick={addSibling}
+                    className="inline-flex items-center px-3 py-1.5 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors duration-200"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                    </svg>
+                    Add Sibling
+                  </button>
+                )}
+              </div>
+              <div className="p-6">
+                <div className="space-y-6">
+                  {formData.familyDetails.filter(member => member.relation === "Sibling").map((member, siblingIndex) => {
+                    const index = formData.familyDetails.indexOf(member);
+                    return (
+                      <div key={index} className="bg-gray-50 rounded-lg p-4 space-y-4 relative">
+                        {/* Add Remove Button for Siblings */}
+                        {index > 2 && (
+                          <button
+                            type="button"
+                            onClick={() => removeSibling(index)}
+                            className="absolute top-2 right-2 p-1 text-red-600 hover:text-red-800 transition-colors duration-200"
+                            title="Remove Sibling"
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                            </svg>
+                          </button>
+                        )}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="space-y-4">
+                            <select
+                              value={member.siblingRelation || ""}
+                              onChange={(e) => handleFamilyDetailChange(index, "siblingRelation", e.target.value)}
+                              className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            >
+                              <option value="">Select Relation</option>
+                              {SIBLING_RELATION_OPTIONS.map((rel) => (
+                                <option key={rel} value={rel}>{rel}</option>
+                              ))}
+                            </select>
+                            <input
+                              type="text"
+                              value={member.name}
+                              onChange={(e) => handleFamilyDetailChange(index, "name", e.target.value)}
+                              className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                              placeholder={`Sibling ${siblingIndex + 1}'s name`}
+                            />
+                          </div>
+                          <div className="space-y-4">
+                            <input
+                              type="tel"
+                              value={member.mobileNumber}
+                              onChange={(e) => handleFamilyDetailChange(index, "mobileNumber", e.target.value)}
+                              className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                              pattern="[0-9]*"
+                              inputMode="numeric"
+                              maxLength={10}
+                              placeholder="Mobile number"
+                            />
+                            <input
+                              type="number"
+                              value={member.age}
+                              onChange={(e) => handleFamilyDetailChange(index, "age", e.target.value)}
+                              className={`block w-full px-4 py-2.5 text-gray-700 bg-white border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
+                                hasFamilyError(index, "age") ? "border-red-500 bg-red-50" : "border-gray-300"
+                              }`}
+                              placeholder="Age"
+                              min="0"
+                              max="120"
+                            />
+                            {hasFamilyError(index, "age") && (
+                              <p className="text-red-500 text-xs">Age is required</p>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <select
+                            value={member.education}
+                            onChange={(e) => handleFamilyDetailChange(index, "education", e.target.value)}
+                            className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          >
+                            <option value="">Select Education</option>
+                            {EDUCATION_OPTIONS.map((edu) => (
+                              <option key={edu} value={edu}>{edu}</option>
+                            ))}
+                          </select>
+                          <select
+                            value={member.occupation}
+                            onChange={(e) => handleFamilyDetailChange(index, "occupation", e.target.value)}
+                            className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          >
+                            <option value="">Select Occupation</option>
+                            {OCCUPATION_OPTIONS.map((occ) => (
+                              <option key={occ} value={occ}>{occ}</option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-6">
+                          <div className="space-y-1">
+                            <div className={`flex items-center space-x-6 px-4 py-2.5 border rounded-lg ${
+                              hasFamilyError(index, "gender") ? "border-red-500 bg-red-50" : "border-gray-300"
+                            }`}>
+                              <label className="inline-flex items-center">
+                                <input
+                                  type="radio"
+                                  name={`gender-${index}`}
+                                  value="Male"
+                                  checked={member.gender === "Male"}
+                                  onChange={(e) => handleFamilyDetailChange(index, "gender", e.target.value)}
+                                  className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300"
+                                />
+                                <span className="ml-2 text-sm text-gray-700">Male</span>
+                              </label>
+                              <label className="inline-flex items-center">
+                                <input
+                                  type="radio"
+                                  name={`gender-${index}`}
+                                  value="Female"
+                                  checked={member.gender === "Female"}
+                                  onChange={(e) => handleFamilyDetailChange(index, "gender", e.target.value)}
+                                  className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300"
+                                />
+                                <span className="ml-2 text-sm text-gray-700">Female</span>
+                              </label>
+                            </div>
+                            {hasFamilyError(index, "gender") && (
+                              <p className="text-red-500 text-xs">Gender is required</p>
+                            )}
+                          </div>
+
+                          <select
+                            value={member.maritalStatus}
+                            onChange={(e) => handleFamilyDetailChange(index, "maritalStatus", e.target.value)}
+                            className={`px-4 py-2 text-sm text-gray-700 bg-white border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
+                              hasFamilyError(index, "maritalStatus") ? "border-red-500 bg-red-50" : "border-gray-300"
+                            }`}
+                          >
+                            <option value="">Marital Status</option>
+                            {MARITAL_STATUS_OPTIONS.map((status) => (
+                              <option key={status} value={status}>{status}</option>
+                            ))}
+                          </select>
+                          {hasFamilyError(index, "maritalStatus") && (
+                            <p className="text-red-500 text-xs">Marital status is required</p>
+                          )}
+
+                          <label className="inline-flex items-center">
+                            <input
+                              type="checkbox"
+                              checked={member.isDependent}
+                              onChange={(e) => handleFamilyDetailChange(index, "isDependent", e.target.checked)}
+                              className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                            />
+                            <span className="ml-2 text-sm text-gray-700">Is Dependent</span>
+                          </label>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Share on WhatsApp Button */}
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={() => {
+                  const text = `Family Details:\n${formData.familyDetails
+                    .map(member => `${member.relation}${member.siblingRelation ? ` (${member.siblingRelation})` : ''}: ${member.name} ${member.mobileNumber ? `(${member.mobileNumber})` : ''}`)
+                    .join('\n')}`;
+                  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+                }}
+                className="inline-flex items-center px-4 py-2 bg-[#25D366] text-white rounded-lg hover:bg-[#20BD5A] transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 448 512" fill="currentColor">
+                  <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+                </svg>
+                Share on WhatsApp
+              </button>
+            </div>
           </div>
         );
         
@@ -1634,7 +2360,7 @@ const RegistrationForm = () => {
       case 4:
         return (
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-            <div className="flex items-center mb-4">
+            <div className="flex items-center mb-6">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 mr-2 text-red-700"
@@ -1643,7 +2369,7 @@ const RegistrationForm = () => {
               >
                 <path
                   fillRule="evenodd"
-                  d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z"
+                  d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
                   clipRule="evenodd"
                 />
                 <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
@@ -1656,7 +2382,111 @@ const RegistrationForm = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
                 <label className="block text-sm font-medium text-gray-700">
-                  Occupation
+                  Industry Sector
+                </label>
+                <select
+                  name="industrySector"
+                  value={formData.industrySector}
+                  onChange={handleInputChange}
+                  className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
+                    hasError("industrySector")
+                      ? "border-red-500 bg-red-50"
+                      : "border-gray-300"
+                  }`}
+                >
+                  <option value="">Select Industry Sector</option>
+                  {INDUSTRY_SECTORS.map((sector) => (
+                    <option key={sector} value={sector}>
+                      {sector}
+                    </option>
+                  ))}
+                </select>
+                {hasError("industrySector") && (
+                  <p className="text-red-500 text-xs">Please select an industry sector</p>
+                )}
+              </div>
+
+              <div className="space-y-3">
+                <label className="block text-sm font-medium text-gray-700">
+                  Business Size/Classification
+                </label>
+                <select
+                  name="businessSize"
+                  value={formData.businessSize}
+                  onChange={handleInputChange}
+                  className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
+                    hasError("businessSize")
+                      ? "border-red-500 bg-red-50"
+                      : "border-gray-300"
+                  }`}
+                >
+                  <option value="">Select Business Size</option>
+                  {BUSINESS_SIZES.map((size) => (
+                    <option key={size} value={size}>
+                      {size}
+                    </option>
+                  ))}
+                </select>
+                {hasError("businessSize") && (
+                  <p className="text-red-500 text-xs">Please select a business size</p>
+                )}
+              </div>
+
+              <div className="space-y-3">
+                <label className="block text-sm font-medium text-gray-700">
+                  Work Type
+                </label>
+                <select
+                  name="workType"
+                  value={formData.workType}
+                  onChange={handleInputChange}
+                  className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
+                    hasError("workType")
+                      ? "border-red-500 bg-red-50"
+                      : "border-gray-300"
+                  }`}
+                >
+                  <option value="">Select Work Type</option>
+                  {WORK_TYPES.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+                {hasError("workType") && (
+                  <p className="text-red-500 text-xs">Please select a work type</p>
+                )}
+              </div>
+
+              <div className="space-y-3">
+                <label className="block text-sm font-medium text-gray-700">
+                  Employment Type
+                </label>
+                <select
+                  name="employmentType"
+                  value={formData.employmentType}
+                  onChange={handleInputChange}
+                  className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
+                    hasError("employmentType")
+                      ? "border-red-500 bg-red-50"
+                      : "border-gray-300"
+                  }`}
+                >
+                  <option value="">Select Employment Type</option>
+                  {EMPLOYMENT_TYPES.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+                {hasError("employmentType") && (
+                  <p className="text-red-500 text-xs">Please select an employment type</p>
+                )}
+              </div>
+
+              <div className="space-y-3">
+                <label className="block text-sm font-medium text-gray-700">
+                  Occupation/Job Title
                 </label>
                 <input
                   type="text"
@@ -1665,19 +2495,19 @@ const RegistrationForm = () => {
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
                     hasError("occupation")
-                      ? "border-red-500 bg-red-50 error-field"
+                      ? "border-red-500 bg-red-50"
                       : "border-gray-300"
                   }`}
-                  placeholder="Enter your occupation"
+                  placeholder="Enter your specific role or job title"
                 />
                 {hasError("occupation") && (
-                  <p className="text-red-500 text-xs">{errors.occupation}</p>
+                  <p className="text-red-500 text-xs">Please enter your occupation</p>
                 )}
               </div>
-              
+
               <div className="space-y-3">
                 <label className="block text-sm font-medium text-gray-700">
-                  Company Name
+                  Company/Organization Name
                 </label>
                 <input
                   type="text"
@@ -1686,19 +2516,19 @@ const RegistrationForm = () => {
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
                     hasError("companyName")
-                      ? "border-red-500 bg-red-50 error-field"
+                      ? "border-red-500 bg-red-50"
                       : "border-gray-300"
                   }`}
-                  placeholder="Enter your company name"
+                  placeholder="Enter your company or organization name"
                 />
                 {hasError("companyName") && (
-                  <p className="text-red-500 text-xs">{errors.companyName}</p>
+                  <p className="text-red-500 text-xs">Please enter your company name</p>
                 )}
               </div>
-              
+
               <div className="space-y-3">
                 <label className="block text-sm font-medium text-gray-700">
-                  Work Area
+                  Work Location/Area
                 </label>
                 <input
                   type="text"
@@ -1707,84 +2537,34 @@ const RegistrationForm = () => {
                   onChange={handleInputChange}
                   className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
                     hasError("workArea")
-                      ? "border-red-500 bg-red-50 error-field"
+                      ? "border-red-500 bg-red-50"
                       : "border-gray-300"
                   }`}
-                  placeholder="Enter your work area/location"
+                  placeholder="Enter your work location or area"
                 />
                 {hasError("workArea") && (
-                  <p className="text-red-500 text-xs">{errors.workArea}</p>
+                  <p className="text-red-500 text-xs">Please enter your work location</p>
                 )}
               </div>
-              
-              <div className="space-y-3 md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Would you like to help other community members with your
-                  skills/services?
-                </label>
-                <div className="flex items-center space-x-6">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="helpOthers"
-                      value="yes"
-                      checked={formData.helpOthers === "yes"}
-                      onChange={handleInputChange}
-                      className="h-4 w-4 text-red-700 focus:ring-red-500"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">Yes</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="helpOthers"
-                      value="no"
-                      checked={formData.helpOthers === "no"}
-                      onChange={handleInputChange}
-                      className="h-4 w-4 text-red-700 focus:ring-red-500"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">No</span>
-                  </label>
-                </div>
-                {hasError("helpOthers") && (
-                  <p className="text-red-500 text-xs">{errors.helpOthers}</p>
-                )}
-              </div>
-              
-              <div className="space-y-3 md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Can you provide any discounts or special services for
-                  community members?
-                </label>
-                <div className="flex items-center space-x-6">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="provideDiscount"
-                      value="yes"
-                      checked={formData.provideDiscount === "yes"}
-                      onChange={handleInputChange}
-                      className="h-4 w-4 text-red-700 focus:ring-red-500"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">Yes</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="provideDiscount"
-                      value="no"
-                      checked={formData.provideDiscount === "no"}
-                      onChange={handleInputChange}
-                      className="h-4 w-4 text-red-700 focus:ring-red-500"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">No</span>
-                  </label>
-                </div>
-                {hasError("provideDiscount") && (
-                  <p className="text-red-500 text-xs">
-                    {errors.provideDiscount}
-                  </p>
-                )}
+            </div>
+
+            <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="flex items-start text-gray-700">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2 text-blue-600 flex-shrink-0 mt-0.5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <p className="text-sm text-gray-600">
+                  Your work information helps us better understand our community's professional landscape and enables us to facilitate networking and mutual support among members.
+                </p>
               </div>
             </div>
           </div>
@@ -1849,33 +2629,44 @@ const RegistrationForm = () => {
     }
   };
 
-  const states = [
+  const indianStates = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
     "Bihar",
-    "Chhatisgarh",
-    "Delhi",
+    "Chhattisgarh",
+    "Goa",
     "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
     "Madhya Pradesh",
     "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
     "Rajasthan",
-    "Uttarpradesh",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal",
+    "Andaman and Nicobar Islands",
+    "Chandigarh",
+    "Dadra and Nagar Haveli and Daman and Diu",
+    "Delhi",
+    "Jammu and Kashmir",
+    "Ladakh",
+    "Lakshadweep",
+    "Puducherry"
   ];
-
-  // Arrays for regional assemblies
-  const regionalAssemblies = [
-    "Chambal Regional Assembly",
-    "Ganga Jamuna Regional Assembly",
-    "Bundelkhand Regional Assembly",
-    "Chaurasi Regional Assembly",
-    "Central Malwa Regional Assembly",
-    "Mahakaushal Regional Assembly",
-    "Vindhya Regional Assembly",
-    "Chhattisgarh Regional Assembly",
-    "Southern Regional Assembly",
-    "Northern Regional Assembly",
-  ];
-
-  // Add Southern Regional Assembly panchayat names
-  const southernPanchayatNames = ["Gahoi Vaishya Panchayat"];
 
   // Add Mahakaushal Regional Assembly panchayat names
   const mahakaushalPanchayatNames = [
@@ -1947,12 +2738,21 @@ const RegistrationForm = () => {
 
   // Add Northern Regional Assembly panchayat names
   const northernPanchayatNames = [
-    "Gahoi Vaishya Vikas Sansthan",
+   
     "Shri Gahoi Vaishya Association",
   ];
 
-  // local panchayat names based on regional assembly
+  // Add Southern Regional Assembly panchayat names
+  const southernPanchayatNames = ["Gahoi Vaishya Panchayat"];
+
+  const getFilteredRegionalAssemblies = useCallback(() => {
+    if (!formData.state) return [];
+    return STATE_TO_ASSEMBLIES[formData.state] || [];
+  }, [formData.state]);
+
   const getFilteredLocalPanchayatNames = () => {
+    if (!formData.regionalAssembly) return [];
+
     if (formData.regionalAssembly === "Chambal Regional Assembly") {
       return chambalPanchayatNames;
     } else if (formData.regionalAssembly === "Ganga Jamuna Regional Assembly") {
@@ -1961,9 +2761,7 @@ const RegistrationForm = () => {
       return bundelkhandPanchayatNames;
     } else if (formData.regionalAssembly === "Chaurasi Regional Assembly") {
       return chaurasi_PanchayatNames;
-    } else if (
-      formData.regionalAssembly === "Central Malwa Regional Assembly"
-    ) {
+    } else if (formData.regionalAssembly === "Central Malwa Regional Assembly") {
       return centralMalwaPanchayatNames;
     } else if (formData.regionalAssembly === "Mahakaushal Regional Assembly") {
       return mahakaushalPanchayatNames;
@@ -2105,11 +2903,31 @@ const RegistrationForm = () => {
     // For Chaurasi Regional Assembly  mappings
     if (formData.regionalAssembly === "Chaurasi Regional Assembly") {
       if (formData.localPanchayatName === "Gahoi Vaishya Panchayat") {
-        return ["Shivpuri", "Ashok Nagar", "Guna", "Ahmedabad"];
+        if (formData.localPanchayat === "Shivpuri") {
+          return [
+            "Shivpuri",
+            "Malhawani",
+            "Pipara",
+            "Semri",
+            "Bamore Damaroun",
+            "Manpura",
+            "Pichhore",
+          ];
+        } else if (formData.localPanchayat === "Ashok Nagar") {
+          return ["Ashok Nagar", "Bamore Kala"];
+        } else if (formData.localPanchayat === "Guna") {
+          return ["Guna"];
+        } else if (formData.localPanchayat === "Ahmedabad") {
+          return ["Gandhi Nagar"];
+        }
       } else if (formData.localPanchayatName === "Shri Gahoi Vaishya Sabha") {
-        return ["Shivpuri"];
+        if (formData.localPanchayat === "Shivpuri") {
+          return ["Karera", "Bhonti"];
+        }
       } else if (formData.localPanchayatName === "Gahoi Vaishya Samaj") {
-        return ["Ashok Nagar"];
+        if (formData.localPanchayat === "Ashok Nagar") {
+          return ["Dinara", "Guna"];
+        }
       }
       return [];
     }
@@ -2170,6 +2988,21 @@ const RegistrationForm = () => {
 
   //  local panchayats based on local panchayat and regional assembly
   const getFilteredSubLocalPanchayats = () => {
+    if (!formData.state || !formData.localPanchayat) return [];
+
+    // State-specific sub local panchayats
+    if (formData.state === "Maharashtra") {
+      const maharashtraSubPanchayats = {
+        "Nagpur": ["Nagpur City", "Nagpur West", "Nagpur East", "Nagpur Rural"],
+        "Pune": ["Pune City", "Pune Cantonment", "Pune University", "Pune Rural"],
+        "Amravati": ["Amravati City", "Amravati Rural", "Amravati Industrial"],
+        "Mumbai": ["Fort", "Colaba", "Churchgate", "Dadar", "Bandra", "Andheri"],
+        "Chalisgaon": ["Chalisgaon City", "Chalisgaon Rural"],
+        "Dhuliya": ["Dhule City", "Dhule Rural"]
+      };
+      return maharashtraSubPanchayats[formData.localPanchayat] || [];
+    }
+
     // For Northern Regional Assembly  mappings
     if (formData.regionalAssembly === "Northern Regional Assembly") {
       if (formData.localPanchayatName === "Gahoi Vaishya Vikas Sansthan") {
@@ -2507,7 +3340,6 @@ const RegistrationForm = () => {
             "Poonch",
             "Erich",
             "BHEL Simrawali",
-            "Babina Cantt",
             "Bangra Uldan Ranipur",
             "Mau Ranipur",
           ];
@@ -2581,69 +3413,6 @@ const RegistrationForm = () => {
       );
     }
     return [];
-  };
-
-  // State mapping based on Local Panchayat
-  const stateMapping = {
-    Gwalior: "Madhya Pradesh",
-    Bhind: "Madhya Pradesh",
-    Datia: "Madhya Pradesh",
-    Morena: "Madhya Pradesh",
-    Jaipur: "Rajasthan",
-    Jalaun: "Uttarpradesh",
-    Banda: "Uttarpradesh",
-    Kanpur: "Uttarpradesh",
-    Auraiya: "Uttarpradesh",
-    Lucknow: "Uttarpradesh",
-    Karvi: "Uttarpradesh",
-    Jhansi: "Uttarpradesh",
-    Tikamgarh: "Uttarpradesh",
-    Lalitpur: "Madhya Pradesh",
-    Ghasan: "Madhya Pradesh",
-    Shivpuri: "Madhya Pradesh",
-    "Ashok Nagar": "Madhya Pradesh",
-    Guna: "Madhya Pradesh",
-    Ahmedabad: "Gujarat",
-    Indore: "Madhya Pradesh",
-    Ujjain: "Madhya Pradesh",
-    Bhopal: "Madhya Pradesh",
-    Vidisha: "Madhya Pradesh",
-    Raisen: "Madhya Pradesh",
-    Narsinghpur: "Madhya Pradesh",
-    Jabalpur: "Madhya Pradesh",
-    Sagar: "Madhya Pradesh",
-    Seoni: "Madhya Pradesh",
-    Chhindwara: "Madhya Pradesh",
-    Panna: "Madhya Pradesh",
-    Hoshangabad: "Madhya Pradesh",
-    Mandla: "Madhya Pradesh",
-    Dindori: "Madhya Pradesh",
-    Sultanpur: "Uttarpradesh",
-    Umariya: "Madhya Pradesh",
-    Hata: "Madhya Pradesh",
-    Shahdol: "Madhya Pradesh",
-    Katni: "Madhya Pradesh",
-    Chhatarpur: "Madhya Pradesh",
-    Satna: "Madhya Pradesh",
-    Rewa: "Madhya Pradesh",
-    Mahoba: "Uttarpradesh",
-    "Patna City": "Bihar",
-    Durg: "Chhatisgarh",
-    Rajnandgaon: "Chhatisgarh",
-    Dhamtari: "Chhatisgarh",
-    Raipur: "Chhatisgarh",
-    Bilaspur: "Chhatisgarh",
-    Jagdalpur: "Chhatisgarh",
-    Baikunthpur: "Chhatisgarh",
-    Nagpur: "Maharashtra",
-    Pune: "Maharashtra",
-    Amravati: "Maharashtra",
-    Mumbai: "Maharashtra",
-    Chalisgaon: "Madhya Pradesh",
-    Dhuliya: "Chhatisgarh",
-    Other: "None",
-    Mathura: "Uttarpradesh",
-    Delhi: "Delhi",
   };
 
   // Mapping for Local Panchayat based on Local Panchayat Name
@@ -2745,6 +3514,33 @@ const RegistrationForm = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* State Dropdown - First */}
+        <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm ">
+          <label
+            htmlFor="state"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            State <span className="text-red-500">*</span>
+          </label>
+          <select
+            id="state"
+            name="state"
+            value={formData.state || ""}
+            onChange={handleInputChange}
+            className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
+          >
+            <option value="">Select State</option>
+            {indianStates.map((state, index) => (
+              <option key={index} value={state}>
+                {state}
+              </option>
+            ))}
+          </select>
+          {errors.state && (
+            <p className="mt-1 text-xs text-red-500">{errors.state}</p>
+          )}
+        </div>
+
         {/* Regional Assembly Dropdown */}
         <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm ">
           <label
@@ -2759,9 +3555,10 @@ const RegistrationForm = () => {
             value={formData.regionalAssembly || ""}
             onChange={handleInputChange}
             className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
+            disabled={!formData.state}
           >
             <option value="">Select Regional Assembly</option>
-            {regionalAssemblies.map((assembly, index) => (
+            {getFilteredRegionalAssemblies().map((assembly, index) => (
               <option key={index} value={assembly}>
                 {assembly}
               </option>
@@ -2860,34 +3657,6 @@ const RegistrationForm = () => {
               {errors.subLocalPanchayat}
             </p>
           )}
-        </div>
-
-        {/* State Dropdown */}
-        <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm ">
-          <label
-            htmlFor="state"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            State <span className="text-red-500">*</span>
-          </label>
-          <select
-            id="state"
-            name="state"
-            value={formData.state || ""}
-            onChange={handleInputChange}
-            className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
-            disabled={true}
-          >
-            <option value="">Select State</option>
-            {states.map((state, index) => (
-              <option key={index} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
-          {/* {errors.state && (
-            <p className="mt-1 text-xs text-red-500">{errors.state}</p>
-          )} */}
         </div>
       </div>
     </div>

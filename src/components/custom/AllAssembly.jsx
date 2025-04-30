@@ -4,7 +4,7 @@ import { useLanguage } from "../../context/LanguageContext";
 import { Helmet } from "react-helmet";
 
 const AllAssembly = () => {
-  const [activeTab, setActiveTab] = useState("2015");
+  const [activeTab, setActiveTab] = useState("2019");
   const { language } = useLanguage();
 
   // Language-specific font class
@@ -1047,10 +1047,10 @@ const AllAssembly = () => {
             
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1.5 sm:gap-4 md:gap-6 lg:gap-8">
               {data.GahoiBandhuEditorialBoard.map((official, index) => (
-                <OfficialCard key={index} official={official} />
-              ))}
-            </div>
+              <OfficialCard key={index} official={official} />
+            ))}
           </div>
+        </div>
         )}
       </>
     );
@@ -1115,16 +1115,6 @@ const AllAssembly = () => {
         <div className="bg-white rounded-2xl shadow-xl border-2 border-red-100 p-2">
           <div className="grid grid-cols-3 gap-2">
             <button
-              onClick={() => setActiveTab("2015")}
-              className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 ${languageFontClass} ${
-                activeTab === "2015"
-                  ? "bg-red-800 text-white"
-                  : "bg-red-100 text-red-800 hover:bg-red-200"
-              }`}
-            >
-              {translations.tab2015[language]}
-            </button>
-            <button
               onClick={() => setActiveTab("2019")}
               className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 ${languageFontClass} ${
                 activeTab === "2019"
@@ -1133,6 +1123,16 @@ const AllAssembly = () => {
               }`}
             >
               {translations.tab2019[language]}
+            </button>
+            <button
+              onClick={() => setActiveTab("2015")}
+              className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 ${languageFontClass} ${
+                activeTab === "2015"
+                  ? "bg-red-800 text-white"
+                  : "bg-red-100 text-red-800 hover:bg-red-200"
+              }`}
+            >
+              {translations.tab2015[language]}
             </button>
             <button
               onClick={() => setActiveTab("central")}
