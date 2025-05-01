@@ -19,31 +19,31 @@ export const STATE_TO_ASSEMBLIES = {
 };
 
 export const INDUSTRY_SECTORS = [
-  "Agriculture & Allied Activities  ",
-  "Manufacturing  ",
-  "Construction & Real Estate  ",
-  "Trade & Commerce  ",
-  "Transportation & Logistics  ",
-  "Information Technology & Services  ",
-  "Financial Services  ",
-  "Healthcare & Pharmaceuticals  ",
-  "Education & Training  ",
-  "Professional Services  ",
-  "Hospitality & Tourism  ",
-  "Media & Entertainment  ",
-  "Textile & Apparel  ",
-  "Mining & Minerals  ",
-  "Power & Energy  ",
-  "Other Services  "
+  "Agriculture & Allied Activities",
+  "Manufacturing",
+  "Construction & Real Estate",
+  "Trade & Commerce",
+  "Transportation & Logistics",
+  "Information Technology & Services",
+  "Financial Services",
+  "Healthcare & Pharmaceuticals",
+  "Education & Training",
+  "Professional Services",
+  "Hospitality & Tourism",
+  "Media & Entertainment",
+  "Textile & Apparel",
+  "Mining & Minerals",
+  "Power & Energy",
+  "Other Services"
 ];
 
 export const BUSINESS_SIZES = [
-  "Micro Enterprise  ",
-  "Small Enterprise  ",
-  "Medium Enterprise  ",
-  "Large Enterprise  ",
-  "Self Employed/Freelancer  ",
-  "Not Applicable  "
+  "Micro Enterprise",
+  "Small Enterprise",
+  "Medium Enterprise",
+  "Large Enterprise",
+  "Self Employed/Freelancer",
+  "Not Applicable"
 ];
 
 export const WORK_TYPES = [
@@ -55,7 +55,7 @@ export const WORK_TYPES = [
   "Freelancer/Consultant",
   "Retired",
   "Other"
-].map(type => type.trim());
+];
 
 export const EMPLOYMENT_TYPES = [
   "Full-time",
@@ -64,7 +64,7 @@ export const EMPLOYMENT_TYPES = [
   "Self-employed",
   "Business Owner",
   "Not Currently Employed"
-].map(type => type.trim());
+];
 
 export const HANDICAP_OPTIONS = ["None", "Physically", "Mentally", "Other"];
 export const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
@@ -83,12 +83,53 @@ export const MARITAL_STATUS_OPTIONS = ["Married", "Unmarried"];
 export const EDUCATION_OPTIONS = ["Primary", "Secondary", "Higher Secondary", "Graduate", "Post Graduate", "Other"];
 export const OCCUPATION_OPTIONS = ["Student", "Employed", "Self-Employed", "Business", "Homemaker", "Other"];
 export const SIBLING_RELATION_OPTIONS = [
-  "Elder Brother",
-  "Younger Brother",
-  "Elder Sister",
-  "Younger Sister",
-  "Twin Brother",
-  "Twin Sister"
+"Paternal Grandfather दादा"  ,
+"Paternal Grandmother दादी"  ,
+"Father's (Elder) Brother ताऊ"  ,
+"Father's (Elder) Brother's Wife ताई"  ,
+"Father's (Younger) Brother चाचा"  ,
+"Father's (Younger) Brother's Wife चाची"  ,
+"Father's Sister बुआ"  ,
+"Father's Sister's Husband फुफा"  ,
+"Maternal Grandmother नानी"  ,
+"Maternal Grandfather नाना"  ,
+"Mother's Brother मामा"  ,
+"Mother's Brother's Wife मामी"  ,
+"Mother's Sister मौसी"  ,
+"Mother's Sister's Husband मौसा" , 
+"Grandson (Son's Son) पोता"  ,
+"Grandson (Daughter's Son) नाती"  ,
+"Granddaughter (Son's Daughter) पोती" , 
+"Granddaughter (Daughter's Daughter) नातिन"  ,
+"Sister बहन"  ,
+"Sister's Husband जीजा" , 
+"Sister's Son भांजा"  ,
+"Sister's Daughter भांजी"  ,
+"Brother भाई"  ,
+"Brother's Wife भाभी" , 
+"Brother's Son भतीजा"  ,
+"Brother's Daughter भतीजी" , 
+"Husband पती"  ,
+"Wife's/Husband's Mother समधी" , 
+"Wife's/Husband's Father समधिन" , 
+"Son in Law दामाद"  ,
+"Daughter in Law बहु"  ,
+"Husband's (elder) Brother जेठ"  ,
+"Husband's (elder) Brother's Wife जेठानी",  
+"Husband's Sister ननद"  ,
+"Husband's Sister's Husband ननदोइ"  ,
+"Husband's (younger) Brother देवर"  ,
+"Husband's (younger) Brother's Wife देवरानी",  
+"Wife's Sister साली"  ,
+"Wife's Sister's Husband सांढु" , 
+"Wife's Brother साला"  ,
+"Wife's Brother's Wife सैलहज"  ,
+  // "Elder Brother",
+  // "Younger Brother",
+  // "Elder Sister",
+  // "Younger Sister",
+  // "Twin Brother",
+  // "Twin Sister"
 ];
 
 export const FORM_STEPS = [
