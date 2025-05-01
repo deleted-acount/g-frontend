@@ -3,7 +3,12 @@ import { REQUIRED_FIELDS } from '../config/formConfig';
 // Validate a single field
 export const validateField = (name, value) => {
   if (REQUIRED_FIELDS.includes(name) && !value) {
-    return `${name.charAt(0).toUpperCase() + name.slice(1).replace(/([A-Z])/g, ' $1')} is required`;
+    // Format field name for display
+    const displayName = name
+      .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+      .replace(/^./, str => str.toUpperCase()) // Capitalize first letter
+      .trim(); // Remove extra spaces
+    return `${displayName} is required`;
   }
   return '';
 };
@@ -61,28 +66,36 @@ export const validateSiblings = (siblings, maxSiblings) => {
   return '';
 };
 
+// Validate nationality
+export const validateNationality = (nationality) => {
+  if (!nationality) {
+    return 'Please select your nationality';
+  }
+  return '';
+};
+
 // Validate family member
-export const validateFamilyMember = (member) => {
+export const validateFamilyMember = (member, index) => {
   const errors = {};
   
-  if (!member.name) {
-    errors.name = 'Name is required';
+  // Parent validation (Father and Mother)
+  if ((member.relation === 'Father' || member.relation === 'Mother') && !member.name) {
+    errors[`familyDetails.${index}.name`] = 'Name is required';
   }
   
-  if (member.mobileNumber && member.mobileNumber.length !== 10) {
-    errors.mobileNumber = 'Mobile number must be 10 digits';
+  // Child validation - gender required only if name is entered
+  if (member.relation === 'Child' && member.name && !member.gender) {
+    errors[`familyDetails.${index}.gender`] = 'Gender is required when name is provided';
   }
   
-  if (member.relation === 'Child' && !member.gender) {
-    errors.gender = 'Gender is required for children';
-  }
-  
-  if (member.relation === 'Sibling') {
-    if (!member.age) errors.age = 'Age is required for siblings';
-    if (!member.education) errors.education = 'Education is required for siblings';
-    if (!member.occupation) errors.occupation = 'Occupation is required for siblings';
-    if (!member.maritalStatus) errors.maritalStatus = 'Marital status is required for siblings';
-    if (!member.siblingRelation) errors.siblingRelation = 'Sibling relation is required';
+  // Sibling validation - all fields required only if relation is selected
+  if (member.relation === 'Sibling' && member.siblingRelation) {
+    if (!member.name) errors[`familyDetails.${index}.name`] = 'Name is required';
+    if (!member.gender) errors[`familyDetails.${index}.gender`] = 'Gender is required';
+    if (!member.age) errors[`familyDetails.${index}.age`] = 'Age is required';
+    if (!member.education) errors[`familyDetails.${index}.education`] = 'Education is required';
+    if (!member.occupation) errors[`familyDetails.${index}.occupation`] = 'Occupation is required';
+    if (!member.maritalStatus) errors[`familyDetails.${index}.maritalStatus`] = 'Marital status is required';
   }
   
   return errors;

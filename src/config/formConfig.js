@@ -1,7 +1,7 @@
 export const FORM_STEPS = [
   {
     name: "Personal Information",
-    fields: ["name", "mobileNumber", "village", "id", "email", "gender"],
+    fields: ["name", "mobileNumber", "village", "id", "email", "gender", "nationality"],
   },
   {
     name: "Additional Details",
@@ -56,6 +56,7 @@ export const REQUIRED_FIELDS = [
   "education", 
   "currentAddress", 
   "gender",
+  "nationality",
   "regionalAssembly", 
   "localPanchayatName", 
   "localPanchayat",
@@ -79,6 +80,7 @@ export const INITIAL_FORM_STATE = {
   display_picture: null,
   village: "",
   email: "",
+  nationality: "",
   bloodGroup: "",
   birthDate: "",
   marriageDate: "",

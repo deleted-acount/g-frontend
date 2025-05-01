@@ -1344,6 +1344,57 @@ const RegistrationForm = () => {
                   <p className="text-red-500 text-xs">{errors.gender}</p>
                 )}
               </div>
+
+              {/* Nationality field */}
+              <div className="space-y-3 md:col-span-2">
+                <label className="text-sm font-medium text-gray-700 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" />
+                  </svg>
+                  Nationality
+                  {hasError("nationality") && (
+                    <span className="ml-2 text-xs text-red-500">*Required</span>
+                  )}
+                </label>
+                <div className={`flex items-center space-x-8 px-4 py-2.5 border rounded-lg ${
+                  hasError("nationality") ? "border-red-500 bg-red-50" : "border-gray-300"
+                } bg-white`}>
+                  <label className="inline-flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name="nationality"
+                      value="Indian"
+                      checked={formData.nationality === "Indian"}
+                      onChange={(e) =>
+                        setFormData({ ...formData, nationality: e.target.value })
+                      }
+                      className="h-4 w-4 text-red-700 focus:ring-red-500"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Indian</span>
+                  </label>
+                  <label className="inline-flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name="nationality"
+                      value="Non-Indian"
+                      checked={formData.nationality === "Non-Indian"}
+                      onChange={(e) =>
+                        setFormData({ ...formData, nationality: e.target.value })
+                      }
+                      className="h-4 w-4 text-red-700 focus:ring-red-500"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Non-Indian</span>
+                  </label>
+                </div>
+                {hasError("nationality") && (
+                  <p className="text-red-500 text-xs">{errors.nationality}</p>
+                )}
+              </div>
             </div>
           </div>
         );

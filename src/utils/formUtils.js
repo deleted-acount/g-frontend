@@ -1,4 +1,4 @@
-import { REQUIRED_FIELDS } from '../config/formConfig';
+import { REQUIRED_FIELDS, FORM_STEPS } from '../config/formConfig';
 import {
   validateField,
   validateMobileNumber,
@@ -8,7 +8,8 @@ import {
   validateGotra,
   validateChildren,
   validateSiblings,
-  validateFamilyMember
+  validateFamilyMember,
+  validateNationality
 } from './validationUtils';
 
 export const formatDate = (dateString) => {
@@ -30,44 +31,53 @@ export const formatDate = (dateString) => {
 
 export const validateStep = (step, formData) => {
   const errors = {};
-  const stepFields = REQUIRED_FIELDS.filter(field => field.step === step);
   
-  // Validate required fields
-  stepFields.forEach(field => {
-    const error = validateField(field.name, formData[field.name]);
-    if (error) {
-      errors[field.name] = error;
+  // Get fields for current step
+  const currentStepFields = FORM_STEPS[step].fields;
+  
+  // Validate required fields for current step
+  currentStepFields.forEach(field => {
+    if (REQUIRED_FIELDS.includes(field)) {
+      const error = validateField(field, formData[field]);
+      if (error) {
+        errors[field] = error;
+      }
     }
   });
 
-  // Special validations
-  if (stepFields.includes('mobileNumber')) {
+  // Special validations for current step
+  if (currentStepFields.includes('mobileNumber')) {
     const mobileError = validateMobileNumber(formData.mobileNumber);
     if (mobileError) errors.mobileNumber = mobileError;
   }
 
-  if (stepFields.includes('email')) {
+  if (currentStepFields.includes('email')) {
     const emailError = validateEmail(formData.email);
     if (emailError) errors.email = emailError;
   }
 
-  if (stepFields.includes('birthDate')) {
+  if (currentStepFields.includes('nationality')) {
+    const nationalityError = validateNationality(formData.nationality);
+    if (nationalityError) errors.nationality = nationalityError;
+  }
+
+  if (currentStepFields.includes('birthDate')) {
     const birthDateError = validateDate(formData.birthDate, 'Birth date');
     if (birthDateError) errors.birthDate = birthDateError;
   }
 
-  if (stepFields.includes('marriageDate')) {
+  if (currentStepFields.includes('marriageDate') && formData.isMarried === 'Married') {
     const marriageDateError = validateMarriageDate(formData.marriageDate, formData.isMarried);
     if (marriageDateError) errors.marriageDate = marriageDateError;
   }
 
-  if (stepFields.includes('gotra')) {
+  if (currentStepFields.includes('gotra') && formData.marriageToAnotherCaste !== 'Other Caste Marriage') {
     const gotraError = validateGotra(formData.gotra, formData.marriageToAnotherCaste);
     if (gotraError) errors.gotra = gotraError;
   }
 
   // Validate family members
-  if (stepFields.includes('familyDetails')) {
+  if (currentStepFields.includes('familyDetails')) {
     const children = formData.familyDetails.filter(member => member.relation === 'Child');
     const siblings = formData.familyDetails.filter(member => member.relation === 'Sibling');
 
@@ -78,10 +88,8 @@ export const validateStep = (step, formData) => {
     if (siblingsError) errors.siblings = siblingsError;
 
     formData.familyDetails.forEach((member, index) => {
-      const memberErrors = validateFamilyMember(member);
-      if (Object.keys(memberErrors).length > 0) {
-        errors[`familyMember${index}`] = memberErrors;
-      }
+      const memberErrors = validateFamilyMember(member, index);
+      Object.assign(errors, memberErrors);
     });
   }
 
@@ -136,6 +144,7 @@ export const formatFormData = (data, displayPictureId = null) => {
       email_address: data.email ?? "",
       display_picture: displayPictureId,
       Gender: data.gender ?? "",
+      nationality: data.nationality ?? "",
     },
     work_information: {
       occupation: data.occupation ?? "",

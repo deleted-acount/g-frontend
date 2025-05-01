@@ -41,6 +41,7 @@ function App() {
           <Route path="/all-assembly" element={<AllAssembly />} />
           <Route path="/video" element={<Video />} />
           <Route path="/latestnews" element={<LatestNews />} />
+        
         </Routes>
       </Layout>
     </LanguageProvider>
