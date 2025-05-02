@@ -26,6 +26,22 @@ import {
   hasErrors
 } from "../../utils/formUtils";
 
+// Add these constants at the top of the file after imports
+const LOCAL_PANCHAYATS = {
+  "Chambal Regional Assembly": ["Morena", "Bhind", "Gwalior"],
+  "Central Malwa Regional Assembly": ["Indore", "Dewas", "Ujjain"],
+  "Mahakaushal Regional Assembly": ["Jabalpur", "Katni", "Rewa"],
+  "Vindhya Regional Assembly": ["Satna", "Shahdol", "Sidhi"],
+  "Bundelkhand Regional Assembly": ["Sagar", "Damoh", "Chhatarpur"],
+  "Chaurasi Regional Assembly": ["Bhopal", "Vidisha", "Raisen"]
+};
+
+const SUB_LOCAL_PANCHAYATS = {
+  "Morena": ["Morena City", "Ambah", "Porsa"],
+  "Bhind": ["Bhind City", "Ater", "Lahar"],
+  "Gwalior": ["Gwalior City", "Dabra", "Bhitarwar"]
+};
+
 const RegistrationForm = () => {
   const location = useLocation();
   const [currentStep, setCurrentStep] = useState(0);
@@ -472,8 +488,8 @@ const RegistrationForm = () => {
       city: "Gwalior",
       districts: {
         "475001": "Dabra",
-        "475110": "Morar Cantt",
-        "475661": "Datia City",
+        "475110": "Morar",
+        "475661": "Datia",
         "475686": "Seondha",
         "475675": "Indergarh"
       }
@@ -482,7 +498,7 @@ const RegistrationForm = () => {
       state: "Madhya Pradesh",
       city: "Bhind",
       districts: {
-        "477001": "Bhind City",
+        "477001": "Bhind",
         "477116": "Ater",
         "477441": "Mehgaon",
         "477333": "Gohad"
@@ -492,7 +508,7 @@ const RegistrationForm = () => {
       state: "Madhya Pradesh",
       city: "Morena",
       districts: {
-        "476001": "Morena City",
+        "476001": "Morena",
         "476221": "Ambah",
         "476554": "Porsa",
         "476115": "Joura"
@@ -503,7 +519,7 @@ const RegistrationForm = () => {
       state: "Rajasthan",
       city: "Jaipur",
       districts: {
-        "302001-302039": "Jaipur City and Suburbs"
+        "302001-302039": "Jaipur"
       }
     },
     "303": {
@@ -520,7 +536,7 @@ const RegistrationForm = () => {
       state: "Uttar Pradesh",
       city: "Jalaun",
       districts: {
-        "285123": "Jalaun City",
+        "285123": "Jalaun",
         "285001": "Orai",
         "285130": "Kalpi"
       }
@@ -529,7 +545,7 @@ const RegistrationForm = () => {
       state: "Uttar Pradesh",
       city: "Lucknow",
       districts: {
-        "226001-226031": "Lucknow Urban and Rural",
+        "226001-226031": "Lucknow",
         "226010": "Gomti Nagar",
         "226012": "Alambagh"
       }
@@ -545,7 +561,7 @@ const RegistrationForm = () => {
       state: "Uttar Pradesh",
       city: "Kanpur",
       districts: {
-        "208001-208027": "Kanpur City Urban Areas"
+        "208001-208027": "Kanpur"
       }
     },
     "209": {
@@ -558,9 +574,9 @@ const RegistrationForm = () => {
     "210": {
       state: "Uttar Pradesh",
       districts: {
-        "210205": "Karvi Town",
+        "210205": "Karvi",
         "210204": "Nearby Villages",
-        "210001": "Banda City",
+        "210001": "Banda",
         "210120": "Naraini"
       }
     },
@@ -568,7 +584,7 @@ const RegistrationForm = () => {
       state: "Uttar Pradesh",
       city: "Auraiya",
       districts: {
-        "206122": "Auraiya City",
+        "206122": "Auraiya",
         "206128": "Phaphund"
       }
     },
@@ -576,7 +592,7 @@ const RegistrationForm = () => {
       state: "Uttar Pradesh",
       city: "Jhansi",
       districts: {
-        "284001-284003": "Jhansi City and Suburbs"
+        "284001-284003": "Jhansi"
       }
     },
     // Madhya Pradesh 
@@ -584,16 +600,16 @@ const RegistrationForm = () => {
       state: "Madhya Pradesh",
       city: "Tikamgarh",
       districts: {
-        "472001": "Tikamgarh City",
+        "472001": "Tikamgarh",
         "472339": "Jatara"
       }
     },
     "473": {
       state: "Madhya Pradesh",
       districts: {
-        "473551": "Shivpuri City",
-        "473331": "Ashok Nagar City",
-        "473001": "Guna City"
+        "473551": "Shivpuri",
+        "473331": "Ashok Nagar",
+        "473001": "Guna"
       }
     },
     // Gujarat - Ahmedabad
@@ -601,7 +617,7 @@ const RegistrationForm = () => {
       state: "Gujarat",
       city: "Ahmedabad",
       districts: {
-        "380001-382470": "Ahmedabad City Zones"
+        "380001-382470": "Ahmedabad"
       }
     },
     // Madhya Pradesh - More Cities
@@ -609,91 +625,91 @@ const RegistrationForm = () => {
       state: "Madhya Pradesh",
       city: "Indore",
       districts: {
-        "452001-452020": "Indore City Areas"
+        "452001-452020": "Indore"
       }
     },
     "456": {
       state: "Madhya Pradesh",
       city: "Ujjain",
       districts: {
-        "456001-456668": "Ujjain City and District"
+        "456001-456668": "Ujjain"
       }
     },
     "462": {
       state: "Madhya Pradesh",
       city: "Bhopal",
       districts: {
-        "462001-462047": "Bhopal City Zones"
+        "462001-462047": "Bhopal"
       }
     },
     "464": {
       state: "Madhya Pradesh",
       districts: {
-        "464001": "Vidisha City",
-        "464551": "Raisen City"
+        "464001": "Vidisha",
+        "464551": "Raisen"
       }
     },
     "487": {
       state: "Madhya Pradesh",
       city: "Narsinghpur",
       districts: {
-        "487001": "Narsinghpur City"
+        "487001": "Narsinghpur"
       }
     },
     "482": {
       state: "Madhya Pradesh",
       city: "Jabalpur",
       districts: {
-        "482001-482008": "Jabalpur Urban Areas"
+        "482001-482008": "Jabalpur"
       }
     },
     "484": {
       state: "Madhya Pradesh",
       districts: {
-        "484661": "Umariya City",
-        "484001": "Shahdol City"
+        "484661": "Umariya",
+        "484001": "Shahdol"
       }
     },
     "470": {
       state: "Madhya Pradesh",
       districts: {
-        "470001": "Sagar City",
-        "470775": "Hata City"
+        "470001": "Sagar",
+        "470775": "Hata"
       }
     },
     "480": {
       state: "Madhya Pradesh",
       districts: {
-        "480661": "Seoni City",
-        "480001": "Chhindwara City"
+        "480661": "Seoni",
+        "480001": "Chhindwara"
       }
     },
     "483": {
       state: "Madhya Pradesh",
       city: "Katni",
       districts: {
-        "483501": "Katni City"
+        "483501": "Katni"
       }
     },
     "488": {
       state: "Madhya Pradesh",
       city: "Panna",
       districts: {
-        "488001": "Panna City"
+        "488001": "Panna"
       }
     },
     "461": {
       state: "Madhya Pradesh",
       city: "Hoshangabad",
       districts: {
-        "461001": "Hoshangabad City"
+        "461001": "Hoshangabad"
       }
     },
     "481": {
       state: "Madhya Pradesh",
       districts: {
-        "481661": "Mandla City",
-        "481880": "Dindori City"
+        "481661": "Mandla",
+        "481880": "Dindori"
       }
     },
     // Uttar Pradesh 
@@ -701,78 +717,78 @@ const RegistrationForm = () => {
       state: "Uttar Pradesh",
       city: "Sultanpur",
       districts: {
-        "228001": "Sultanpur City"
+        "228001": "Sultanpur"
       }
     },
     "471": {
       state: "Madhya Pradesh",
       city: "Chhatarpur",
       districts: {
-        "471001": "Chhatarpur City"
+        "471001": "Chhatarpur"
       }
     },
     "485": {
       state: "Madhya Pradesh",
       city: "Satna",
       districts: {
-        "485001": "Satna City"
+        "485001": "Satna"
       }
     },
     "800": {
       state: "Bihar",
       city: "Patna City",
       districts: {
-        "800008": "Patna City Area"
+        "800008": "Patna"
       }
     },
     "486": {
       state: "Madhya Pradesh",
       city: "Rewa",
       districts: {
-        "486001": "Rewa City"
+        "486001": "Rewa"
       }
     },
     // Chhattisgarh Cities
     "491": {
       state: "Chhattisgarh",
       districts: {
-        "491001": "Durg City",
-        "491441": "Rajnandgaon City"
+        "491001": "Durg",
+        "491441": "Rajnandgaon"
       }
     },
     "493": {
       state: "Chhattisgarh",
       city: "Dhamtari",
       districts: {
-        "493773": "Dhamtari City"
+        "493773": "Dhamtari"
       }
     },
     "492": {
       state: "Chhattisgarh",
       city: "Raipur",
       districts: {
-        "492001-492099": "Raipur Urban and Suburban Areas"
+        "492001-492099": "Raipur"
       }
     },
     "495": {
       state: "Chhattisgarh",
       city: "Bilaspur",
       districts: {
-        "495001": "Bilaspur City"
+        "495001": "Bilaspur"
       }
     },
     "494": {
       state: "Chhattisgarh",
       city: "Jagdalpur",
       districts: {
-        "494001": "Jagdalpur City"
+        "494001": "Jagdalpur"
       }
     },
     "497": {
       state: "Chhattisgarh",
       city: "Baikunthpur",
       districts: {
-        "497335": "Baikunthpur City"
+        "497335": "Baikunthpur"
       }
     },
     // Maharashtra Cities
@@ -780,10 +796,8 @@ const RegistrationForm = () => {
       state: "Maharashtra",
       city: "Nagpur",
       districts: {
-        "440001-440037": "Nagpur Urban and Suburban Areas",
-        "440001": "Nagpur City",
-        "440002": "Nagpur West",
-        "440003": "Nagpur East"
+        "440001-440037": "Nagpur",
+      
       }
     },
     "424": {
@@ -791,43 +805,39 @@ const RegistrationForm = () => {
       city: "Chalisgaon",
       districts: {
         
-        "424101": "Chalisgaon City"
+        "424101": "Chalisgaon"
       }
     },
     "411": {
       state: "Maharashtra",
       city: "Pune",
       districts: {
-        "411001-411062": "Pune Urban and Rural Areas",
-        "411001": "Pune City",
-        "411002": "Pune Cantonment",
-        "411003": "Pune University"
+        "411001-411062": "Pune",
+      
       }
     },
     "444": {
       state: "Maharashtra",
       city: "Amravati",
       districts: {
-        "444601": "Amravati City",
-        "444602": "Amravati Rural",
-        "444603": "Amravati Industrial"
+        "444601": "Amravati",
+        "444602": "Amravati",
+        "444603": "Amravati"
       }
     },
     "400": {
       state: "Maharashtra",
       city: "Mumbai",
       districts: {
-        "400001-400104": "Mumbai City Zones",
-        "400001": "Fort",
-        "400002": "Colaba",
-        "400003": "Churchgate"
+        "400001-400104": "Mumbai",
+       
       }
     },
     "281": {
       state: "Uttar Pradesh",
       city: "Mathura",
       districts: {
-        "281001": "Mathura City"
+        "281001": "Mathura"
       }
     }
   };
@@ -1050,7 +1060,7 @@ const RegistrationForm = () => {
   
     try {
       console.log("Uploading image...");
-      const response = await fetch("http://localhost:1337/api/upload", {
+      const response = await fetch(`${import.meta.env.VITE_PUBLIC_STRAPI_API_URL}/api/upload`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
@@ -1065,7 +1075,14 @@ const RegistrationForm = () => {
   
       const result = await response.json();
       console.log("Image upload response:", result);
-      return result[0]?.id;
+      
+      // Return the first uploaded image's ID
+      if (result && result.length > 0) {
+        const uploadedImage = result[0];
+        return uploadedImage.id;
+      }
+      
+      return null;
     } catch (error) {
       console.error("Error uploading image:", error);
       return null;
@@ -1073,17 +1090,23 @@ const RegistrationForm = () => {
   };
 
   const handleSubmit = async () => {
-    setLoading(true);
-  
     try {
+      setLoading(true);
+      
       const displayPictureId = formData.display_picture 
         ? await uploadImage(formData.display_picture)
         : null;
-      
-      const strapiData = formatFormData(formData, displayPictureId);
+
+      const strapiData = formatFormData({
+        ...formData,
+        gotraList: Object.keys(gotraAaknaMap),
+        aaknaList: getAaknaOptions(),
+        localPanchayatList: formData.regionalAssembly ? LOCAL_PANCHAYATS[formData.regionalAssembly] || [] : [],
+        subLocalPanchayatList: formData.localPanchayat ? SUB_LOCAL_PANCHAYATS[formData.localPanchayat] || [] : []
+      }, displayPictureId);
   
       const response = await fetch(
-        "http://localhost:1337/api/registration-pages",
+        `${import.meta.env.VITE_PUBLIC_STRAPI_API_URL}/api/registration-pages`,
         {
           method: "POST",
           headers: {
@@ -1752,11 +1775,11 @@ const RegistrationForm = () => {
                           <button
                             type="button"
                             onClick={() => removeChild(index)}
-                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-md hover:bg-red-600 transition-all duration-200"
-                            aria-label="Remove child"
-                          >
+                            className="absolute -top-2 -right-2 text-red-600 hover:text-red-800 transition-colors duration-200"
+                            
+                          >                      
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
                             </svg>
                           </button>
                         )}
@@ -3044,12 +3067,12 @@ const RegistrationForm = () => {
     // State-specific sub local panchayats
     if (formData.state === "Maharashtra") {
       const maharashtraSubPanchayats = {
-        "Nagpur": ["Nagpur City", "Nagpur West", "Nagpur East", "Nagpur Rural"],
-        "Pune": ["Pune City", "Pune Cantonment", "Pune University", "Pune Rural"],
-        "Amravati": ["Amravati City", "Amravati Rural", "Amravati Industrial"],
-        "Mumbai": ["Fort", "Colaba", "Churchgate", "Dadar", "Bandra", "Andheri"],
-        "Chalisgaon": ["Chalisgaon City", "Chalisgaon Rural"],
-        "Dhuliya": ["Dhule City", "Dhule Rural"]
+        "Nagpur": ["Nagpur"],
+        "Pune": ["Pune"],
+        "Amravati": ["Amravati"],
+        "Mumbai": ["Mumbai"],
+        "Chalisgaon": ["Chalisgaon"],
+        "Dhuliya": ["Dhuliya"]
       };
       return maharashtraSubPanchayats[formData.localPanchayat] || [];
     }

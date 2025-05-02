@@ -1,4 +1,5 @@
 import { REQUIRED_FIELDS, FORM_STEPS } from '../config/formConfig';
+import { STATE_TO_ASSEMBLIES } from '../constants/formConstants';
 import {
   validateField,
   validateMobileNumber,
@@ -11,6 +12,200 @@ import {
   validateFamilyMember,
   validateNationality
 } from './validationUtils';
+
+// Helper functions for registration code generation
+const generateGenderCode = (gender) => gender === 'Male' ? 'M' : gender === 'Female' ? 'F' : 'X';
+const generateNationalityCode = (nationality) => nationality === 'Indian' ? '1' : nationality === 'Non-Indian' ? '0' : 'X';
+
+// Fixed code mappings for all values
+const FIXED_CODES = {
+  // Regional Assembly codes (all possible assemblies)
+  regionalAssembly: {
+    "Chambal Regional Assembly": "01",
+    "Central Malwa Regional Assembly": "02",
+    "Mahakaushal Regional Assembly": "03",
+    "Vindhya Regional Assembly": "04",
+    "Bundelkhand Regional Assembly": "05",
+    "Chaurasi Regional Assembly": "06",
+    "Ganga Jamuna Regional Assembly": "07",
+    "Northern Regional Assembly": "08",
+    "Southern Regional Assembly": "09",
+    "Chhattisgarh Regional Assembly": "10"
+  },
+  // Local Panchayat codes (all possible panchayats)
+  localPanchayat: {
+    // Chambal Regional Assembly panchayats
+    "Gwalior": "01",
+    "Bhind": "02",
+    "Morena": "03",
+    "Datia": "04",
+    "Jaipur": "05",
+    // Central Malwa Regional Assembly panchayats
+    "Indore": "06",
+    "Ujjain": "07",
+    "Bhopal": "08",
+    "Vidisha": "09",
+    "Raisen": "10",
+    // Mahakaushal Regional Assembly panchayats
+    "Narsinghpur": "11",
+    "Jabalpur": "12",
+    "Sagar": "13",
+    "Seoni": "14",
+    "Chhindwara": "15",
+    "Panna": "16",
+    "Hoshangabad": "17",
+    "Mandla": "18",
+    "Dindori": "19",
+    "Guna": "20",
+    "Sultanpur": "21",
+    "Umariya": "22",
+    "Hata": "23",
+    "Shahdol": "24",
+    "Katni": "25",
+    // Vindhya Regional Assembly panchayats
+    "Chhatarpur": "26",
+    "Satna": "27",
+    "Rewa": "28",
+    "Mahoba": "29",
+    "Patna City": "30",
+    // Southern Regional Assembly panchayats
+    "Nagpur": "31",
+    "Pune": "32",
+    "Amravati": "33",
+    "Mumbai": "34",
+    "Chalisgaon": "35",
+    "Dhuliya": "36",
+    // Chhattisgarh Regional Assembly panchayats
+    "Durg": "37",
+    "Rajnandgaon": "38",
+    "Dhamtari": "39",
+    "Raipur": "40",
+    "Bilaspur": "41",
+    "Jagdalpur": "42",
+    "Baikunthpur": "43",
+    // Northern Regional Assembly panchayats
+    "Mathura": "44",
+    "Delhi": "45",
+    // Ganga Jamuna Regional Assembly panchayats
+    "Jalaun": "46",
+    "Kanpur": "47",
+    "Auraiya": "48",
+    "Lucknow": "49",
+    "Karvi": "50",
+    "Banda": "51",
+    // Bundelkhand Regional Assembly panchayats
+    "Jhansi": "52",
+    "Lalitpur": "53",
+    "Tikamgarh": "54",
+    "Ghasan": "55"
+  },
+  // Sub Local Panchayat codes (all possible sub-panchayats)
+  subLocalPanchayat: {
+    // Gwalior sub-panchayats
+    "Madhavganj": "01",
+    "Khasgi Bazaar": "02",
+    "Daulatganj": "03",
+    "Kampoo": "04",
+    "Lohia Bazaar": "05",
+    "Phalka Bazaar": "06",
+    "Lohamandi": "07",
+    "Bahodapur": "08",
+    "Naka Chandravadni": "09",
+    "Harishankarpuram": "10",
+    "Thatipur": "11",
+    "Morar": "12",
+    "Dabra": "13",
+    "Pichhore Dabra": "14",
+    "Behat": "15",
+    // Bhind sub-panchayats
+    "Alampur": "16",
+    "Daboh": "17",
+    "Tharet": "18",
+    "Mihona": "19",
+    "Aswar": "20",
+    "Lahar": "21",
+    "Gohad": "22",
+    "Machhand": "23",
+    "Raun": "24",
+    // Chhatarpur sub-panchayats
+    "Bameetha": "25",
+    "Maharajpur": "26",
+    "Naugaon": "27",
+    "Bijawar": "28",
+    "Chandra Nagar": "29",
+    "Gulgaj": "30",
+    "Bakswaha": "31",
+    "Gadhi Malhara": "32",
+    "Lavkush Nagar": "33",
+    "Alipur": "34",
+    "Tatam": "35",
+    "Harpalpur": "36",
+    "Ishanagar": "37",
+    "Bada Malhara": "38",
+    // Panna sub-panchayats
+    "Amanaganj": "39",
+    "Ajaigarh": "40",
+    "Gunnor": "41",
+    "Mohendra": "42",
+    "Simariya": "43",
+    "Sunwani Kala": "44",
+    "Kishangarh": "45",
+    // Shivpuri sub-panchayats
+    "Malhawani": "46",
+    "Pipara": "47",
+    "Semri": "48",
+    "Bamore Damaroun": "49",
+    "Manpura": "50",
+    "Pichhore": "51",
+    "Karera": "52",
+    "Bhonti": "53",
+    // Other cities
+    "Nagpur": "54",
+    "Pune": "55",
+    "Amravati": "56",
+    "Mumbai": "57",
+    "Chalisgaon": "58",
+    "Dhuliya": "59",
+    "Durg": "60",
+    "Rajnandgaon": "61",
+    "Dhamtari": "62",
+    "Raipur": "63",
+    "Bilaspur": "64",
+    "Jagdalpur": "65",
+    "Baikunthpur": "66",
+    "Mathura": "67",
+    "Delhi": "68",
+    "Other": "99"
+  },
+  // Gotra codes 
+  gotra: {
+    "Vasar/Vastil/Vasal": "01",
+    "Gahoi": "02",
+    "Agarwal": "03",
+    "Maheshwari": "04",
+    "Khandelwal": "05",
+    "Other": "99"
+  },
+  // Aakna codes 
+  aakna: {
+    "Rusiya": "01",
+    "Arusiya": "02",
+    "Behre": "03",
+    "Bahre": "04",
+    "Pahariya": "05",
+    "Reja": "06",
+    "Mar": "07",
+    "Amar": "08",
+    "Mor": "09",
+    "Sethiya": "10",
+    "Damele": "11",
+    "Kathal": "12",
+    "Kathil": "13",
+    "Marele": "14",
+    "Nahar": "15",
+    "Other": "99"
+  }
+};
 
 export const formatDate = (dateString) => {
   if (!dateString) return null;
@@ -97,6 +292,17 @@ export const validateStep = (step, formData) => {
 };
 
 export const formatFormData = (data, displayPictureId = null) => {
+  // Generate registration code
+  const genderCode = generateGenderCode(data.gender);
+  const nationalityCode = generateNationalityCode(data.nationality);
+  const gotraCode = FIXED_CODES.gotra[data.gotra] || "00";
+  const aaknaCode = FIXED_CODES.aakna[data.aakna] || "00";
+  const regionalAssemblyCode = FIXED_CODES.regionalAssembly[data.regionalAssembly] || "00";
+  const localPanchayatCode = FIXED_CODES.localPanchayat[data.localPanchayat] || "00";
+  const subLocalPanchayatCode = FIXED_CODES.subLocalPanchayat[data.subLocalPanchayat] || "00";
+
+  const registrationCode = `${genderCode}${nationalityCode}${aaknaCode}${regionalAssemblyCode}${localPanchayatCode}${subLocalPanchayatCode}-${gotraCode}`;
+
   return {
     family_details: {
       father_name: data.familyDetails[0]?.name ?? "",
@@ -172,6 +378,7 @@ export const formatFormData = (data, displayPictureId = null) => {
     your_suggestions: {
       suggestions: data.suggestions ?? "",
     },
+    registration_code: registrationCode
   };
 };
 
