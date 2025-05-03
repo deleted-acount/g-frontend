@@ -43,6 +43,13 @@ const CowSevaCollection = () => {
     sevaPlaces: []
   });
 
+  // Add function to ensure proper URL format
+  const formatUrl = (url) => {
+    if (!url || url === '#') return '#';
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    return `https://${url}`;
+  };
+
   // Memoize filtered donations to prevent unnecessary recalculations
   const filteredDonations = useMemo(() => {
     if (!content?.donations?.length) return [];
@@ -130,7 +137,8 @@ const CowSevaCollection = () => {
                   imageUrl: imageData?.url ? `http://localhost:1337${imageData.url}` : null,
                   thumbnailUrl: imageData?.formats?.thumbnail?.url 
                     ? `http://localhost:1337${imageData.formats.thumbnail.url}` 
-                    : null
+                    : null,
+                  url: p.url || '#'
                 };
               }));
           }
@@ -513,9 +521,14 @@ const CowSevaCollection = () => {
                           <span className="font-medium text-xs sm:text-sm">{place.contact}</span>
                         </div>
                       </div>
-                      <button className="mt-3 sm:mt-4 w-full bg-orange-100 text-orange-700 rounded-lg py-1.5 sm:py-2 hover:bg-orange-200 transition font-medium text-xs sm:text-sm">
+                      <a 
+                        href={formatUrl(place.url)} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="mt-3 sm:mt-4 w-full bg-orange-100 text-orange-700 rounded-lg py-1.5 sm:py-2 hover:bg-orange-200 transition font-medium text-xs sm:text-sm inline-block text-center"
+                      >
                         {language === "hi" ? "केंद्र पर जाएं" : "Visit Center"}
-                      </button>
+                      </a>
                     </div>
                   </div>
                 ))}
