@@ -17,6 +17,7 @@ import ScrollToTop from "./utils/components/ScrollToTop";
 import GotraAankna from "./components/custom/GotraAankna";
 import AllAssembly from "./components/custom/AllAssembly";
 import LatestNews from "./components/custom/LatestNews";
+import NotFound from "./components/NotFound";
 
 import { LanguageProvider } from "./context/LanguageContext";
 
@@ -41,7 +42,8 @@ function App() {
           <Route path="/all-assembly" element={<AllAssembly />} />
           <Route path="/video" element={<Video />} />
           <Route path="/latestnews" element={<LatestNews />} />
-        
+          {/* 404 route*/}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
     </LanguageProvider>
