@@ -516,8 +516,9 @@ export const formatFormData = (data, displayPictureId = null) => {
   const regionalAssemblyCode = FIXED_CODES.regionalAssembly[data.regionalAssembly] || "00";
   const localPanchayatCode = FIXED_CODES.localPanchayat[data.localPanchayat] || "00";
   const subLocalPanchayatCode = FIXED_CODES.subLocalPanchayat[data.subLocalPanchayat] || "00";
+  const fullName = data.name || "";
 
-  const registrationCode = `${genderCode}${nationalityCode}${aaknaCode}${regionalAssemblyCode}${localPanchayatCode}${subLocalPanchayatCode}-${gotraCode}`;
+  const registrationCode = `${fullName}-${genderCode}${nationalityCode}${aaknaCode}${regionalAssemblyCode}${localPanchayatCode}${subLocalPanchayatCode}${gotraCode}`;
 
   return {
     family_details: {
