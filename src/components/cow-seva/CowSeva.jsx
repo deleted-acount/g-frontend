@@ -42,7 +42,7 @@ const DonateButton = memo(({ language, languageFontClass }) => (
 const CowSeva = () => {
   const { language } = useLanguage();
 
-  const languageFontClass = language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
+  const languageFontClass = "font-inter";
   const hindiTextClass =
     language === "hi" ? "text-base lg:text-lg" : "text-sm lg:text-base";
 

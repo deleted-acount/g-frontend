@@ -3,7 +3,7 @@ import { useLanguage } from '../../context/LanguageContext';
 
 const Footer = () => {
   const { language } = useLanguage();
-  const languageFontClass = language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
+  const languageFontClass = "font-inter";
   const hindiTextClass = language === "hi" ? "text-base" : "text-sm"; 
   
 

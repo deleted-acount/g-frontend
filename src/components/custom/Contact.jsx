@@ -15,7 +15,7 @@ const Contact = () => {
   const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
 
   // Language-specific font class
-  const languageFontClass = language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
+  const languageFontClass = "font-inter";
 
   const handleChange = (e) => {
     const { name, value } = e.target;

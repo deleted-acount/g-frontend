@@ -1,4 +1,4 @@
-import { REQUIRED_FIELDS } from '../config/formConfig';
+import { REQUIRED_FIELDS } from '../../config/formConfig';
 
 // Validate a single field
 export const validateField = (name, value) => {

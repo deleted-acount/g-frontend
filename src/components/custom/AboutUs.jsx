@@ -8,7 +8,7 @@ const AboutUs = () => {
 
   // Language-specific font class
   const languageFontClass =
-    language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
+    language === "hi" ? "font-inter" : "font-inter";
 
   // reusable styles
   const sectionStyles = "mb-8 md:mb-16";

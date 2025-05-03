@@ -24,9 +24,15 @@ import {
   validateStep,
   formatFormData,
   hasErrors
-} from "../../utils/formUtils";
+} from "../../utils/form/formUtils";
 
 // Add these constants at the top of the file after imports
+const CHAURASI_PANCHAYAT_NAMES = [
+  "Gahoi Vaishya Panchayat",
+  "Shri Gahoi Vaishya Sabha",
+  "Gahoi Vaishya Samaj"
+];
+
 const LOCAL_PANCHAYATS = {
   "Chambal Regional Assembly": ["Morena", "Bhind", "Gwalior"],
   "Central Malwa Regional Assembly": ["Indore", "Dewas", "Ujjain"],
@@ -40,6 +46,27 @@ const SUB_LOCAL_PANCHAYATS = {
   "Morena": ["Morena City", "Ambah", "Porsa"],
   "Bhind": ["Bhind City", "Ater", "Lahar"],
   "Gwalior": ["Gwalior City", "Dabra", "Bhitarwar"]
+};
+
+const CHAURASI_LOCAL_PANCHAYAT_MAPPING = {
+  "Gahoi Vaishya Panchayat": ["Shivpuri", "Ashok Nagar", "Guna", "Ahmedabad"],
+  "Shri Gahoi Vaishya Sabha": ["Shivpuri"],
+  "Gahoi Vaishya Samaj": ["Ashok Nagar"]
+};
+
+const CHAURASI_SUB_LOCAL_PANCHAYAT_MAPPING = {
+  "Gahoi Vaishya Panchayat": {
+    "Shivpuri": ["Shivpuri", "Malhawani", "Pipara", "Semri", "Bamore Damaroun", "Manpura", "Pichhore"],
+    "Ashok Nagar": ["Ashok Nagar", "Bamore Kala"],
+    "Guna": ["Guna"],
+    "Ahmedabad": ["Gandhi Nagar"]
+  },
+  "Shri Gahoi Vaishya Sabha": {
+    "Shivpuri": ["Karera", "Bhonti"]
+  },
+  "Gahoi Vaishya Samaj": {
+    "Ashok Nagar": ["Dinara", "Guna"]
+  }
 };
 
 const RegistrationForm = () => {
@@ -1091,12 +1118,12 @@ const RegistrationForm = () => {
 
   const handleSubmit = async () => {
     try {
-      setLoading(true);
-      
+    setLoading(true);
+  
       const displayPictureId = formData.display_picture 
         ? await uploadImage(formData.display_picture)
         : null;
-
+      
       const strapiData = formatFormData({
         ...formData,
         gotraList: Object.keys(gotraAaknaMap),
@@ -1777,7 +1804,7 @@ const RegistrationForm = () => {
                             onClick={() => removeChild(index)}
                             className="absolute -top-2 -right-2 text-red-600 hover:text-red-800 transition-colors duration-200"
                             
-                          >                      
+                          >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                               <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
                             </svg>
@@ -2794,7 +2821,7 @@ const RegistrationForm = () => {
   const chaurasi_PanchayatNames = [
     "Gahoi Vaishya Panchayat",
     "Shri Gahoi Vaishya Sabha",
-    "Gahoi Vaishya Samaj",
+    "Gahoi Vaishya Samaj"
   ];
 
   // Add Vindhya Regional Assembly panchayat names
@@ -2834,7 +2861,7 @@ const RegistrationForm = () => {
     } else if (formData.regionalAssembly === "Bundelkhand Regional Assembly") {
       return bundelkhandPanchayatNames;
     } else if (formData.regionalAssembly === "Chaurasi Regional Assembly") {
-      return chaurasi_PanchayatNames;
+      return CHAURASI_PANCHAYAT_NAMES;
     } else if (formData.regionalAssembly === "Central Malwa Regional Assembly") {
       return centralMalwaPanchayatNames;
     } else if (formData.regionalAssembly === "Mahakaushal Regional Assembly") {
@@ -2853,6 +2880,13 @@ const RegistrationForm = () => {
 
   //  local panchayats based on local panchayat name and regional assembly
   const getFilteredLocalPanchayats = () => {
+    if (!formData.regionalAssembly || !formData.localPanchayatName) return [];
+
+    // For Chaurasi Regional Assembly mappings
+    if (formData.regionalAssembly === "Chaurasi Regional Assembly") {
+      return CHAURASI_LOCAL_PANCHAYAT_MAPPING[formData.localPanchayatName] || [];
+    }
+
     // For Northern Regional Assembly mappings
     if (formData.regionalAssembly === "Northern Regional Assembly") {
       if (formData.localPanchayatName === "Gahoi Vaishya Vikas Sansthan") {
@@ -3062,22 +3096,15 @@ const RegistrationForm = () => {
 
   //  local panchayats based on local panchayat and regional assembly
   const getFilteredSubLocalPanchayats = () => {
-    if (!formData.state || !formData.localPanchayat) return [];
+    if (!formData.regionalAssembly || !formData.localPanchayatName || !formData.localPanchayat) return [];
 
-    // State-specific sub local panchayats
-    if (formData.state === "Maharashtra") {
-      const maharashtraSubPanchayats = {
-        "Nagpur": ["Nagpur"],
-        "Pune": ["Pune"],
-        "Amravati": ["Amravati"],
-        "Mumbai": ["Mumbai"],
-        "Chalisgaon": ["Chalisgaon"],
-        "Dhuliya": ["Dhuliya"]
-      };
-      return maharashtraSubPanchayats[formData.localPanchayat] || [];
+    // For Chaurasi Regional Assembly mappings
+    if (formData.regionalAssembly === "Chaurasi Regional Assembly") {
+      const panchayatMapping = CHAURASI_SUB_LOCAL_PANCHAYAT_MAPPING[formData.localPanchayatName];
+      return panchayatMapping ? (panchayatMapping[formData.localPanchayat] || []) : [];
     }
 
-    // For Northern Regional Assembly  mappings
+    // For Northern Regional Assembly mappings
     if (formData.regionalAssembly === "Northern Regional Assembly") {
       if (formData.localPanchayatName === "Gahoi Vaishya Vikas Sansthan") {
         if (formData.localPanchayat === "Mathura") {

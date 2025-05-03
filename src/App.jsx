@@ -13,7 +13,7 @@ import Rite from "./components/custom/Rite";
 import Video from "./components/custom/VideoPage";
 import FamilyLogin from "./components/custom/FamilyLogin";
 import { CowSeva } from "./components/cow-seva";
-import ScrollToTop from "./components/utils/ScrollToTop";
+import ScrollToTop from "./utils/components/ScrollToTop";
 import GotraAankna from "./components/custom/GotraAankna";
 import AllAssembly from "./components/custom/AllAssembly";
 import LatestNews from "./components/custom/LatestNews";

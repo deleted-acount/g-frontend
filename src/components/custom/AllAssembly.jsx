@@ -8,7 +8,7 @@ const AllAssembly = () => {
   const { language } = useLanguage();
 
   // Language-specific font class
-  const languageFontClass = language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
+  const languageFontClass = "font-inter";
 
   const translations = {
     pageTitle: {

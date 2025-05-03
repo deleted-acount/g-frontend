@@ -5,7 +5,7 @@ import { useLanguage } from "../../context/LanguageContext";
 
 const SocialFlagSong = () => {
   const { language } = useLanguage();
-  const languageFontClass = language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
+  const languageFontClass = "font-inter";
 
   return (
     <div className="min-h-screen bg-gray-50">

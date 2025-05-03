@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const GotraAankna = () => {
   const { language } = useLanguage();
-  const languageFontClass = language === "hi" ? "font-[Noto_Sans_Devanagari]" : "font-inter";
+  const languageFontClass = "font-inter";
   const [activeGotra, setActiveGotra] = useState(null);
 
   const gotraAnknaData = [
