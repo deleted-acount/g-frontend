@@ -7,6 +7,7 @@ const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
+    email: "",
     subject: "",
     message: ""
   });
@@ -41,6 +42,11 @@ const Contact = () => {
       newErrors.mobile = language === "hi" ? "कृपया अपना मोबाइल नंबर दर्ज करें" : "Please enter your mobile number";
     } else if (!/^[0-9]{10}$/.test(formData.mobile)) {
       newErrors.mobile = language === "hi" ? "कृपया सही मोबाइल नंबर दर्ज करें" : "Please enter a valid mobile number";
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = language === "hi" ? "कृपया अपना ईमेल दर्ज करें" : "Please enter your email";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = language === "hi" ? "कृपया सही ईमेल दर्ज करें" : "Please enter a valid email address";
     }
     if (!formData.subject.trim()) {
       newErrors.subject = language === "hi" ? "कृपया विषय दर्ज करें" : "Please enter the subject";
@@ -77,6 +83,7 @@ const Contact = () => {
       setFormData({
         name: "",
         mobile: "",
+        email: "",
         subject: "",
         message: ""
       });
@@ -439,9 +446,7 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="relative">
-                    <label
-                      className={`block text-gray-700 mb-2 font-medium ${languageFontClass}`}
-                    >
+                    <label className={`block text-gray-700 mb-2 font-medium ${languageFontClass}`}>
                       {language === "hi" ? "आपका नाम" : "Your Name"}
                     </label>
                     <input
@@ -449,60 +454,63 @@ const Contact = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 rounded-lg border-2 ${
-                        errors.name ? "border-red-500" : "border-red-200"
-                      } focus:border-red-500 focus:ring-0 transition-colors duration-300 bg-white/80 backdrop-blur-sm`}
-                      placeholder={
-                        language === "hi"
-                          ? "अपना नाम दर्ज करें"
-                          : "Enter your name"
-                      }
+                      className={`w-full px-4 py-3 rounded-lg border ${
+                        errors.name ? "border-red-400 bg-red-50" : "border-gray-300"
+                      } focus:border-red-500 focus:ring focus:ring-red-200 focus:ring-opacity-50 transition-colors duration-200`}
+                      placeholder={language === "hi" ? "अपना नाम दर्ज करें" : "Enter your name"}
                     />
                     {errors.name && (
-                      <p
-                        className={`text-red-500 text-sm mt-1 ${languageFontClass}`}
-                      >
+                      <p className={`text-red-500 text-sm mt-1.5 ${languageFontClass}`}>
                         {errors.name}
                       </p>
                     )}
                   </div>
 
                   <div className="relative">
-                    <label
-                      className={`block text-gray-700 mb-2 font-medium ${languageFontClass}`}
-                    >
-                      {language === "hi"
-                        ? "आपका मोबाइल नंबर"
-                        : "Your Mobile Number"}
+                    <label className={`block text-gray-700 mb-2 font-medium ${languageFontClass}`}>
+                      {language === "hi" ? "आपका मोबाइल नंबर" : "Your Mobile Number"}
                     </label>
                     <input
                       type="tel"
                       name="mobile"
                       value={formData.mobile}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 rounded-lg border-2 ${
-                        errors.mobile ? "border-red-500" : "border-red-200"
-                      } focus:border-red-500 focus:ring-0 transition-colors duration-300 bg-white/80 backdrop-blur-sm`}
-                      placeholder={
-                        language === "hi"
-                          ? "अपना मोबाइल नंबर दर्ज करें"
-                          : "Enter your mobile number"
-                      }
+                      className={`w-full px-4 py-3 rounded-lg border ${
+                        errors.mobile ? "border-red-400 bg-red-50" : "border-gray-300"
+                      } focus:border-red-500 focus:ring focus:ring-red-200 focus:ring-opacity-50 transition-colors duration-200`}
+                      placeholder={language === "hi" ? "अपना मोबाइल नंबर दर्ज करें" : "Enter your mobile number"}
                     />
                     {errors.mobile && (
-                      <p
-                        className={`text-red-500 text-sm mt-1 ${languageFontClass}`}
-                      >
+                      <p className={`text-red-500 text-sm mt-1.5 ${languageFontClass}`}>
                         {errors.mobile}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="relative">
+                    <label className={`block text-gray-700 mb-2 font-medium ${languageFontClass}`}>
+                      {language === "hi" ? "आपका ईमेल" : "Your Email"}
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className={`w-full px-4 py-3 rounded-lg border ${
+                        errors.email ? "border-red-400 bg-red-50" : "border-gray-300"
+                      } focus:border-red-500 focus:ring focus:ring-red-200 focus:ring-opacity-50 transition-colors duration-200`}
+                      placeholder={language === "hi" ? "अपना ईमेल दर्ज करें" : "Enter your email"}
+                    />
+                    {errors.email && (
+                      <p className={`text-red-500 text-sm mt-1.5 ${languageFontClass}`}>
+                        {errors.email}
                       </p>
                     )}
                   </div>
                 </div>
 
                 <div className="relative">
-                  <label
-                    className={`block text-gray-700 mb-2 font-medium ${languageFontClass}`}
-                  >
+                  <label className={`block text-gray-700 mb-2 font-medium ${languageFontClass}`}>
                     {language === "hi" ? "विषय" : "Subject"}
                   </label>
                   <input
@@ -510,26 +518,20 @@ const Contact = () => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-lg border-2 ${
-                      errors.subject ? "border-red-500" : "border-red-200"
-                    } focus:border-red-500 focus:ring-0 transition-colors duration-300 bg-white/80 backdrop-blur-sm`}
-                    placeholder={
-                      language === "hi" ? "विषय दर्ज करें" : "Enter subject"
-                    }
+                    className={`w-full px-4 py-3 rounded-lg border ${
+                      errors.subject ? "border-red-400 bg-red-50" : "border-gray-300"
+                    } focus:border-red-500 focus:ring focus:ring-red-200 focus:ring-opacity-50 transition-colors duration-200`}
+                    placeholder={language === "hi" ? "विषय दर्ज करें" : "Enter subject"}
                   />
                   {errors.subject && (
-                    <p
-                      className={`text-red-500 text-sm mt-1 ${languageFontClass}`}
-                    >
+                    <p className={`text-red-500 text-sm mt-1.5 ${languageFontClass}`}>
                       {errors.subject}
                     </p>
                   )}
                 </div>
 
                 <div className="relative">
-                  <label
-                    className={`block text-gray-700 mb-2 font-medium ${languageFontClass}`}
-                  >
+                  <label className={`block text-gray-700 mb-2 font-medium ${languageFontClass}`}>
                     {language === "hi" ? "आपका संदेश" : "Your Message"}
                   </label>
                   <textarea
@@ -537,19 +539,13 @@ const Contact = () => {
                     value={formData.message}
                     onChange={handleChange}
                     rows="4"
-                    className={`w-full px-4 py-3 rounded-lg border-2 ${
-                      errors.message ? "border-red-500" : "border-red-200"
-                    } focus:border-red-500 focus:ring-0 transition-colors duration-300 bg-white/80 backdrop-blur-sm resize-none`}
-                    placeholder={
-                      language === "hi"
-                        ? "अपना संदेश दर्ज करें"
-                        : "Enter your message"
-                    }
+                    className={`w-full px-4 py-3 rounded-lg border ${
+                      errors.message ? "border-red-400 bg-red-50" : "border-gray-300"
+                    } focus:border-red-500 focus:ring focus:ring-red-200 focus:ring-opacity-50 transition-colors duration-200 resize-none`}
+                    placeholder={language === "hi" ? "अपना संदेश दर्ज करें" : "Enter your message"}
                   ></textarea>
                   {errors.message && (
-                    <p
-                      className={`text-red-500 text-sm mt-1 ${languageFontClass}`}
-                    >
+                    <p className={`text-red-500 text-sm mt-1.5 ${languageFontClass}`}>
                       {errors.message}
                     </p>
                   )}
