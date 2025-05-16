@@ -1,5 +1,6 @@
 import React from "react";
 import { useLanguage } from "../../context/LanguageContext";
+import { HandHeart, Leaf, Calendar } from 'lucide-react';
 
 const EventBanner = () => {
   const { language } = useLanguage();
@@ -31,33 +32,36 @@ const EventBanner = () => {
   const et = eventTranslations[language];
 
   return (
-    <section className="py-2 bg-white">
+    <section className="py-6 bg-white">
       <div className="container mx-auto px-4">
-        <h2
-          className="text-3xl font-bold text-center mb-10 text-dark"
-          data-i18n="banners"
-        ></h2>
+      
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-red-500  rounded-lg p-6 text-white text-center">
-            <i className="fas fa-hands-helping text-5xl mb-4" />
-            <h3 className="text-xl font-bold mb-2" data-i18n="banner1_title">
+          <div className="bg-red-500 rounded-lg p-6 text-white text-center">
+            <div className="flex justify-center mb-4">
+              <HandHeart className="w-12 h-12" />
+            </div>
+            <h3 className="text-xl font-bold mb-2">
               {et.banner1_title}
             </h3>
-            <p data-i18n="banner1_desc">{et.banner1_desc}</p>
+            <p>{et.banner1_desc}</p>
           </div>
           <div className="bg-[#FD7C00] rounded-lg p-6 text-white text-center">
-            <i className="fas fa-cow text-5xl mb-4" />
-            <h3 className="text-xl font-bold mb-2" data-i18n="banner2_title">
+            <div className="flex justify-center mb-4">
+              <Leaf className="w-12 h-12" />
+            </div>
+            <h3 className="text-xl font-bold mb-2">
               {et.banner2_title}
             </h3>
-            <p data-i18n="banner2_desc">{et.banner2_desc}</p>
+            <p>{et.banner2_desc}</p>
           </div>
           <div className="bg-red-500 rounded-lg p-6 text-white text-center">
-            <i className="fas fa-calendar-alt text-5xl mb-4" />
-            <h3 className="text-xl font-bold mb-2" data-i18n="banner3_title">
+            <div className="flex justify-center mb-4">
+              <Calendar className="w-12 h-12" />
+            </div>
+            <h3 className="text-xl font-bold mb-2">
               {et.banner3_title}
             </h3>
-            <p data-i18n="banner3_desc">{et.banner3_desc}</p>
+            <p>{et.banner3_desc}</p>
           </div>
         </div>
       </div>

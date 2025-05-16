@@ -122,7 +122,7 @@ const PlanSection = () => {
         <div 
           className="h-full w-full bg-center bg-no-repeat bg-cover"
           style={{ 
-            backgroundImage: "url('/plan-bg.png')",
+            backgroundImage: "url('/decorative-pattern.png')",
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat'

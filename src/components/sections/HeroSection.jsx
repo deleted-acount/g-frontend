@@ -8,35 +8,19 @@ const HeroSection = () => {
   const bannerImages = [
     {
       desktop: '/Banner-1.webp',
-      mobile: '/banner-1-phone.webp',
-      title: 'Welcome to',
-      subtitle: 'GAHOI SHAKTI JAN KALYAN SAMITI',
-      titleColor: 'text-white',
-      subtitleColor: 'text-yellow-300'
+      mobile: '/banner-1-phone.webp'
     },
     {
       desktop: '/Banner-2.webp',
-      mobile: '/banner-2-phone.webp',
-      title: 'Find Your Perfect Match',
-      subtitle: 'WHERE HEARTS UNITE AND NEW BEGINNINGS START',
-      titleColor: 'text-white',
-      subtitleColor: 'text-yellow-300'
+      mobile: '/banner-2-phone.webp'
     },
     {
       desktop: '/Banner-3.webp',
-      mobile: '/banner-3-phone.webp',
-      title: 'Trusted Matches',
-      subtitle: 'FOR A LIFETIME OF HAPPINESS',
-      titleColor: 'text-white',
-      subtitleColor: 'text-yellow-300'
+      mobile: '/banner-3-phone.webp'
     },
     {
       desktop: '/Banner-4.webp',
-      mobile: '/banner-4-phone.webp',
-      title: 'Making Wedding',
-      subtitle: 'DREAM COME TRUE',
-      titleColor: 'text-white',
-      subtitleColor: 'text-yellow-300'
+      mobile: '/banner-4-phone.webp'
     }
   ];
 
@@ -78,21 +62,7 @@ const HeroSection = () => {
           height: '100%',
           width: '100%'
         }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60"></div>
-      </div>
-
-      {/* Text - Mobile Only */}
-      <div className="md:hidden absolute inset-0 flex items-center justify-center z-10">
-        <div className="text-center px-4">
-          <h2 className={`text-2xl sm:text-3xl font-cursive mb-2 sm:mb-3 ${currentBanner.titleColor} drop-shadow-lg`}>
-            {currentBanner.title}
-          </h2>
-          <p className={`text-sm sm:text-xl font-bold ${currentBanner.subtitleColor} drop-shadow-lg tracking-wider`}>
-            {currentBanner.subtitle}
-          </p>
-        </div>
-      </div>
+      />
 
       {/* Carousel Dots */}
       <div className="flex absolute right-2 sm:right-4 md:right-8 top-[65%] md:top-1/2 transform -translate-y-1/2 z-20 flex-col space-y-1.5 sm:space-y-2 md:space-y-4">
@@ -106,11 +76,9 @@ const HeroSection = () => {
                 : 'bg-white/40 hover:bg-white/60'
             }`}
             aria-label={`Go to slide ${index + 1}`}
-          ></button>
+          />
         ))}
       </div>
-
-   
     </section>
   );
 };

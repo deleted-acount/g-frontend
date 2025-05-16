@@ -16,6 +16,7 @@ import {
 // Helper functions for registration code generation
 const generateGenderCode = (gender) => gender === 'Male' ? 'M' : gender === 'Female' ? 'F' : 'X';
 const generateNationalityCode = (nationality) => nationality === 'Indian' ? '1' : nationality === 'Non-Indian' ? '0' : 'X';
+const generateGahoiCode = (isGahoi) => isGahoi === 'Yes' || isGahoi === true ? '3' : '0';
 
 // Fixed code mappings for all values
 const FIXED_CODES = {
@@ -446,8 +447,22 @@ export const validateStep = (step, formData) => {
   // Get fields for current step
   const currentStepFields = FORM_STEPS[step].fields;
   
+  // Check if state has regional assemblies
+  const hasRegionalAssemblies = formData.state && STATE_TO_ASSEMBLIES[formData.state];
+  
   // Validate required fields for current step
   currentStepFields.forEach(field => {
+    // Skip regional assembly related fields if state doesn't have assemblies
+    if (
+      !hasRegionalAssemblies && 
+      (field === 'regionalAssembly' || 
+       field === 'localPanchayatName' || 
+       field === 'localPanchayat' || 
+       field === 'subLocalPanchayat')
+    ) {
+      return;
+    }
+
     if (REQUIRED_FIELDS.includes(field)) {
       const error = validateField(field, formData[field]);
       if (error) {
@@ -511,6 +526,7 @@ export const formatFormData = (data, displayPictureId = null) => {
   // Generate registration code
   const genderCode = generateGenderCode(data.gender);
   const nationalityCode = generateNationalityCode(data.nationality);
+  const gahoiCode = generateGahoiCode(data.isGahoi);
   const gotraCode = FIXED_CODES.gotra[data.gotra] || "00";
   const aaknaCode = FIXED_CODES.aakna[data.aakna] || "00";
   const regionalAssemblyCode = FIXED_CODES.regionalAssembly[data.regionalAssembly] || "00";
@@ -518,7 +534,25 @@ export const formatFormData = (data, displayPictureId = null) => {
   const subLocalPanchayatCode = FIXED_CODES.subLocalPanchayat[data.subLocalPanchayat] || "00";
   const fullName = data.name || "";
 
-  const registrationCode = `${fullName}-${genderCode}${nationalityCode}${aaknaCode}${regionalAssemblyCode}${localPanchayatCode}${subLocalPanchayatCode}${gotraCode}`;
+  const registrationCode = `${fullName}-${genderCode}${nationalityCode}${gahoiCode}${aaknaCode}${regionalAssemblyCode}${localPanchayatCode}${subLocalPanchayatCode}${gotraCode}`;
+
+  // Check if state has regional assemblies
+  const hasRegionalAssemblies = STATE_TO_ASSEMBLIES[data.state];
+
+  // For states without regional assemblies, send empty strings
+  const regionalInfo = hasRegionalAssemblies ? {
+    RegionalAssembly: data.regionalAssembly ?? "",
+    LocalPanchayatName: data.localPanchayatName ?? "",
+    LocalPanchayat: data.localPanchayat ?? "",
+    SubLocalPanchayat: data.subLocalPanchayat ?? "",
+    State: data.state ?? "",
+  } : {
+    RegionalAssembly: "",
+    LocalPanchayatName: "",
+    LocalPanchayat: "",
+    SubLocalPanchayat: "",
+    State: "", // Send empty string for non-listed states
+  };
 
   return {
     family_details: {
@@ -568,6 +602,7 @@ export const formatFormData = (data, displayPictureId = null) => {
       display_picture: displayPictureId,
       Gender: data.gender ?? "",
       nationality: data.nationality ?? "",
+      is_gahoi: data.isGahoi ?? "Yes",
     },
     work_information: {
       occupation: data.occupation ?? "",
@@ -584,13 +619,7 @@ export const formatFormData = (data, displayPictureId = null) => {
       date_of_marriage: formatDate(data.marriageDate),
       higher_education: data.education ?? "",
       current_address: data.currentAddress ?? "",
-      regional_information: {
-        RegionalAssembly: data.regionalAssembly ?? "",
-        LocalPanchayatName: data.localPanchayatName ?? "",
-        LocalPanchayat: data.localPanchayat ?? "",
-        SubLocalPanchayat: data.subLocalPanchayat ?? "",
-        State: data.state ?? "",
-      },
+      regional_information: regionalInfo,
     },
     your_suggestions: {
       suggestions: data.suggestions ?? "",

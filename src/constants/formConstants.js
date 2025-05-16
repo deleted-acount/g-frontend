@@ -83,53 +83,19 @@ export const MARITAL_STATUS_OPTIONS = ["Married", "Unmarried"];
 export const EDUCATION_OPTIONS = ["Primary", "Secondary", "Higher Secondary", "Graduate", "Post Graduate", "Other"];
 export const OCCUPATION_OPTIONS = ["Student", "Employed", "Self-Employed", "Business", "Homemaker", "Other"];
 export const SIBLING_RELATION_OPTIONS = [
-  "Paternal Grandfather दादा",
-  "Paternal Grandmother दादी",
   "Father's (Elder) Brother ताऊ",
-  "Father's (Elder) Brother's Wife ताई",
   "Father's (Younger) Brother चाचा",
-  "Father's (Younger) Brother's Wife चाची",
   "Father's Sister बुआ",
-  "Father's Sister's Husband फुफा",
-  "Maternal Grandmother नानी",
-  "Maternal Grandfather नाना",
   "Mother's Brother मामा",
-  "Mother's Brother's Wife मामी",
   "Mother's Sister मौसी",
-  "Mother's Sister's Husband मौसा",
-  "Grandson (Son's Son) पोता",
-  "Grandson (Daughter's Son) नाती",
-  "Granddaughter (Son's Daughter) पोती",
-  "Granddaughter (Daughter's Daughter) नातिन",
   "Sister बहन",
-  "Sister's Husband जीजा",
-  "Sister's Son भांजा",
-  "Sister's Daughter भांजी",
-  "Brother भाई",
-  "Brother's Wife भाभी",
-  "Brother's Son भतीजा",
-  "Brother's Daughter भतीजी",
-  "Husband पती",
-  "Wife's/Husband's Mother समधी",
-  "Wife's/Husband's Father समधिन",
-  "Son in Law दामाद",
-  "Daughter in Law बहु",
-  "Husband's (elder) Brother जेठ",
-  "Husband's (elder) Brother's Wife जेठानी",
-  "Husband's Sister ननद",
-  "Husband's Sister's Husband ननदोइ",
-  "Husband's (younger) Brother देवर",
-  "Husband's (younger) Brother's Wife देवरानी",
-  "Wife's Sister साली",
-  "Wife's Sister's Husband सांढु",
-  "Wife's Brother साला",
-  "Wife's Brother's Wife सैलहज"
+  "Brother भाई"
 ];
 
 export const FORM_STEPS = [
   {
     name: "Personal Information",
-    fields: ["name", "mobileNumber", "village", "id", "email", "gender"],
+    fields: ["name", "mobileNumber", "village", "id", "email", "gender", "isGahoi"],
   },
   {
     name: "Additional Details",
@@ -218,4 +184,5 @@ export const INITIAL_FORM_DATA = {
   localPanchayat: "",
   localPanchayatName: "",
   subLocalPanchayat: "",
+  isGahoi: "Yes",
 }; 

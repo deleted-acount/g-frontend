@@ -18,19 +18,24 @@ import {
   SIBLING_RELATION_OPTIONS,
   FORM_STEPS,
   PROCESS_STEPS,
-  INITIAL_FORM_DATA
+  INITIAL_FORM_DATA,
 } from "../../constants/formConstants";
 import {
   validateStep,
   formatFormData,
-  hasErrors
+  hasErrors,
 } from "../../utils/form/formUtils";
+import {
+  STATES,
+  STATE_TO_DISTRICTS,
+  STATE_TO_CITIES,
+} from "../../constants/locationData";
 
 // Add these constants at the top of the file after imports
-const CHAURASI_PANCHAYAT_NAMES = [
+export const CHAURASI_PANCHAYAT_NAMES = [
   "Gahoi Vaishya Panchayat",
   "Shri Gahoi Vaishya Sabha",
-  "Gahoi Vaishya Samaj"
+  "Gahoi Vaishya Samaj",
 ];
 
 const LOCAL_PANCHAYATS = {
@@ -39,34 +44,42 @@ const LOCAL_PANCHAYATS = {
   "Mahakaushal Regional Assembly": ["Jabalpur", "Katni", "Rewa"],
   "Vindhya Regional Assembly": ["Satna", "Shahdol", "Sidhi"],
   "Bundelkhand Regional Assembly": ["Sagar", "Damoh", "Chhatarpur"],
-  "Chaurasi Regional Assembly": ["Bhopal", "Vidisha", "Raisen"]
+  "Chaurasi Regional Assembly": ["Bhopal", "Vidisha", "Raisen"],
 };
 
 const SUB_LOCAL_PANCHAYATS = {
-  "Morena": ["Morena City", "Ambah", "Porsa"],
-  "Bhind": ["Bhind City", "Ater", "Lahar"],
-  "Gwalior": ["Gwalior City", "Dabra", "Bhitarwar"]
+  Morena: ["Morena City", "Ambah", "Porsa"],
+  Bhind: ["Bhind City", "Ater", "Lahar"],
+  Gwalior: ["Gwalior City", "Dabra", "Bhitarwar"],
 };
 
 const CHAURASI_LOCAL_PANCHAYAT_MAPPING = {
   "Gahoi Vaishya Panchayat": ["Shivpuri", "Ashok Nagar", "Guna", "Ahmedabad"],
   "Shri Gahoi Vaishya Sabha": ["Shivpuri"],
-  "Gahoi Vaishya Samaj": ["Ashok Nagar"]
+  "Gahoi Vaishya Samaj": ["Ashok Nagar"],
 };
 
 const CHAURASI_SUB_LOCAL_PANCHAYAT_MAPPING = {
   "Gahoi Vaishya Panchayat": {
-    "Shivpuri": ["Shivpuri", "Malhawani", "Pipara", "Semri", "Bamore Damaroun", "Manpura", "Pichhore"],
+    Shivpuri: [
+      "Shivpuri",
+      "Malhawani",
+      "Pipara",
+      "Semri",
+      "Bamore Damaroun",
+      "Manpura",
+      "Pichhore",
+    ],
     "Ashok Nagar": ["Ashok Nagar", "Bamore Kala"],
-    "Guna": ["Guna"],
-    "Ahmedabad": ["Gandhi Nagar"]
+    Guna: ["Guna"],
+    Ahmedabad: ["Gandhi Nagar"],
   },
   "Shri Gahoi Vaishya Sabha": {
-    "Shivpuri": ["Karera", "Bhonti"]
+    Shivpuri: ["Karera", "Bhonti"],
   },
   "Gahoi Vaishya Samaj": {
-    "Ashok Nagar": ["Dinara", "Guna"]
-  }
+    "Ashok Nagar": ["Dinara", "Guna"],
+  },
 };
 
 const RegistrationForm = () => {
@@ -141,7 +154,7 @@ const RegistrationForm = () => {
     "Tikamgarh",
     "Ujjain",
     "Umariya",
-    "Vidisha"
+    "Vidisha",
   ];
 
   const handleImageSelect = (file) => {
@@ -162,7 +175,7 @@ const RegistrationForm = () => {
     if (nav) nav.style.display = "none";
 
     document.body.classList.add("fullscreen-form");
-    
+
     return () => {
       if (header) header.style.display = "";
       if (footer) footer.style.display = "";
@@ -173,13 +186,13 @@ const RegistrationForm = () => {
 
   // Optimize form steps by using constants
   const formSteps = useMemo(() => FORM_STEPS, []);
- 
+
   useEffect(() => {
     if (location.state?.fromLogin) {
       if (location.state?.processSteps) {
         setProcessSteps(location.state.processSteps);
       }
-      
+
       // If mobile number is verified, we can start from the form
       if (location.state?.mobileNumber) {
         setFormData((prev) => ({
@@ -190,7 +203,7 @@ const RegistrationForm = () => {
     }
   }, [location.state]);
 
-  // Update progress 
+  // Update progress
   useEffect(() => {
     const completedSteps = processSteps.filter((step) => step.completed).length;
     const totalSteps = processSteps.length;
@@ -200,14 +213,14 @@ const RegistrationForm = () => {
   // Update registration progress based on current form step
   useEffect(() => {
     const registrationProgress = currentStep / (formSteps.length - 1);
-    
+
     // Update the process steps
     const updatedSteps = [...processSteps];
-    updatedSteps[2].completed = registrationProgress > 0; 
+    updatedSteps[2].completed = registrationProgress > 0;
     setProcessSteps(updatedSteps);
   }, [currentStep, formSteps.length, processSteps]);
 
-  // map Gotra to Aakna 
+  // map Gotra to Aakna
   const gotraAaknaMap = {
     "Vasar/Vastil/Vasal": [
       "Rusiya",
@@ -257,7 +270,7 @@ const RegistrationForm = () => {
       "Kshankshar",
     ],
 
-    "Gol": [
+    Gol: [
       "Andhi",
       "Baderiya",
       "Bamoriya",
@@ -319,7 +332,7 @@ const RegistrationForm = () => {
       "Seth (Nolha ke)",
       "Dangre",
       "Barele",
-     "Barol",
+      "Barol",
       "Nolha/Nilha",
       "Mihi ke Kunwar",
       "Saab/Sahu",
@@ -328,7 +341,7 @@ const RegistrationForm = () => {
     "Badal / Waghil / Bandal": [
       "Chauda",
       "Chodha",
-      "Chouda",                    
+      "Chouda",
       "Soni",
       "Kharya/Khairya",
       "Seth (Kathori, Karoli ke)",
@@ -373,7 +386,7 @@ const RegistrationForm = () => {
       "Soni",
     ],
 
-    "Jaital": [
+    Jaital: [
       "Baderia",
       "Kathal/Kathil",
       "Nagariya",
@@ -384,7 +397,7 @@ const RegistrationForm = () => {
       "Sirojiya",
     ],
 
-   "Vachhil": [
+    Vachhil: [
       "Kuchiya/Kuchha",
       "Tikraya/Tapakle",
       "Damele",
@@ -412,7 +425,7 @@ const RegistrationForm = () => {
       "Chungele",
     ],
 
-    "Kachhil": [
+    Kachhil: [
       "Chapra/Chupara",
       "Tusele",
       "Piparsaniya",
@@ -442,16 +455,11 @@ const RegistrationForm = () => {
       "Jhudele/Jurele/Jhood",
     ],
 
-    Kohil: [
-      "Kandele",
-      "Lohiya/Loiya",
-      "Shaav/Shah (Unnao ke)",
-      "Jhuke/Jhunk",
-    ],
+    Kohil: ["Kandele", "Lohiya/Loiya", "Shaav/Shah (Unnao ke)", "Jhuke/Jhunk"],
 
-    "Kasiv": [
+    Kasiv: [
       "Asoo",
-      "Asoopi" ,
+      "Asoopi",
       "Asooti",
       "Khantal",
       "Beder",
@@ -462,12 +470,12 @@ const RegistrationForm = () => {
       "Deepa/Teepa",
     ],
 
-    "Kasav": [
+    Kasav: [
       "Asoo",
       "Asoopi",
       "Asooti",
       "Khantal",
-     "Beder",
+      "Beder",
       "Badil",
       "Baidal",
       "Sudipa",
@@ -484,7 +492,7 @@ const RegistrationForm = () => {
 
   const pincodeData = {
     // Delhi
-    "110": {
+    110: {
       state: "Delhi",
       city: "Delhi",
       districts: {
@@ -497,385 +505,379 @@ const RegistrationForm = () => {
         "110060-110069": "North East Delhi",
         "110070-110079": "South West Delhi",
         "110080-110089": "North West Delhi",
-        "110090-110099": "Shahdara"
-      }
+        "110090-110099": "Shahdara",
+      },
     },
     // Madhya Pradesh - Gwalior
-    "474": {
+    474: {
       state: "Madhya Pradesh",
       city: "Gwalior",
       districts: {
-        "474001-474012": "Gwalior City and Surrounding Areas",
-        "474015": "Thatipur",
-        "474020": "Sithouli"
-      }
+        474015: "Thatipur",
+        474020: "Sithouli",
+      },
     },
-    "475": {
+    475: {
       state: "Madhya Pradesh",
       city: "Gwalior",
       districts: {
-        "475001": "Dabra",
-        "475110": "Morar",
-        "475661": "Datia",
-        "475686": "Seondha",
-        "475675": "Indergarh"
-      }
+        475001: "Dabra",
+        475110: "Morar",
+        475661: "Datia",
+        475686: "Seondha",
+        475675: "Indergarh",
+      },
     },
-    "477": {
+    477: {
       state: "Madhya Pradesh",
       city: "Bhind",
       districts: {
-        "477001": "Bhind",
-        "477116": "Ater",
-        "477441": "Mehgaon",
-        "477333": "Gohad"
-      }
+        477001: "Bhind",
+        477116: "Ater",
+        477441: "Mehgaon",
+        477333: "Gohad",
+      },
     },
-    "476": {
+    476: {
       state: "Madhya Pradesh",
       city: "Morena",
       districts: {
-        "476001": "Morena",
-        "476221": "Ambah",
-        "476554": "Porsa",
-        "476115": "Joura"
-      }
+        476001: "Morena",
+        476221: "Ambah",
+        476554: "Porsa",
+        476115: "Joura",
+      },
     },
     // Rajasthan - Jaipur
-    "302": {
+    302: {
       state: "Rajasthan",
       city: "Jaipur",
       districts: {
-        "302001-302039": "Jaipur"
-      }
+        "302001-302039": "Jaipur",
+      },
     },
-    "303": {
+    303: {
       state: "Rajasthan",
       city: "Jaipur",
       districts: {
-        "303001": "Chomu",
-        "303103": "Jobner",
-        "303702": "Dudu"
-      }
+        303001: "Chomu",
+        303103: "Jobner",
+        303702: "Dudu",
+      },
     },
     // Uttar Pradesh
-    "285": {
+    285: {
       state: "Uttar Pradesh",
       city: "Jalaun",
       districts: {
-        "285123": "Jalaun",
-        "285001": "Orai",
-        "285130": "Kalpi"
-      }
+        285123: "Jalaun",
+        285001: "Orai",
+        285130: "Kalpi",
+      },
     },
-    "226": {
+    226: {
       state: "Uttar Pradesh",
       city: "Lucknow",
       districts: {
         "226001-226031": "Lucknow",
-        "226010": "Gomti Nagar",
-        "226012": "Alambagh"
-      }
+        226010: "Gomti Nagar",
+        226012: "Alambagh",
+      },
     },
-    "227": {
+    227: {
       state: "Uttar Pradesh",
       city: "Lucknow",
       districts: {
-        "227105": "Malihabad"
-      }
+        227105: "Malihabad",
+      },
     },
-    "208": {
+    208: {
       state: "Uttar Pradesh",
       city: "Kanpur",
       districts: {
-        "208001-208027": "Kanpur"
-      }
+        "208001-208027": "Kanpur",
+      },
     },
-    "209": {
+    209: {
       state: "Uttar Pradesh",
       city: "Kanpur",
       districts: {
-        "209214": "Rural Kanpur Areas"
-      }
+        209214: "Rural Kanpur Areas",
+      },
     },
-    "210": {
+    210: {
       state: "Uttar Pradesh",
       districts: {
-        "210205": "Karvi",
-        "210204": "Nearby Villages",
-        "210001": "Banda",
-        "210120": "Naraini"
-      }
+        210205: "Karvi",
+        210001: "Banda",
+        210120: "Naraini",
+      },
     },
-    "206": {
+    206: {
       state: "Uttar Pradesh",
       city: "Auraiya",
       districts: {
-        "206122": "Auraiya",
-        "206128": "Phaphund"
-      }
+        206122: "Auraiya",
+        206128: "Phaphund",
+      },
     },
-    "284": {
+    284: {
       state: "Uttar Pradesh",
       city: "Jhansi",
       districts: {
-        "284001-284003": "Jhansi"
-      }
+        "284001-284003": "Jhansi",
+      },
     },
-    // Madhya Pradesh 
-    "472": {
+    // Madhya Pradesh
+    472: {
       state: "Madhya Pradesh",
       city: "Tikamgarh",
       districts: {
-        "472001": "Tikamgarh",
-        "472339": "Jatara"
-      }
+        472001: "Tikamgarh",
+        472339: "Jatara",
+      },
     },
-    "473": {
+    473: {
       state: "Madhya Pradesh",
       districts: {
-        "473551": "Shivpuri",
-        "473331": "Ashok Nagar",
-        "473001": "Guna"
-      }
+        473551: "Shivpuri",
+        473331: "Ashok Nagar",
+        473001: "Guna",
+      },
     },
     // Gujarat - Ahmedabad
-    "380": {
+    380: {
       state: "Gujarat",
       city: "Ahmedabad",
       districts: {
-        "380001-382470": "Ahmedabad"
-      }
+        "380001-382470": "Ahmedabad",
+      },
     },
     // Madhya Pradesh - More Cities
-    "452": {
+    452: {
       state: "Madhya Pradesh",
       city: "Indore",
       districts: {
-        "452001-452020": "Indore"
-      }
+        "452001-452020": "Indore",
+      },
     },
-    "456": {
+    456: {
       state: "Madhya Pradesh",
       city: "Ujjain",
       districts: {
-        "456001-456668": "Ujjain"
-      }
+        "456001-456668": "Ujjain",
+      },
     },
-    "462": {
+    462: {
       state: "Madhya Pradesh",
       city: "Bhopal",
       districts: {
-        "462001-462047": "Bhopal"
-      }
+        "462001-462047": "Bhopal",
+      },
     },
-    "464": {
+    464: {
       state: "Madhya Pradesh",
       districts: {
-        "464001": "Vidisha",
-        "464551": "Raisen"
-      }
+        464001: "Vidisha",
+        464551: "Raisen",
+      },
     },
-    "487": {
+    487: {
       state: "Madhya Pradesh",
       city: "Narsinghpur",
       districts: {
-        "487001": "Narsinghpur"
-      }
+        487001: "Narsinghpur",
+      },
     },
-    "482": {
+    482: {
       state: "Madhya Pradesh",
       city: "Jabalpur",
       districts: {
-        "482001-482008": "Jabalpur"
-      }
+        "482001-482008": "Jabalpur",
+      },
     },
-    "484": {
+    484: {
       state: "Madhya Pradesh",
       districts: {
-        "484661": "Umariya",
-        "484001": "Shahdol"
-      }
+        484661: "Umariya",
+        484001: "Shahdol",
+      },
     },
-    "470": {
+    470: {
       state: "Madhya Pradesh",
       districts: {
-        "470001": "Sagar",
-        "470775": "Hata"
-      }
+        470001: "Sagar",
+        470775: "Hata",
+      },
     },
-    "480": {
+    480: {
       state: "Madhya Pradesh",
       districts: {
-        "480661": "Seoni",
-        "480001": "Chhindwara"
-      }
+        480661: "Seoni",
+        480001: "Chhindwara",
+      },
     },
-    "483": {
+    483: {
       state: "Madhya Pradesh",
       city: "Katni",
       districts: {
-        "483501": "Katni"
-      }
+        483501: "Katni",
+      },
     },
-    "488": {
+    488: {
       state: "Madhya Pradesh",
       city: "Panna",
       districts: {
-        "488001": "Panna"
-      }
+        488001: "Panna",
+      },
     },
-    "461": {
+    461: {
       state: "Madhya Pradesh",
       city: "Hoshangabad",
       districts: {
-        "461001": "Hoshangabad"
-      }
+        461001: "Hoshangabad",
+      },
     },
-    "481": {
+    481: {
       state: "Madhya Pradesh",
       districts: {
-        "481661": "Mandla",
-        "481880": "Dindori"
-      }
+        481661: "Mandla",
+        481880: "Dindori",
+      },
     },
-    // Uttar Pradesh 
-    "228": {
+    // Uttar Pradesh
+    228: {
       state: "Uttar Pradesh",
       city: "Sultanpur",
       districts: {
-        "228001": "Sultanpur"
-      }
+        228001: "Sultanpur",
+      },
     },
-    "471": {
+    471: {
       state: "Madhya Pradesh",
       city: "Chhatarpur",
       districts: {
-        "471001": "Chhatarpur"
-      }
+        471001: "Chhatarpur",
+      },
     },
-    "485": {
+    485: {
       state: "Madhya Pradesh",
       city: "Satna",
       districts: {
-        "485001": "Satna"
-      }
+        485001: "Satna",
+      },
     },
-    "800": {
+    800: {
       state: "Bihar",
       city: "Patna City",
       districts: {
-        "800008": "Patna"
-      }
+        800008: "Patna",
+      },
     },
-    "486": {
+    486: {
       state: "Madhya Pradesh",
       city: "Rewa",
       districts: {
-        "486001": "Rewa"
-      }
+        486001: "Rewa",
+      },
     },
     // Chhattisgarh Cities
-    "491": {
+    491: {
       state: "Chhattisgarh",
       districts: {
-        "491001": "Durg",
-        "491441": "Rajnandgaon"
-      }
+        491001: "Durg",
+        491441: "Rajnandgaon",
+      },
     },
-    "493": {
+    493: {
       state: "Chhattisgarh",
       city: "Dhamtari",
       districts: {
-        "493773": "Dhamtari"
-      }
+        493773: "Dhamtari",
+      },
     },
-    "492": {
+    492: {
       state: "Chhattisgarh",
       city: "Raipur",
       districts: {
-        "492001-492099": "Raipur"
-      }
+        "492001-492099": "Raipur",
+      },
     },
-    "495": {
+    495: {
       state: "Chhattisgarh",
       city: "Bilaspur",
       districts: {
-        "495001": "Bilaspur"
-      }
+        495001: "Bilaspur",
+      },
     },
-    "494": {
+    494: {
       state: "Chhattisgarh",
       city: "Jagdalpur",
       districts: {
-        "494001": "Jagdalpur"
-      }
+        494001: "Jagdalpur",
+      },
     },
-    "497": {
+    497: {
       state: "Chhattisgarh",
       city: "Baikunthpur",
       districts: {
-        "497335": "Baikunthpur"
-      }
+        497335: "Baikunthpur",
+      },
     },
     // Maharashtra Cities
-    "440": {
+    440: {
       state: "Maharashtra",
       city: "Nagpur",
       districts: {
         "440001-440037": "Nagpur",
-      
-      }
+      },
     },
-    "424": {
+    424: {
       state: "Maharashtra",
       city: "Chalisgaon",
       districts: {
-        
-        "424101": "Chalisgaon"
-      }
+        424101: "Chalisgaon",
+      },
     },
-    "411": {
+    411: {
       state: "Maharashtra",
       city: "Pune",
       districts: {
         "411001-411062": "Pune",
-      
-      }
+      },
     },
-    "444": {
+    444: {
       state: "Maharashtra",
       city: "Amravati",
       districts: {
-        "444601": "Amravati",
-        "444602": "Amravati",
-        "444603": "Amravati"
-      }
+        444601: "Amravati",
+        444602: "Amravati",
+        444603: "Amravati",
+      },
     },
-    "400": {
+    400: {
       state: "Maharashtra",
       city: "Mumbai",
       districts: {
         "400001-400104": "Mumbai",
-       
-      }
+      },
     },
-    "281": {
+    281: {
       state: "Uttar Pradesh",
       city: "Mathura",
       districts: {
-        "281001": "Mathura"
-      }
-    }
+        281001: "Mathura",
+      },
+    },
   };
 
   // Memoized helper functions
   const memoizedGetLocationFromPincode = (pincode) => {
     if (!pincode || pincode.length !== 6) return null;
-    
+
     const areaCode = pincode.substring(0, 3);
     const location = pincodeData[areaCode];
-    
+
     if (!location) return null;
 
     const numericPincode = parseInt(pincode);
@@ -884,7 +886,7 @@ const RegistrationForm = () => {
 
     // Find matching district based on pincode range
     for (const [range, districtName] of Object.entries(location.districts)) {
-      const [start, end] = range.split('-').map(p => parseInt(p));
+      const [start, end] = range.split("-").map((p) => parseInt(p));
       if (!end) {
         // Single pincode match
         if (parseInt(range) === numericPincode) {
@@ -907,7 +909,7 @@ const RegistrationForm = () => {
     return {
       state: location.state,
       city: city,
-      district: district
+      district: district,
     };
   };
 
@@ -917,130 +919,135 @@ const RegistrationForm = () => {
   };
 
   // Optimize handlers with useCallback
-  const handleInputChange = useCallback((e) => {
-    const { name, value } = e.target;
-    
-    if (name === "mobileNumber" && !/^\d*$/.test(value)) {
-      return;
-    }
+  const handleInputChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
 
-    if (name === "currentAddress") {
-      const pincode = extractPincodeFromAddress(value);
-      if (pincode) {
-        const locationInfo = memoizedGetLocationFromPincode(pincode);
-        if (locationInfo) {
-          setFormData(prev => ({
-            ...prev,
-            [name]: value,
-            city: locationInfo.city,
-            district: locationInfo.district,
-            state: locationInfo.state
-          }));
-          return;
-        }
-      }
-    }
-
-    setFormData(prev => {
-      const newData = { ...prev, [name]: value };
-
-      // Auto-update dependent fields
-      if (name === "localPanchayat") {
-        newData.subLocalPanchayat = "";
-      } else if (name === "regionalAssembly") {
-        newData.localPanchayatName = "";
-        newData.localPanchayat = "";
-        newData.subLocalPanchayat = "";
-      } else if (name === "localPanchayatName") {
-        newData.localPanchayat = "";
-        newData.subLocalPanchayat = "";
-      } else if (name === "gotra") {
-        newData.aakna = "";
-      } else if (name === "isMarried") {
-        newData.isMarried = value === "yes";
-        if (value === "no") {
-          newData.marriageDate = "";
-        }
+      if (name === "mobileNumber" && !/^\d*$/.test(value)) {
+        return;
       }
 
-      return newData;
-    });
+      setFormData((prev) => {
+        const newData = { ...prev, [name]: value };
 
-    // Clear field error
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: "" }));
-    }
-  }, [errors]);
+        // Auto-update dependent fields
+        if (name === "localPanchayat") {
+          newData.subLocalPanchayat = "";
+        } else if (name === "regionalAssembly") {
+          newData.localPanchayatName = "";
+          newData.localPanchayat = "";
+          newData.subLocalPanchayat = "";
+        } else if (name === "localPanchayatName") {
+          newData.localPanchayat = "";
+          newData.subLocalPanchayat = "";
+        } else if (name === "gotra") {
+          newData.aakna = "";
+        } else if (name === "isMarried") {
+          newData.isMarried = value === "yes";
+          if (value === "no") {
+            newData.marriageDate = "";
+          }
+        } else if (name === "state") {
+          // Reset all regional assembly related fields when state changes
+          newData.regionalAssembly = "";
+          newData.localPanchayatName = "";
+          newData.localPanchayat = "";
+          newData.subLocalPanchayat = "";
+        }
+
+        return newData;
+      });
+
+      // Clear field error
+      if (errors[name]) {
+        setErrors((prev) => ({ ...prev, [name]: "" }));
+      }
+    },
+    [errors]
+  );
 
   // Optimize family detail handler
-  const handleFamilyDetailChange = useCallback((index, field, value) => {
-    if (field === "mobileNumber" && !/^\d*$/.test(value)) {
-      return; 
-    }
-    
-    setFormData(prev => ({
-      ...prev,
-      familyDetails: prev.familyDetails.map((member, i) => 
-        i === index ? { ...member, [field]: value } : member
-      )
-    }));
-    
-    if (errors[`familyDetails.${index}.${field}`]) {
-      setErrors(prev => ({
+  const handleFamilyDetailChange = useCallback(
+    (index, field, value) => {
+      if (field === "mobileNumber" && !/^\d*$/.test(value)) {
+        return;
+      }
+
+      setFormData((prev) => ({
         ...prev,
-        [`familyDetails.${index}.${field}`]: "",
+        familyDetails: prev.familyDetails.map((member, i) =>
+          i === index ? { ...member, [field]: value } : member
+        ),
       }));
-    }
-  }, [errors]);
+
+      if (errors[`familyDetails.${index}.${field}`]) {
+        setErrors((prev) => ({
+          ...prev,
+          [`familyDetails.${index}.${field}`]: "",
+        }));
+      }
+    },
+    [errors]
+  );
 
   // Optimize add child function
   const addChild = useCallback(() => {
-    if (formData.familyDetails.filter(member => member.relation === "Child").length < MAX_CHILDREN) {
-      setFormData(prev => ({
+    if (
+      formData.familyDetails.filter((member) => member.relation === "Child")
+        .length < MAX_CHILDREN
+    ) {
+      setFormData((prev) => ({
         ...prev,
         familyDetails: [
           ...prev.familyDetails,
-          { relation: "Child", name: "", mobileNumber: "", gender: "" }
-        ]
+          { relation: "Child", name: "", mobileNumber: "", gender: "" },
+        ],
       }));
     }
   }, [formData.familyDetails]);
 
   // Add a function to add sibling
   const addSibling = useCallback(() => {
-    if (formData.familyDetails.filter(member => member.relation === "Sibling").length < MAX_SIBLINGS) {
-      setFormData(prev => ({
+    if (
+      formData.familyDetails.filter((member) => member.relation === "Sibling")
+        .length < MAX_SIBLINGS
+    ) {
+      setFormData((prev) => ({
         ...prev,
         familyDetails: [
           ...prev.familyDetails,
-          { 
-            relation: "Sibling", 
-            name: "", 
-            mobileNumber: "", 
-            gender: "", 
-            age: "", 
-            occupation: "", 
-            education: "", 
-            maritalStatus: "", 
-            isDependent: false 
-          }
-        ]
+          {
+            relation: "Sibling",
+            name: "",
+            mobileNumber: "",
+            gender: "",
+            age: "",
+            occupation: "",
+            education: "",
+            maritalStatus: "",
+            isDependent: false,
+          },
+        ],
       }));
     }
   }, [formData.familyDetails]);
 
   // Add remove functions
   const removeChild = useCallback((indexToRemove) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      familyDetails: prev.familyDetails.filter((_, index) => index !== indexToRemove)
+      familyDetails: prev.familyDetails.filter(
+        (_, index) => index !== indexToRemove
+      ),
     }));
   }, []);
 
   const removeSibling = useCallback((indexToRemove) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      familyDetails: prev.familyDetails.filter((_, index) => index !== indexToRemove)
+      familyDetails: prev.familyDetails.filter(
+        (_, index) => index !== indexToRemove
+      ),
     }));
   }, []);
 
@@ -1053,7 +1060,7 @@ const RegistrationForm = () => {
 
   const handleNext = () => {
     setSubmitted(true);
-    
+
     if (validateCurrentStep()) {
       if (currentStep < formSteps.length - 1) {
         setCurrentStep(currentStep + 1);
@@ -1081,34 +1088,37 @@ const RegistrationForm = () => {
 
   const uploadImage = async (file) => {
     if (!file) return null;
-    
+
     const formData = new FormData();
     formData.append("files", file);
-  
+
     try {
       console.log("Uploading image...");
-      const response = await fetch(`${import.meta.env.VITE_PUBLIC_STRAPI_API_URL}/api/upload`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
-        },
-        body: formData,
-      });
-  
+      const response = await fetch(
+        `${import.meta.env.VITE_PUBLIC_STRAPI_API_URL}/api/upload`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
+          },
+          body: formData,
+        }
+      );
+
       if (!response.ok) {
         console.error("Upload failed:", response.status);
         return null;
       }
-  
+
       const result = await response.json();
       console.log("Image upload response:", result);
-      
+
       // Return the first uploaded image's ID
       if (result && result.length > 0) {
         const uploadedImage = result[0];
         return uploadedImage.id;
       }
-      
+
       return null;
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -1118,20 +1128,27 @@ const RegistrationForm = () => {
 
   const handleSubmit = async () => {
     try {
-    setLoading(true);
-  
-      const displayPictureId = formData.display_picture 
+      setLoading(true);
+
+      const displayPictureId = formData.display_picture
         ? await uploadImage(formData.display_picture)
         : null;
-      
-      const strapiData = formatFormData({
-        ...formData,
-        gotraList: Object.keys(gotraAaknaMap),
-        aaknaList: getAaknaOptions(),
-        localPanchayatList: formData.regionalAssembly ? LOCAL_PANCHAYATS[formData.regionalAssembly] || [] : [],
-        subLocalPanchayatList: formData.localPanchayat ? SUB_LOCAL_PANCHAYATS[formData.localPanchayat] || [] : []
-      }, displayPictureId);
-  
+
+      const strapiData = formatFormData(
+        {
+          ...formData,
+          gotraList: Object.keys(gotraAaknaMap),
+          aaknaList: getAaknaOptions(),
+          localPanchayatList: formData.regionalAssembly
+            ? LOCAL_PANCHAYATS[formData.regionalAssembly] || []
+            : [],
+          subLocalPanchayatList: formData.localPanchayat
+            ? SUB_LOCAL_PANCHAYATS[formData.localPanchayat] || []
+            : [],
+        },
+        displayPictureId
+      );
+
       const response = await fetch(
         `${import.meta.env.VITE_PUBLIC_STRAPI_API_URL}/api/registration-pages`,
         {
@@ -1143,20 +1160,20 @@ const RegistrationForm = () => {
           body: JSON.stringify({ data: strapiData }),
         }
       );
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Server error:", errorData);
         throw new Error(
-          errorData.error?.message || 
-          (errorData.error?.details?.errors?.[0]?.message) || 
-          "Failed to submit form"
+          errorData.error?.message ||
+            errorData.error?.details?.errors?.[0]?.message ||
+            "Failed to submit form"
         );
       }
-  
+
       const result = await response.json();
       console.log("Form submitted successfully:", result);
-      
+
       showSuccessMessage();
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -1169,7 +1186,8 @@ const RegistrationForm = () => {
   // Separate function for showing success message
   const showSuccessMessage = () => {
     const successPopup = document.createElement("div");
-    successPopup.className = "fixed inset-0 flex items-center justify-center z-50";
+    successPopup.className =
+      "fixed inset-0 flex items-center justify-center z-50";
     successPopup.innerHTML = `
       <div class="absolute inset-0 bg-black bg-opacity-50"></div>
       <div class="bg-white rounded-lg p-6 shadow-xl max-w-md w-full mx-4 relative z-10 border-2 border-[#FD7D01]">
@@ -1187,10 +1205,10 @@ const RegistrationForm = () => {
         </div>
       </div>
     `;
-    
+
     document.body.appendChild(successPopup);
     const progressBar = document.getElementById("progress-bar");
-    
+
     setTimeout(() => {
       progressBar.style.width = "100%";
     }, 100);
@@ -1215,6 +1233,7 @@ const RegistrationForm = () => {
         return (
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Existing fields */}
               <div className="space-y-3">
                 <label className="text-sm font-medium text-gray-700 flex items-center">
                   <svg
@@ -1361,34 +1380,34 @@ const RegistrationForm = () => {
                   </svg>
                   Gender
                 </label>
-               <div className="flex items-center space-x-8 px-4 py-2.5 border border-gray-300 rounded-lg bg-white">
-                    <label className="inline-flex items-center cursor-pointer">
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="Male"
+                <div className="flex items-center space-x-8 px-4 py-2.5 border border-gray-300 rounded-lg bg-white">
+                  <label className="inline-flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="Male"
                       checked={formData.gender === "Male"}
                       onChange={(e) =>
                         setFormData({ ...formData, gender: e.target.value })
                       }
-                        className="h-4 w-4 text-red-700 focus:ring-red-500"
-                      />
-                      <span className="ml-2 text-sm text-gray-700">Male</span>
-                    </label>
-                    <label className="inline-flex items-center cursor-pointer">
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="Female"
+                      className="h-4 w-4 text-red-700 focus:ring-red-500"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Male</span>
+                  </label>
+                  <label className="inline-flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="Female"
                       checked={formData.gender === "Female"}
                       onChange={(e) =>
                         setFormData({ ...formData, gender: e.target.value })
                       }
-                        className="h-4 w-4 text-red-700 focus:ring-red-500"
-                      />
-                      <span className="ml-2 text-sm text-gray-700">Female</span>
-                    </label>
-                  </div>
+                      className="h-4 w-4 text-red-700 focus:ring-red-500"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Female</span>
+                  </label>
+                </div>
 
                 {hasError("gender") && (
                   <p className="text-red-500 text-xs">{errors.gender}</p>
@@ -1404,16 +1423,24 @@ const RegistrationForm = () => {
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
-                    <path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" />
+                    <path
+                      fillRule="evenodd"
+                      d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   Nationality
                   {hasError("nationality") && (
                     <span className="ml-2 text-xs text-red-500">*Required</span>
                   )}
                 </label>
-                <div className={`flex items-center space-x-8 px-4 py-2.5 border rounded-lg ${
-                  hasError("nationality") ? "border-red-500 bg-red-50" : "border-gray-300"
-                } bg-white`}>
+                <div
+                  className={`flex items-center space-x-8 px-4 py-2.5 border rounded-lg ${
+                    hasError("nationality")
+                      ? "border-red-500 bg-red-50"
+                      : "border-gray-300"
+                  }`}
+                >
                   <label className="inline-flex items-center cursor-pointer">
                     <input
                       type="radio"
@@ -1421,7 +1448,10 @@ const RegistrationForm = () => {
                       value="Indian"
                       checked={formData.nationality === "Indian"}
                       onChange={(e) =>
-                        setFormData({ ...formData, nationality: e.target.value })
+                        setFormData({
+                          ...formData,
+                          nationality: e.target.value,
+                        })
                       }
                       className="h-4 w-4 text-red-700 focus:ring-red-500"
                     />
@@ -1434,21 +1464,82 @@ const RegistrationForm = () => {
                       value="Non-Indian"
                       checked={formData.nationality === "Non-Indian"}
                       onChange={(e) =>
-                        setFormData({ ...formData, nationality: e.target.value })
+                        setFormData({
+                          ...formData,
+                          nationality: e.target.value,
+                        })
                       }
                       className="h-4 w-4 text-red-700 focus:ring-red-500"
                     />
-                    <span className="ml-2 text-sm text-gray-700">Non-Indian</span>
+                    <span className="ml-2 text-sm text-gray-700">
+                      Non-Indian
+                    </span>
                   </label>
                 </div>
                 {hasError("nationality") && (
                   <p className="text-red-500 text-xs">{errors.nationality}</p>
                 )}
               </div>
+
+              {/* Gahoi Community field */}
+              <div className="space-y-3 md:col-span-2">
+                <label className="text-sm font-medium text-gray-700 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-700"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Are you from Gahoi Community?
+                </label>
+                <div
+                  className={`flex items-center space-x-8 px-4 py-2.5 border rounded-lg ${
+                    hasError("isGahoi")
+                      ? "border-red-500 bg-red-50"
+                      : "border-gray-300"
+                  }`}
+                >
+                  <label className="inline-flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name="isGahoi"
+                      value="Yes"
+                      checked={formData.isGahoi === "Yes"}
+                      onChange={(e) =>
+                        setFormData({ ...formData, isGahoi: e.target.value })
+                      }
+                      className="h-4 w-4 text-red-700 focus:ring-red-500"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Yes</span>
+                  </label>
+                  <label className="inline-flex items-center cursor-pointer">
+                    <input
+                      type="radio"
+                      name="isGahoi"
+                      value="No"
+                      checked={formData.isGahoi === "No"}
+                      onChange={(e) =>
+                        setFormData({ ...formData, isGahoi: e.target.value })
+                      }
+                      className="h-4 w-4 text-red-700 focus:ring-red-500"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">No</span>
+                  </label>
+                </div>
+                {hasError("isGahoi") && (
+                  <p className="text-red-500 text-xs">{errors.isGahoi}</p>
+                )}
+              </div>
             </div>
           </div>
         );
-        
+
       case 1:
         return (
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
@@ -1572,118 +1663,12 @@ const RegistrationForm = () => {
                 )}
               </div>
 
-              <div className="md:col-span-2 space-y-3">
-                <label className=" text-sm font-medium text-gray-700 flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mr-2 text-red-700"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  Current Address
-                </label>
-                <textarea
-                  name="currentAddress"
-                  value={formData.currentAddress}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError("currentAddress")
-                      ? "border-red-500 bg-red-50 error-field"
-                      : "border-gray-300"
-                  }`}
-                  rows="3"
-                  placeholder="Enter your current address"
-                />
-                {hasError("currentAddress") && (
-                  <p className="text-red-500 text-xs">
-                    {errors.currentAddress}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-3">
-                <label className=" text-sm font-medium text-gray-700 flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mr-2 text-red-700"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M14.243 5.757a6 6 0 10-.986 9.284 1 1 0 111.087 1.678A8 8 0 1118 10a3 3 0 01-4.8 2.401A4 4 0 1114 10a1 1 0 102 0c0-1.537-.586-3.07-1.757-4.243zM12 10a2 2 0 10-4 0 2 2 0 004 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  City
-                </label>
-                <select
-                  name="city"
-                  value={formData.city}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError("city")
-                      ? "border-red-500 bg-red-50 error-field"
-                      : "border-gray-300"
-                  }`}
-                >
-                  <option value="">Select City</option>
-                  {indianCities.map((city) => (
-                    <option key={city} value={city}>
-                      {city}
-                    </option>
-                  ))}
-                </select>
-                {hasError("city") && (
-                  <p className="text-red-500 text-xs">{errors.city}</p>
-                )}
-              </div>
-
-              <div className="space-y-3">
-                <label className=" text-sm font-medium text-gray-700 flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mr-2 text-red-700"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M14.243 5.757a6 6 0 10-.986 9.284 1 1 0 111.087 1.678A8 8 0 1118 10a3 3 0 01-4.8 2.401A4 4 0 1114 10a1 1 0 102 0c0-1.537-.586-3.07-1.757-4.243zM12 10a2 2 0 10-4 0 2 2 0 004 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  District
-                </label>
-                <input
-                  type="text"
-                  name="district"
-                  value={formData.district}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
-                    hasError("district")
-                      ? "border-red-500 bg-red-50 error-field"
-                      : "border-gray-300"
-                  }`}
-                  placeholder="Enter your district"
-                />
-                {hasError("district") && (
-                  <p className="text-red-500 text-xs">{errors.district}</p>
-                )}
-              </div>
-
               {/* Regional Information Section */}
               {renderRegionalInformation()}
             </div>
           </div>
         );
-        
+
       case 2:
         return (
           <div className="space-y-6">
@@ -1691,7 +1676,12 @@ const RegistrationForm = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               <div className="bg-gradient-to-r from-red-50 to-white px-6 py-4 border-b border-gray-100">
                 <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-red-600"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
                     <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
                   </svg>
                   Parents Information
@@ -1702,25 +1692,43 @@ const RegistrationForm = () => {
                   {formData.familyDetails.slice(0, 2).map((member, index) => (
                     <div key={index} className="space-y-4">
                       <div className="flex items-center mb-2">
-                        <span className="text-sm font-medium text-gray-700">{member.relation}</span>
+                        <span className="text-sm font-medium text-gray-700">
+                          {member.relation}
+                        </span>
                         {hasFamilyError(index, "name") && (
-                          <span className="ml-2 text-xs text-red-500">*Required</span>
+                          <span className="ml-2 text-xs text-red-500">
+                            *Required
+                          </span>
                         )}
                       </div>
                       <div className="space-y-3">
                         <input
                           type="text"
                           value={member.name}
-                          onChange={(e) => handleFamilyDetailChange(index, "name", e.target.value)}
+                          onChange={(e) =>
+                            handleFamilyDetailChange(
+                              index,
+                              "name",
+                              e.target.value
+                            )
+                          }
                           className={`block w-full px-4 py-2.5 text-gray-700 bg-white border ${
-                            hasFamilyError(index, "name") ? "border-red-300 bg-red-50" : "border-gray-300"
+                            hasFamilyError(index, "name")
+                              ? "border-red-300 bg-red-50"
+                              : "border-gray-300"
                           } rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent`}
                           placeholder={`Enter ${member.relation}'s name`}
                         />
                         <input
                           type="tel"
                           value={member.mobileNumber}
-                          onChange={(e) => handleFamilyDetailChange(index, "mobileNumber", e.target.value)}
+                          onChange={(e) =>
+                            handleFamilyDetailChange(
+                              index,
+                              "mobileNumber",
+                              e.target.value
+                            )
+                          }
                           className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                           pattern="[0-9]*"
                           inputMode="numeric"
@@ -1738,7 +1746,12 @@ const RegistrationForm = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               <div className="bg-gradient-to-r from-pink-50 to-white px-6 py-4 border-b border-gray-100">
                 <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-pink-600" viewBox="0 0 20 20" fill="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-pink-600"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
                     <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
                   </svg>
                   Spouse Information
@@ -1746,18 +1759,33 @@ const RegistrationForm = () => {
               </div>
               <div className="p-6">
                 {formData.familyDetails.slice(2, 3).map((member, index) => (
-                  <div key={index + 2} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div
+                    key={index + 2}
+                    className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                  >
                     <input
                       type="text"
                       value={member.name}
-                      onChange={(e) => handleFamilyDetailChange(index + 2, "name", e.target.value)}
+                      onChange={(e) =>
+                        handleFamilyDetailChange(
+                          index + 2,
+                          "name",
+                          e.target.value
+                        )
+                      }
                       className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                       placeholder="Enter spouse's name"
                     />
                     <input
                       type="tel"
                       value={member.mobileNumber}
-                      onChange={(e) => handleFamilyDetailChange(index + 2, "mobileNumber", e.target.value)}
+                      onChange={(e) =>
+                        handleFamilyDetailChange(
+                          index + 2,
+                          "mobileNumber",
+                          e.target.value
+                        )
+                      }
                       className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                       pattern="[0-9]*"
                       inputMode="numeric"
@@ -1773,19 +1801,35 @@ const RegistrationForm = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               <div className="bg-gradient-to-r from-blue-50 to-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                 <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-blue-600"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
                     <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                   </svg>
                   Children Information
                 </h3>
-                {formData.familyDetails.filter((member) => member.relation === "Child").length < MAX_CHILDREN && (
+                {formData.familyDetails.filter(
+                  (member) => member.relation === "Child"
+                ).length < MAX_CHILDREN && (
                   <button
                     type="button"
                     onClick={addChild}
                     className="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors duration-200"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 mr-1"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                     Add Child
                   </button>
@@ -1793,90 +1837,149 @@ const RegistrationForm = () => {
               </div>
               <div className="p-6">
                 <div className="space-y-6">
-                  {formData.familyDetails.filter(member => member.relation === "Child").map((member, childIndex) => {
-                    const index = formData.familyDetails.indexOf(member);
-                    return (
-                      <div key={index} className="bg-gray-50 rounded-lg p-4 space-y-4 relative">
-                        {/* Add Remove Button for Children */}
-                        {index > 2 && (
-                          <button
-                            type="button"
-                            onClick={() => removeChild(index)}
-                            className="absolute -top-2 -right-2 text-red-600 hover:text-red-800 transition-colors duration-200"
-                            
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                            </svg>
-                          </button>
-                        )}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="space-y-1">
-                            <input
-                              type="text"
-                              value={member.name}
-                              onChange={(e) => handleFamilyDetailChange(index, "name", e.target.value)}
-                              className={`block w-full px-4 py-2.5 text-gray-700 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                                hasFamilyError(index, "name") ? "border-red-500 bg-red-50" : "border-gray-300"
-                              }`}
-                              placeholder={`Child ${childIndex + 1}'s name`}
-                            />
-                            {hasFamilyError(index, "name") && (
-                              <p className="text-red-500 text-xs">{errors[`familyDetails.${index}.name`]}</p>
-                            )}
-                          </div>
-                          <div className="space-y-1">
-                            <input
-                              type="tel"
-                              value={member.mobileNumber}
-                              onChange={(e) => handleFamilyDetailChange(index, "mobileNumber", e.target.value)}
-                              className={`block w-full px-4 py-2.5 text-gray-700 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                                hasFamilyError(index, "mobileNumber") ? "border-red-500 bg-red-50" : "border-gray-300"
-                              }`}
-                              pattern="[0-9]*"
-                              inputMode="numeric"
-                              maxLength={10}
-                              placeholder="Mobile number (optional)"
-                            />
-                            {hasFamilyError(index, "mobileNumber") && (
-                              <p className="text-red-500 text-xs">{errors[`familyDetails.${index}.mobileNumber`]}</p>
-                            )}
-                          </div>
-                        </div>
-                        <div className="space-y-1">
-                          <div className={`flex items-center space-x-6 px-4 py-2.5 border rounded-lg ${
-                            hasFamilyError(index, "gender") ? "border-red-500 bg-red-50" : "border-gray-300"
-                          }`}>
-                            <label className="inline-flex items-center">
-                              <input
-                                type="radio"
-                                name={`child-gender-${index}`}
-                                value="Male"
-                                checked={member.gender === "Male"}
-                                onChange={(e) => handleFamilyDetailChange(index, "gender", e.target.value)}
-                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
-                              />
-                              <span className="ml-2 text-sm text-gray-700">Male</span>
-                            </label>
-                            <label className="inline-flex items-center">
-                              <input
-                                type="radio"
-                                name={`child-gender-${index}`}
-                                value="Female"
-                                checked={member.gender === "Female"}
-                                onChange={(e) => handleFamilyDetailChange(index, "gender", e.target.value)}
-                                className="h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300"
-                              />
-                              <span className="ml-2 text-sm text-gray-700">Female</span>
-                            </label>
-                          </div>
-                          {hasFamilyError(index, "gender") && (
-                            <p className="text-red-500 text-xs">{errors[`familyDetails.${index}.gender`]}</p>
+                  {formData.familyDetails
+                    .filter((member) => member.relation === "Child")
+                    .map((member, childIndex) => {
+                      const index = formData.familyDetails.indexOf(member);
+                      return (
+                        <div
+                          key={index}
+                          className="bg-gray-50 rounded-lg p-4 space-y-4 relative"
+                        >
+                          {/* Add Remove Button for Children */}
+                          {index > 2 && (
+                            <button
+                              type="button"
+                              onClick={() => removeChild(index)}
+                              className="absolute -top-2 -right-2 text-red-600 hover:text-red-800 transition-colors duration-200"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            </button>
                           )}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                              <input
+                                type="text"
+                                value={member.name}
+                                onChange={(e) =>
+                                  handleFamilyDetailChange(
+                                    index,
+                                    "name",
+                                    e.target.value
+                                  )
+                                }
+                                className={`block w-full px-4 py-2.5 text-gray-700 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                                  hasFamilyError(index, "name")
+                                    ? "border-red-500 bg-red-50"
+                                    : "border-gray-300"
+                                }`}
+                                placeholder={`Child ${childIndex + 1}'s name`}
+                              />
+                              {hasFamilyError(index, "name") && (
+                                <p className="text-red-500 text-xs">
+                                  {errors[`familyDetails.${index}.name`]}
+                                </p>
+                              )}
+                            </div>
+                            <div className="space-y-1">
+                              <input
+                                type="tel"
+                                value={member.mobileNumber}
+                                onChange={(e) =>
+                                  handleFamilyDetailChange(
+                                    index,
+                                    "mobileNumber",
+                                    e.target.value
+                                  )
+                                }
+                                className={`block w-full px-4 py-2.5 text-gray-700 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                                  hasFamilyError(index, "mobileNumber")
+                                    ? "border-red-500 bg-red-50"
+                                    : "border-gray-300"
+                                }`}
+                                pattern="[0-9]*"
+                                inputMode="numeric"
+                                maxLength={10}
+                                placeholder="Mobile number (optional)"
+                              />
+                              {hasFamilyError(index, "mobileNumber") && (
+                                <p className="text-red-500 text-xs">
+                                  {
+                                    errors[
+                                      `familyDetails.${index}.mobileNumber`
+                                    ]
+                                  }
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          <div className="space-y-1">
+                            <div
+                              className={`flex items-center space-x-6 px-4 py-2.5 border rounded-lg ${
+                                hasFamilyError(index, "gender")
+                                  ? "border-red-500 bg-red-50"
+                                  : "border-gray-300"
+                              }`}
+                            >
+                              <label className="inline-flex items-center">
+                                <input
+                                  type="radio"
+                                  name={`child-gender-${index}`}
+                                  value="Male"
+                                  checked={member.gender === "Male"}
+                                  onChange={(e) =>
+                                    handleFamilyDetailChange(
+                                      index,
+                                      "gender",
+                                      e.target.value
+                                    )
+                                  }
+                                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                                />
+                                <span className="ml-2 text-sm text-gray-700">
+                                  Male
+                                </span>
+                              </label>
+                              <label className="inline-flex items-center">
+                                <input
+                                  type="radio"
+                                  name={`child-gender-${index}`}
+                                  value="Female"
+                                  checked={member.gender === "Female"}
+                                  onChange={(e) =>
+                                    handleFamilyDetailChange(
+                                      index,
+                                      "gender",
+                                      e.target.value
+                                    )
+                                  }
+                                  className="h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300"
+                                />
+                                <span className="ml-2 text-sm text-gray-700">
+                                  Female
+                                </span>
+                              </label>
+                            </div>
+                            {hasFamilyError(index, "gender") && (
+                              <p className="text-red-500 text-xs">
+                                {errors[`familyDetails.${index}.gender`]}
+                              </p>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
                 </div>
               </div>
             </div>
@@ -1885,19 +1988,35 @@ const RegistrationForm = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               <div className="bg-gradient-to-r from-purple-50 to-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                 <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-purple-600" viewBox="0 0 20 20" fill="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2 text-purple-600"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
                     <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                   </svg>
                   Siblings Information
                 </h3>
-                {formData.familyDetails.filter((member) => member.relation === "Sibling").length < MAX_SIBLINGS && (
+                {formData.familyDetails.filter(
+                  (member) => member.relation === "Sibling"
+                ).length < MAX_SIBLINGS && (
                   <button
                     type="button"
                     onClick={addSibling}
                     className="inline-flex items-center px-3 py-1.5 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors duration-200"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 mr-1"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                     Add Sibling
                   </button>
@@ -1905,156 +2024,260 @@ const RegistrationForm = () => {
               </div>
               <div className="p-6">
                 <div className="space-y-6">
-                  {formData.familyDetails.filter(member => member.relation === "Sibling").map((member, siblingIndex) => {
-                    const index = formData.familyDetails.indexOf(member);
-                    return (
-                      <div key={index} className="bg-gray-50 rounded-lg p-4 space-y-4 relative">
-                        {/* Add Remove Button for Siblings */}
-                        {index > 2 && (
-                          <button
-                            type="button"
-                            onClick={() => removeSibling(index)}
-                            className="absolute top-2 right-2 p-1 text-red-600 hover:text-red-800 transition-colors duration-200"
-                            title="Remove Sibling"
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                            </svg>
-                          </button>
-                        )}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="space-y-4">
+                  {formData.familyDetails
+                    .filter((member) => member.relation === "Sibling")
+                    .map((member, siblingIndex) => {
+                      const index = formData.familyDetails.indexOf(member);
+                      return (
+                        <div
+                          key={index}
+                          className="bg-gray-50 rounded-lg p-4 space-y-4 relative"
+                        >
+                          {/* Add Remove Button for Siblings */}
+                          {index > 2 && (
+                            <button
+                              type="button"
+                              onClick={() => removeSibling(index)}
+                              className="absolute top-2 right-2 p-1 text-red-600 hover:text-red-800 transition-colors duration-200"
+                              title="Remove Sibling"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            </button>
+                          )}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-4">
+                              <select
+                                value={member.siblingRelation || ""}
+                                onChange={(e) =>
+                                  handleFamilyDetailChange(
+                                    index,
+                                    "siblingRelation",
+                                    e.target.value
+                                  )
+                                }
+                                className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                              >
+                                <option value="">Select Relation</option>
+                                {SIBLING_RELATION_OPTIONS.map((rel) => (
+                                  <option key={rel} value={rel}>
+                                    {rel}
+                                  </option>
+                                ))}
+                              </select>
+                              <input
+                                type="text"
+                                value={member.name}
+                                onChange={(e) =>
+                                  handleFamilyDetailChange(
+                                    index,
+                                    "name",
+                                    e.target.value
+                                  )
+                                }
+                                className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                placeholder={`Sibling ${
+                                  siblingIndex + 1
+                                }'s name`}
+                              />
+                            </div>
+                            <div className="space-y-4">
+                              <input
+                                type="tel"
+                                value={member.mobileNumber}
+                                onChange={(e) =>
+                                  handleFamilyDetailChange(
+                                    index,
+                                    "mobileNumber",
+                                    e.target.value
+                                  )
+                                }
+                                className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                pattern="[0-9]*"
+                                inputMode="numeric"
+                                maxLength={10}
+                                placeholder="Mobile number"
+                              />
+                              <input
+                                type="number"
+                                value={member.age}
+                                onChange={(e) =>
+                                  handleFamilyDetailChange(
+                                    index,
+                                    "age",
+                                    e.target.value
+                                  )
+                                }
+                                className={`block w-full px-4 py-2.5 text-gray-700 bg-white border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
+                                  hasFamilyError(index, "age")
+                                    ? "border-red-500 bg-red-50"
+                                    : "border-gray-300"
+                                }`}
+                                placeholder="Age"
+                                min="0"
+                                max="120"
+                              />
+                              {hasFamilyError(index, "age") && (
+                                <p className="text-red-500 text-xs">
+                                  Age is required
+                                </p>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <select
-                              value={member.siblingRelation || ""}
-                              onChange={(e) => handleFamilyDetailChange(index, "siblingRelation", e.target.value)}
+                              value={member.education}
+                              onChange={(e) =>
+                                handleFamilyDetailChange(
+                                  index,
+                                  "education",
+                                  e.target.value
+                                )
+                              }
                               className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                             >
-                              <option value="">Select Relation</option>
-                              {SIBLING_RELATION_OPTIONS.map((rel) => (
-                                <option key={rel} value={rel}>{rel}</option>
+                              <option value="">Select Education</option>
+                              {EDUCATION_OPTIONS.map((edu) => (
+                                <option key={edu} value={edu}>
+                                  {edu}
+                                </option>
                               ))}
                             </select>
-                            <input
-                              type="text"
-                              value={member.name}
-                              onChange={(e) => handleFamilyDetailChange(index, "name", e.target.value)}
+                            <select
+                              value={member.occupation}
+                              onChange={(e) =>
+                                handleFamilyDetailChange(
+                                  index,
+                                  "occupation",
+                                  e.target.value
+                                )
+                              }
                               className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                              placeholder={`Sibling ${siblingIndex + 1}'s name`}
-                            />
+                            >
+                              <option value="">Select Occupation</option>
+                              {OCCUPATION_OPTIONS.map((occ) => (
+                                <option key={occ} value={occ}>
+                                  {occ}
+                                </option>
+                              ))}
+                            </select>
                           </div>
-                          <div className="space-y-4">
-                            <input
-                              type="tel"
-                              value={member.mobileNumber}
-                              onChange={(e) => handleFamilyDetailChange(index, "mobileNumber", e.target.value)}
-                              className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                              pattern="[0-9]*"
-                              inputMode="numeric"
-                              maxLength={10}
-                              placeholder="Mobile number"
-                            />
-                            <input
-                              type="number"
-                              value={member.age}
-                              onChange={(e) => handleFamilyDetailChange(index, "age", e.target.value)}
-                              className={`block w-full px-4 py-2.5 text-gray-700 bg-white border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
-                                hasFamilyError(index, "age") ? "border-red-500 bg-red-50" : "border-gray-300"
-                              }`}
-                              placeholder="Age"
-                              min="0"
-                              max="120"
-                            />
-                            {hasFamilyError(index, "age") && (
-                              <p className="text-red-500 text-xs">Age is required</p>
-                            )}
-                          </div>
-                        </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <select
-                            value={member.education}
-                            onChange={(e) => handleFamilyDetailChange(index, "education", e.target.value)}
-                            className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                          >
-                            <option value="">Select Education</option>
-                            {EDUCATION_OPTIONS.map((edu) => (
-                              <option key={edu} value={edu}>{edu}</option>
-                            ))}
-                          </select>
-                          <select
-                            value={member.occupation}
-                            onChange={(e) => handleFamilyDetailChange(index, "occupation", e.target.value)}
-                            className="block w-full px-4 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                          >
-                            <option value="">Select Occupation</option>
-                            {OCCUPATION_OPTIONS.map((occ) => (
-                              <option key={occ} value={occ}>{occ}</option>
-                            ))}
-                          </select>
-                        </div>
 
-                        <div className="flex flex-wrap items-center gap-6">
-                          <div className="space-y-1">
-                            <div className={`flex items-center space-x-6 px-4 py-2.5 border rounded-lg ${
-                              hasFamilyError(index, "gender") ? "border-red-500 bg-red-50" : "border-gray-300"
-                            }`}>
-                              <label className="inline-flex items-center">
-                                <input
-                                  type="radio"
-                                  name={`gender-${index}`}
-                                  value="Male"
-                                  checked={member.gender === "Male"}
-                                  onChange={(e) => handleFamilyDetailChange(index, "gender", e.target.value)}
-                                  className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300"
-                                />
-                                <span className="ml-2 text-sm text-gray-700">Male</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input
-                                  type="radio"
-                                  name={`gender-${index}`}
-                                  value="Female"
-                                  checked={member.gender === "Female"}
-                                  onChange={(e) => handleFamilyDetailChange(index, "gender", e.target.value)}
-                                  className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300"
-                                />
-                                <span className="ml-2 text-sm text-gray-700">Female</span>
-                              </label>
+                          <div className="flex flex-wrap items-center gap-6">
+                            <div className="space-y-1">
+                              <div
+                                className={`flex items-center space-x-6 px-4 py-2.5 border rounded-lg ${
+                                  hasFamilyError(index, "gender")
+                                    ? "border-red-500 bg-red-50"
+                                    : "border-gray-300"
+                                }`}
+                              >
+                                <label className="inline-flex items-center">
+                                  <input
+                                    type="radio"
+                                    name={`gender-${index}`}
+                                    value="Male"
+                                    checked={member.gender === "Male"}
+                                    onChange={(e) =>
+                                      handleFamilyDetailChange(
+                                        index,
+                                        "gender",
+                                        e.target.value
+                                      )
+                                    }
+                                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300"
+                                  />
+                                  <span className="ml-2 text-sm text-gray-700">
+                                    Male
+                                  </span>
+                                </label>
+                                <label className="inline-flex items-center">
+                                  <input
+                                    type="radio"
+                                    name={`gender-${index}`}
+                                    value="Female"
+                                    checked={member.gender === "Female"}
+                                    onChange={(e) =>
+                                      handleFamilyDetailChange(
+                                        index,
+                                        "gender",
+                                        e.target.value
+                                      )
+                                    }
+                                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300"
+                                  />
+                                  <span className="ml-2 text-sm text-gray-700">
+                                    Female
+                                  </span>
+                                </label>
+                              </div>
+                              {hasFamilyError(index, "gender") && (
+                                <p className="text-red-500 text-xs">
+                                  Gender is required
+                                </p>
+                              )}
                             </div>
-                            {hasFamilyError(index, "gender") && (
-                              <p className="text-red-500 text-xs">Gender is required</p>
+
+                            <select
+                              value={member.maritalStatus}
+                              onChange={(e) =>
+                                handleFamilyDetailChange(
+                                  index,
+                                  "maritalStatus",
+                                  e.target.value
+                                )
+                              }
+                              className={`px-4 py-2 text-sm text-gray-700 bg-white border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
+                                hasFamilyError(index, "maritalStatus")
+                                  ? "border-red-500 bg-red-50"
+                                  : "border-gray-300"
+                              }`}
+                            >
+                              <option value="">Marital Status</option>
+                              {MARITAL_STATUS_OPTIONS.map((status) => (
+                                <option key={status} value={status}>
+                                  {status}
+                                </option>
+                              ))}
+                            </select>
+                            {hasFamilyError(index, "maritalStatus") && (
+                              <p className="text-red-500 text-xs">
+                                Marital status is required
+                              </p>
                             )}
+
+                            <label className="inline-flex items-center">
+                              <input
+                                type="checkbox"
+                                checked={member.isDependent}
+                                onChange={(e) =>
+                                  handleFamilyDetailChange(
+                                    index,
+                                    "isDependent",
+                                    e.target.checked
+                                  )
+                                }
+                                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                              />
+                              <span className="ml-2 text-sm text-gray-700">
+                                Is Dependent
+                              </span>
+                            </label>
                           </div>
-
-                          <select
-                            value={member.maritalStatus}
-                            onChange={(e) => handleFamilyDetailChange(index, "maritalStatus", e.target.value)}
-                            className={`px-4 py-2 text-sm text-gray-700 bg-white border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
-                              hasFamilyError(index, "maritalStatus") ? "border-red-500 bg-red-50" : "border-gray-300"
-                            }`}
-                          >
-                            <option value="">Marital Status</option>
-                            {MARITAL_STATUS_OPTIONS.map((status) => (
-                              <option key={status} value={status}>{status}</option>
-                            ))}
-                          </select>
-                          {hasFamilyError(index, "maritalStatus") && (
-                            <p className="text-red-500 text-xs">Marital status is required</p>
-                          )}
-
-                          <label className="inline-flex items-center">
-                            <input
-                              type="checkbox"
-                              checked={member.isDependent}
-                              onChange={(e) => handleFamilyDetailChange(index, "isDependent", e.target.checked)}
-                              className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-                            />
-                            <span className="ml-2 text-sm text-gray-700">Is Dependent</span>
-                          </label>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
                 </div>
               </div>
             </div>
@@ -2065,21 +2288,38 @@ const RegistrationForm = () => {
                 type="button"
                 onClick={() => {
                   const text = `Family Details:\n${formData.familyDetails
-                    .map(member => `${member.relation}${member.siblingRelation ? ` (${member.siblingRelation})` : ''}: ${member.name} ${member.mobileNumber ? `(${member.mobileNumber})` : ''}`)
-                    .join('\n')}`;
-                  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+                    .map(
+                      (member) =>
+                        `${member.relation}${
+                          member.siblingRelation
+                            ? ` (${member.siblingRelation})`
+                            : ""
+                        }: ${member.name} ${
+                          member.mobileNumber ? `(${member.mobileNumber})` : ""
+                        }`
+                    )
+                    .join("\n")}`;
+                  window.open(
+                    `https://wa.me/?text=${encodeURIComponent(text)}`,
+                    "_blank"
+                  );
                 }}
                 className="inline-flex items-center px-4 py-2 bg-[#25D366] text-white rounded-lg hover:bg-[#20BD5A] transition-all duration-200 shadow-sm hover:shadow-md"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 448 512" fill="currentColor">
-                  <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  viewBox="0 0 448 512"
+                  fill="currentColor"
+                >
+                  <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
                 </svg>
                 Share on WhatsApp
               </button>
             </div>
           </div>
         );
-        
+
       case 3:
         return (
           <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md border border-gray-200">
@@ -2096,7 +2336,7 @@ const RegistrationForm = () => {
                 Biographical Details
               </h2>
             </div>
-            
+
             {/* Married Status */}
             <div className="mb-6 sm:mb-8 bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
               <h3 className="text-sm sm:text-md font-medium text-gray-700 mb-2 sm:mb-3 flex items-center">
@@ -2212,7 +2452,7 @@ const RegistrationForm = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* Manglik Status */}
-              <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md">
+              {/* <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md">
                 <label className=" text-sm font-medium text-gray-700 mb-2 sm:mb-3 flex items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -2249,10 +2489,10 @@ const RegistrationForm = () => {
                     {errors.manglik}
                   </p>
                 )}
-              </div>
-              
+              </div> */}
+
               {/* Grah */}
-              <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md">
+              {/* <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md">
                 <label className=" text-sm font-medium text-gray-700 mb-2 sm:mb-3 flex items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -2287,10 +2527,10 @@ const RegistrationForm = () => {
                     {errors.grah}
                   </p>
                 )}
-              </div>
-              
+              </div> */}
+
               {/* Handicap */}
-              <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md">
+              {/* <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md">
                 <label className=" text-sm font-medium text-gray-700 mb-2 sm:mb-3 flex items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -2329,12 +2569,12 @@ const RegistrationForm = () => {
                     {errors.handicap}
                   </p>
                 )}
-              </div>
-              
+              </div> */}
+
               {/* Show Gotra fields only if marriageToAnotherCaste is false */}
               {!formData.marriageToAnotherCaste && (
                 <>
-              {/* Gotra */}
+                  {/* Gotra */}
                   <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md md:col-span-1 lg:col-span-1">
                     <label className=" text-sm font-medium text-gray-700 mb-2 sm:mb-3 flex items-center">
                       <svg
@@ -2351,17 +2591,17 @@ const RegistrationForm = () => {
                       </svg>
                       Gotra
                     </label>
-                <select
-                  name="gotra"
-                  value={formData.gotra}
-                  onChange={handleInputChange}
+                    <select
+                      name="gotra"
+                      value={formData.gotra}
+                      onChange={handleInputChange}
                       className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
                         hasError("gotra")
                           ? "border-red-500 bg-red-50"
                           : "border-gray-300"
-                  }`}
-                >
-                  <option value="">Select Gotra</option>
+                      }`}
+                    >
+                      <option value="">Select Gotra</option>
                       {[
                         "Vasar/Vastil/Vasal",
                         "Gol",
@@ -2380,16 +2620,16 @@ const RegistrationForm = () => {
                         <option key={option} value={option}>
                           {option}
                         </option>
-                  ))}
-                </select>
+                      ))}
+                    </select>
                     {hasError("gotra") && (
                       <p className="text-red-500 text-xs mt-2 ml-1">
                         {errors.gotra}
                       </p>
-                )}
-              </div>
-              
-              {/* Aakna */}
+                    )}
+                  </div>
+
+                  {/* Aakna */}
                   <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md md:col-span-1 lg:col-span-2">
                     <label className=" text-sm font-medium text-gray-700 mb-2 sm:mb-3 flex items-center">
                       <svg
@@ -2402,39 +2642,39 @@ const RegistrationForm = () => {
                       </svg>
                       Aakna
                     </label>
-                <select
-                  name="aakna"
-                  value={formData.aakna}
-                  onChange={handleInputChange}
+                    <select
+                      name="aakna"
+                      value={formData.aakna}
+                      onChange={handleInputChange}
                       className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
                         hasError("aakna")
                           ? "border-red-500 bg-red-50"
                           : "border-gray-300"
-                  }`}
-                  disabled={!formData.gotra}
-                >
-                  <option value="">Select Aakna</option>
-                  {getAaknaOptions().map((option) => (
+                      }`}
+                      disabled={!formData.gotra}
+                    >
+                      <option value="">Select Aakna</option>
+                      {getAaknaOptions().map((option) => (
                         <option key={option} value={option}>
                           {option}
                         </option>
-                  ))}
-                </select>
+                      ))}
+                    </select>
                     {hasError("aakna") && (
                       <p className="text-red-500 text-xs mt-2 ml-1">
                         {errors.aakna}
                       </p>
-                )}
-                {!formData.gotra && (
+                    )}
+                    {!formData.gotra && (
                       <p className="text-gray-500 text-xs mt-2 ml-1 italic">
                         Select a Gotra first to see available Aakna options
                       </p>
-                )}
-              </div>
+                    )}
+                  </div>
                 </>
               )}
             </div>
-            
+
             <div className="mt-5 sm:mt-6 p-3 sm:p-4 bg-gray-50 rounded-lg border border-gray-200">
               <div className="flex items-start sm:items-center text-gray-700">
                 <svg
@@ -2457,7 +2697,7 @@ const RegistrationForm = () => {
             </div>
           </div>
         );
-        
+
       case 4:
         return (
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
@@ -2479,7 +2719,7 @@ const RegistrationForm = () => {
                 Work Information
               </h2>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
                 <label className="block text-sm font-medium text-gray-700">
@@ -2503,7 +2743,9 @@ const RegistrationForm = () => {
                   ))}
                 </select>
                 {hasError("industrySector") && (
-                  <p className="text-red-500 text-xs">Please select an industry sector</p>
+                  <p className="text-red-500 text-xs">
+                    Please select an industry sector
+                  </p>
                 )}
               </div>
 
@@ -2529,7 +2771,9 @@ const RegistrationForm = () => {
                   ))}
                 </select>
                 {hasError("businessSize") && (
-                  <p className="text-red-500 text-xs">Please select a business size</p>
+                  <p className="text-red-500 text-xs">
+                    Please select a business size
+                  </p>
                 )}
               </div>
 
@@ -2555,7 +2799,9 @@ const RegistrationForm = () => {
                   ))}
                 </select>
                 {hasError("workType") && (
-                  <p className="text-red-500 text-xs">Please select a work type</p>
+                  <p className="text-red-500 text-xs">
+                    Please select a work type
+                  </p>
                 )}
               </div>
 
@@ -2581,7 +2827,9 @@ const RegistrationForm = () => {
                   ))}
                 </select>
                 {hasError("employmentType") && (
-                  <p className="text-red-500 text-xs">Please select an employment type</p>
+                  <p className="text-red-500 text-xs">
+                    Please select an employment type
+                  </p>
                 )}
               </div>
 
@@ -2602,7 +2850,9 @@ const RegistrationForm = () => {
                   placeholder="Enter your specific role or job title"
                 />
                 {hasError("occupation") && (
-                  <p className="text-red-500 text-xs">Please enter your occupation</p>
+                  <p className="text-red-500 text-xs">
+                    Please enter your occupation
+                  </p>
                 )}
               </div>
 
@@ -2623,7 +2873,9 @@ const RegistrationForm = () => {
                   placeholder="Enter your company or organization name"
                 />
                 {hasError("companyName") && (
-                  <p className="text-red-500 text-xs">Please enter your company name</p>
+                  <p className="text-red-500 text-xs">
+                    Please enter your company name
+                  </p>
                 )}
               </div>
 
@@ -2644,7 +2896,9 @@ const RegistrationForm = () => {
                   placeholder="Enter your work location or area"
                 />
                 {hasError("workArea") && (
-                  <p className="text-red-500 text-xs">Please enter your work location</p>
+                  <p className="text-red-500 text-xs">
+                    Please enter your work location
+                  </p>
                 )}
               </div>
             </div>
@@ -2664,13 +2918,15 @@ const RegistrationForm = () => {
                   />
                 </svg>
                 <p className="text-sm text-gray-600">
-                  Your work information helps us better understand our community's professional landscape and enables us to facilitate networking and mutual support among members.
+                  Your work information helps us better understand our
+                  community's professional landscape and enables us to
+                  facilitate networking and mutual support among members.
                 </p>
               </div>
             </div>
           </div>
         );
-        
+
       case 5:
         return (
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
@@ -2691,7 +2947,7 @@ const RegistrationForm = () => {
                 Final Submission
               </h2>
             </div>
-            
+
             <div className="space-y-6">
               <div className="bg-slate-50 p-5 rounded-lg border border-slate-200">
                 <div className="mb-3">
@@ -2707,7 +2963,7 @@ const RegistrationForm = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="bg-slate-50 p-5 rounded-lg border border-slate-200">
                 <div className="text-center">
                   <div className="mb-2 text-sm font-medium text-gray-700">
@@ -2716,7 +2972,7 @@ const RegistrationForm = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="text-center text-gray-500 text-sm">
                 Thank you for completing the registration form. Your information
                 will be processed shortly.
@@ -2724,50 +2980,14 @@ const RegistrationForm = () => {
             </div>
           </div>
         );
-        
+
       default:
         return null;
     }
   };
 
-  const indianStates = [
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-    "Assam",
-    "Bihar",
-    "Chhattisgarh",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Odisha",
-    "Punjab",
-    "Rajasthan",
-    "Sikkim",
-    "Tamil Nadu",
-    "Telangana",
-    "Tripura",
-    "Uttar Pradesh",
-    "Uttarakhand",
-    "West Bengal",
-    "Andaman and Nicobar Islands",
-    "Chandigarh",
-    "Dadra and Nagar Haveli and Daman and Diu",
-    "Delhi",
-    "Jammu and Kashmir",
-    "Ladakh",
-    "Lakshadweep",
-    "Puducherry"
-  ];
+  // Replace indianStates array with imported STATES
+  const indianStates = STATES;
 
   // Add Mahakaushal Regional Assembly panchayat names
   const mahakaushalPanchayatNames = [
@@ -2821,7 +3041,7 @@ const RegistrationForm = () => {
   const chaurasi_PanchayatNames = [
     "Gahoi Vaishya Panchayat",
     "Shri Gahoi Vaishya Sabha",
-    "Gahoi Vaishya Samaj"
+    "Gahoi Vaishya Samaj",
   ];
 
   // Add Vindhya Regional Assembly panchayat names
@@ -2838,10 +3058,7 @@ const RegistrationForm = () => {
   ];
 
   // Add Northern Regional Assembly panchayat names
-  const northernPanchayatNames = [
-   
-    "Shri Gahoi Vaishya Association",
-  ];
+  const northernPanchayatNames = ["Shri Gahoi Vaishya Association"];
 
   // Add Southern Regional Assembly panchayat names
   const southernPanchayatNames = ["Gahoi Vaishya Panchayat"];
@@ -2862,7 +3079,9 @@ const RegistrationForm = () => {
       return bundelkhandPanchayatNames;
     } else if (formData.regionalAssembly === "Chaurasi Regional Assembly") {
       return CHAURASI_PANCHAYAT_NAMES;
-    } else if (formData.regionalAssembly === "Central Malwa Regional Assembly") {
+    } else if (
+      formData.regionalAssembly === "Central Malwa Regional Assembly"
+    ) {
       return centralMalwaPanchayatNames;
     } else if (formData.regionalAssembly === "Mahakaushal Regional Assembly") {
       return mahakaushalPanchayatNames;
@@ -2884,7 +3103,9 @@ const RegistrationForm = () => {
 
     // For Chaurasi Regional Assembly mappings
     if (formData.regionalAssembly === "Chaurasi Regional Assembly") {
-      return CHAURASI_LOCAL_PANCHAYAT_MAPPING[formData.localPanchayatName] || [];
+      return (
+        CHAURASI_LOCAL_PANCHAYAT_MAPPING[formData.localPanchayatName] || []
+      );
     }
 
     // For Northern Regional Assembly mappings
@@ -3096,12 +3317,20 @@ const RegistrationForm = () => {
 
   //  local panchayats based on local panchayat and regional assembly
   const getFilteredSubLocalPanchayats = () => {
-    if (!formData.regionalAssembly || !formData.localPanchayatName || !formData.localPanchayat) return [];
+    if (
+      !formData.regionalAssembly ||
+      !formData.localPanchayatName ||
+      !formData.localPanchayat
+    )
+      return [];
 
     // For Chaurasi Regional Assembly mappings
     if (formData.regionalAssembly === "Chaurasi Regional Assembly") {
-      const panchayatMapping = CHAURASI_SUB_LOCAL_PANCHAYAT_MAPPING[formData.localPanchayatName];
-      return panchayatMapping ? (panchayatMapping[formData.localPanchayat] || []) : [];
+      const panchayatMapping =
+        CHAURASI_SUB_LOCAL_PANCHAYAT_MAPPING[formData.localPanchayatName];
+      return panchayatMapping
+        ? panchayatMapping[formData.localPanchayat] || []
+        : [];
     }
 
     // For Northern Regional Assembly mappings
@@ -3614,150 +3843,321 @@ const RegistrationForm = () => {
         </h3>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* State Dropdown - First */}
-        <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm ">
-          <label
-            htmlFor="state"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            State <span className="text-red-500">*</span>
+      <div className="space-y-4">
+        {/* First Row: State, District, City */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* State Dropdown */}
+          <div className="space-y-3">
+            <label className="text-sm font-medium text-gray-700 flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mr-2 text-red-700"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M14.243 5.757a6 6 0 10-.986 9.284 1 1 0 111.087 1.678A8 8 0 1118 10a3 3 0 01-4.8 2.401A4 4 0 1114 10a1 1 0 102 0c0-1.537-.586-3.07-1.757-4.243zM12 10a2 2 0 10-4 0 2 2 0 004 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              State
+            </label>
+            <select
+              name="state"
+              value={formData.state || ""}
+              onChange={handleInputChange}
+              className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
+                hasError("state")
+                  ? "border-red-500 bg-red-50 error-field"
+                  : "border-gray-300"
+              }`}
+            >
+              <option value="">Select State</option>
+              {indianStates.map((state, index) => (
+                <option key={index} value={state}>
+                  {state}
+                </option>
+              ))}
+            </select>
+            {hasError("state") && (
+              <p className="text-red-500 text-xs">{errors.state}</p>
+            )}
+          </div>
+
+          {/* District Input */}
+          <div className="space-y-3">
+            <label className="text-sm font-medium text-gray-700 flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mr-2 text-red-700"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M14.243 5.757a6 6 0 10-.986 9.284 1 1 0 111.087 1.678A8 8 0 1118 10a3 3 0 01-4.8 2.401A4 4 0 1114 10a1 1 0 102 0c0-1.537-.586-3.07-1.757-4.243zM12 10a2 2 0 10-4 0 2 2 0 004 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              District
+            </label>
+            <select
+              name="district"
+              value={formData.district}
+              onChange={handleInputChange}
+              className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
+                hasError("district")
+                  ? "border-red-500 bg-red-50 error-field"
+                  : "border-gray-300"
+              }`}
+            >
+              <option value="">Select District</option>
+              {formData.state &&
+                STATE_TO_DISTRICTS[formData.state]?.map((district, index) => (
+                  <option key={index} value={district}>
+                    {district}
+                  </option>
+                ))}
+            </select>
+            {hasError("district") && (
+              <p className="text-red-500 text-xs">{errors.district}</p>
+            )}
+          </div>
+
+          {/* City Dropdown */}
+          <div className="space-y-3">
+            <label className="text-sm font-medium text-gray-700 flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mr-2 text-red-700"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M14.243 5.757a6 6 0 10-.986 9.284 1 1 0 111.087 1.678A8 8 0 1118 10a3 3 0 01-4.8 2.401A4 4 0 1114 10a1 1 0 102 0c0-1.537-.586-3.07-1.757-4.243zM12 10a2 2 0 10-4 0 2 2 0 004 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              City
+            </label>
+            <select
+              name="city"
+              value={formData.city}
+              onChange={handleInputChange}
+              className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
+                hasError("city")
+                  ? "border-red-500 bg-red-50 error-field"
+                  : "border-gray-300"
+              }`}
+            >
+              <option value="">Select City</option>
+              {formData.state &&
+                STATE_TO_CITIES[formData.state]?.map((city, index) => (
+                  <option key={index} value={city}>
+                    {city}
+                  </option>
+                ))}
+            </select>
+            {hasError("city") && (
+              <p className="text-red-500 text-xs">{errors.city}</p>
+            )}
+          </div>
+        </div>
+
+        {/* Current Address - Full Width */}
+        <div className="space-y-3">
+          <label className="text-sm font-medium text-gray-700 flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 mr-2 text-red-700"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Current Address
           </label>
-          <select
-            id="state"
-            name="state"
-            value={formData.state || ""}
+          <textarea
+            name="currentAddress"
+            value={formData.currentAddress}
             onChange={handleInputChange}
-            className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
-          >
-            <option value="">Select State</option>
-            {indianStates.map((state, index) => (
-              <option key={index} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
-          {errors.state && (
-            <p className="mt-1 text-xs text-red-500">{errors.state}</p>
+            className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200 ${
+              hasError("currentAddress")
+                ? "border-red-500 bg-red-50 error-field"
+                : "border-gray-300"
+            }`}
+            rows="3"
+            placeholder="Enter your current address"
+          />
+          {hasError("currentAddress") && (
+            <p className="text-red-500 text-xs">{errors.currentAddress}</p>
           )}
         </div>
 
-        {/* Regional Assembly Dropdown */}
-        <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm ">
-          <label
-            htmlFor="regionalAssembly"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            Regional Assembly <span className="text-red-500">*</span>
-          </label>
-          <select
-            id="regionalAssembly"
-            name="regionalAssembly"
-            value={formData.regionalAssembly || ""}
-            onChange={handleInputChange}
-            className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
-            disabled={!formData.state}
-          >
-            <option value="">Select Regional Assembly</option>
-            {getFilteredRegionalAssemblies().map((assembly, index) => (
-              <option key={index} value={assembly}>
-                {assembly}
+        {/* First Row: Regional Assembly and Local Panchayat Name */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Regional Assembly Dropdown */}
+          <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+            <label
+              htmlFor="regionalAssembly"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Regional Assembly <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="regionalAssembly"
+              name="regionalAssembly"
+              value={formData.regionalAssembly || ""}
+              onChange={handleInputChange}
+              className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
+              disabled={!formData.state || !STATE_TO_ASSEMBLIES[formData.state]}
+            >
+              <option value="">
+                {!formData.state 
+                  ? "Select State First"
+                  : !STATE_TO_ASSEMBLIES[formData.state]
+                  ? "No Regional Assembly for Selected State"
+                  : "Select Regional Assembly"
+                }
               </option>
-            ))}
-          </select>
-          {errors.regionalAssembly && (
-            <p className="mt-1 text-xs text-red-500">
-              {errors.regionalAssembly}
-            </p>
-          )}
+              {getFilteredRegionalAssemblies().map((assembly, index) => (
+                <option key={index} value={assembly}>
+                  {assembly}
+                </option>
+              ))}
+            </select>
+            {errors.regionalAssembly && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.regionalAssembly}
+              </p>
+            )}
+          </div>
+
+          {/* Local Panchayat Name Dropdown */}
+          <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+            <label
+              htmlFor="localPanchayatName"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Local Panchayat Name <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="localPanchayatName"
+              name="localPanchayatName"
+              value={formData.localPanchayatName || ""}
+              onChange={handleInputChange}
+              className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
+              disabled={!formData.regionalAssembly || !STATE_TO_ASSEMBLIES[formData.state]}
+            >
+              <option value="">
+                {!formData.state 
+                  ? "Select State First"
+                  : !STATE_TO_ASSEMBLIES[formData.state]
+                  ? "No Local Panchayat for Selected State"
+                  : !formData.regionalAssembly
+                  ? "Select Regional Assembly First"
+                  : "Select Local Panchayat Name"
+                }
+              </option>
+              {getFilteredLocalPanchayatNames().map((name, index) => (
+                <option key={index} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
+            {errors.localPanchayatName && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.localPanchayatName}
+              </p>
+            )}
+          </div>
         </div>
 
-        {/* Local Panchayat Name Dropdown */}
-        <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm ">
-          <label
-            htmlFor="localPanchayatName"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            Local Panchayat Name <span className="text-red-500">*</span>
-          </label>
-          <select
-            id="localPanchayatName"
-            name="localPanchayatName"
-            value={formData.localPanchayatName || ""}
-            onChange={handleInputChange}
-            className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
-            disabled={!formData.regionalAssembly}
-          >
-            <option value="">Select Local Panchayat Name</option>
-            {getFilteredLocalPanchayatNames().map((name, index) => (
-              <option key={index} value={name}>
-                {name}
+        {/* Second Row: Local Panchayat and Sub Local Panchayat */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Local Panchayat Dropdown */}
+          <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+            <label
+              htmlFor="localPanchayat"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Local Panchayat <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="localPanchayat"
+              name="localPanchayat"
+              value={formData.localPanchayat || ""}
+              onChange={handleInputChange}
+              className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
+              disabled={!formData.localPanchayatName || !STATE_TO_ASSEMBLIES[formData.state]}
+            >
+              <option value="">
+                {!formData.state 
+                  ? "Select State First"
+                  : !STATE_TO_ASSEMBLIES[formData.state]
+                  ? "No Local Panchayat for Selected State"
+                  : !formData.localPanchayatName
+                  ? "Select Local Panchayat Name First"
+                  : "Select Local Panchayat"
+                }
               </option>
-            ))}
-          </select>
-          {errors.localPanchayatName && (
-            <p className="mt-1 text-xs text-red-500">
-              {errors.localPanchayatName}
-            </p>
-          )}
-        </div>
+              {getFilteredLocalPanchayats().map((panchayat, index) => (
+                <option key={index} value={panchayat}>
+                  {panchayat}
+                </option>
+              ))}
+            </select>
+            {errors.localPanchayat && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.localPanchayat}
+              </p>
+            )}
+          </div>
 
-        {/* Local Panchayat Dropdown */}
-        <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm ">
-          <label
-            htmlFor="localPanchayat"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            Local Panchayat <span className="text-red-500">*</span>
-          </label>
-          <select
-            id="localPanchayat"
-            name="localPanchayat"
-            value={formData.localPanchayat || ""}
-            onChange={handleInputChange}
-            className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
-            disabled={!formData.localPanchayatName}
-          >
-            <option value="">Select Local Panchayat</option>
-            {getFilteredLocalPanchayats().map((panchayat, index) => (
-              <option key={index} value={panchayat}>
-                {panchayat}
+          {/* Sub Local Panchayat Dropdown */}
+          <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+            <label
+              htmlFor="subLocalPanchayat"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Sub Local Panchayat <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="subLocalPanchayat"
+              name="subLocalPanchayat"
+              value={formData.subLocalPanchayat || ""}
+              onChange={handleInputChange}
+              className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
+              disabled={!formData.localPanchayat || !STATE_TO_ASSEMBLIES[formData.state]}
+            >
+              <option value="">
+                {!formData.state 
+                  ? "Select State First"
+                  : !STATE_TO_ASSEMBLIES[formData.state]
+                  ? "No Sub Local Panchayat for Selected State"
+                  : !formData.localPanchayat
+                  ? "Select Local Panchayat First"
+                  : "Select Sub Local Panchayat"
+                }
               </option>
-            ))}
-          </select>
-          {errors.localPanchayat && (
-            <p className="mt-1 text-xs text-red-500">{errors.localPanchayat}</p>
-          )}
-        </div>
-
-        {/* Sub Local Panchayat Dropdown */}
-        <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm ">
-          <label
-            htmlFor="subLocalPanchayat"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            Sub Local Panchayat <span className="text-red-500">*</span>
-          </label>
-          <select
-            id="subLocalPanchayat"
-            name="subLocalPanchayat"
-            value={formData.subLocalPanchayat || ""}
-            onChange={handleInputChange}
-            className="w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white transition-all duration-200 text-sm"
-            disabled={!formData.localPanchayat}
-          >
-            <option value="">Select Sub Local Panchayat</option>
-            {getFilteredSubLocalPanchayats().map((subPanchayat, index) => (
-              <option key={index} value={subPanchayat}>
-                {subPanchayat}
-              </option>
-            ))}
-          </select>
-          {errors.subLocalPanchayat && (
-            <p className="mt-1 text-xs text-red-500">
-              {errors.subLocalPanchayat}
-            </p>
-          )}
+              {getFilteredSubLocalPanchayats().map((panchayat, index) => (
+                <option key={index} value={panchayat}>
+                  {panchayat}
+                </option>
+              ))}
+            </select>
+            {errors.subLocalPanchayat && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.subLocalPanchayat}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -3771,8 +4171,174 @@ const RegistrationForm = () => {
     return null;
   };
 
+  const handleSkip = () => {
+    // Set empty values based on current step
+    const emptyValues = {
+      biographical_details: {
+        manglik_status: "",
+        Grah: "",
+        Handicap: "",
+        gotra: "",
+        aakna: "",
+      },
+      work_information: {
+        industrySector: "",
+        businessSize: "",
+        workType: "",
+        employmentType: "",
+        occupation: "",
+        companyName: "",
+        workArea: "",
+      },
+      additional_details: {
+        regional_information: {
+          State: "",
+          RegionalAssembly: "",
+          LocalPanchayat: "",
+          LocalPanchayatName: "",
+          SubLocalPanchayat: "",
+        },
+      },
+    };
+
+    // Update form data with empty values for current section only
+    setFormData((prev) => ({
+      ...prev,
+      ...(emptyValues[Object.keys(emptyValues)[currentStep - 1]] || {}),
+    }));
+
+    setCurrentStep(currentStep + 1);
+    setSubmitted(false);
+    window.scrollTo(0, 0);
+  };
+
+  // In the renderStepContent function, add isGahoi field to personal information section
+  const renderPersonalInformation = () => {
+    return (
+      <div className="space-y-4">
+        {/* Add isGahoi field */}
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">
+            Are you from Gahoi Community?
+          </label>
+          <div className="mt-1 space-y-2">
+            <div className="border border-gray-300 rounded-md p-3">
+              <div className="flex items-center space-x-6">
+                <label className="inline-flex items-center cursor-pointer">
+                  <input
+                    type="radio"
+                    name="isGahoi"
+                    value="Yes"
+                    checked={formData.isGahoi === "Yes"}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setFormData((prev) => ({
+                        ...prev,
+                        isGahoi: value,
+                      }));
+                    }}
+                    className="form-radio h-4 w-4 text-primary border-gray-300"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Yes</span>
+                </label>
+                <label className="inline-flex items-center cursor-pointer">
+                  <input
+                    type="radio"
+                    name="isGahoi"
+                    value="No"
+                    checked={formData.isGahoi === "No"}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setFormData((prev) => ({
+                        ...prev,
+                        isGahoi: value,
+                      }));
+                    }}
+                    className="form-radio h-4 w-4 text-primary border-gray-300"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">No</span>
+                </label>
+              </div>
+            </div>
+            {errors.isGahoi && (
+              <p className="text-red-500 text-sm">{errors.isGahoi}</p>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // In the navigation buttons section
+  const renderNavigationButtons = () => {
+    return (
+      <div className="mt-8 flex justify-between items-center">
+        <div>
+          {currentStep > 0 && (
+            <button
+              type="button"
+              onClick={handlePrevious}
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+            >
+              Previous
+            </button>
+          )}
+        </div>
+
+        <div className="flex gap-3">
+          {currentStep > 0 && currentStep < formSteps.length - 1 && (
+            <button
+              type="button"
+              onClick={handleSkip}
+              className="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+            >
+              Skip this section
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={handleNext}
+            className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700"
+            disabled={loading}
+          >
+            {loading ? (
+              <span className="flex items-center">
+                <svg
+                  className="animate-spin -ml-1 mr-2 h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Processing...
+              </span>
+            ) : currentStep === formSteps.length - 1 ? (
+              "Submit"
+            ) : (
+              "Next"
+            )}
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div 
+    <div
       className="min-h-screen py-8 px-4 flex items-center justify-center relative"
       style={{
         backgroundImage: 'url("/decorative-bg.jpg")',
@@ -3783,7 +4349,7 @@ const RegistrationForm = () => {
       }}
     >
       {/* Back to Home Button */}
-      <button 
+      <button
         onClick={() => (window.location.href = "/")}
         className="absolute top-4 left-4 bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800 transition-colors duration-200 z-20 flex items-center"
       >
@@ -3813,16 +4379,16 @@ const RegistrationForm = () => {
 
             {/* Progress Tracker */}
             <div className="w-full bg-gray-200 h-1.5 mt-3 mb-2 rounded-full overflow-hidden">
-              <div 
+              <div
                 className="bg-white h-1.5 transition-all duration-500 ease-in-out"
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
-            
+
             <div className="flex justify-between px-2 text-xs">
               {processSteps.map((step, index) => (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className={`flex flex-col items-center ${
                     step.completed ? "text-white" : "text-gray-300"
                   }`}
@@ -3868,7 +4434,7 @@ const RegistrationForm = () => {
                 key={index}
                 type="button"
                 className={`py-2 px-3 text-xs font-medium border-b-2 ${
-                  currentStep === index 
+                  currentStep === index
                     ? "border-red-700 text-red-700"
                     : index < currentStep
                     ? "border-green-500 text-green-700"
@@ -3888,63 +4454,14 @@ const RegistrationForm = () => {
           <div className="container mx-auto">
             {currentStep === 0 && (
               <div className="mb-4">
-               <PhotoUpload onImageSelect={handleImageSelect} />
+                <PhotoUpload onImageSelect={handleImageSelect} />
               </div>
             )}
-            
+
             {renderStepContent()}
-            
+
             {/* Navigation Buttons */}
-            <div className="flex justify-between mt-6">
-              <button
-                type="button"
-                onClick={handlePrevious}
-                disabled={currentStep === 0}
-                className={`px-4 py-1.5 rounded-lg font-medium text-sm ${
-                  currentStep === 0
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-gray-500 text-white hover:bg-gray-600"
-                }`}
-              >
-                Previous
-              </button>
-              <button
-                type="button"
-                onClick={handleNext}
-                disabled={loading}
-                className="bg-red-700 text-white px-4 py-1.5 rounded-lg hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 font-medium text-sm"
-              >
-                {loading ? (
-                  <span className="flex items-center justify-center">
-                    <svg
-                      className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    Processing...
-                  </span>
-                ) : currentStep === formSteps.length - 1 ? (
-                  "Submit"
-                ) : (
-                  "Next"
-                )}
-              </button>
-            </div>
+            {renderNavigationButtons()}
           </div>
         </div>
       </div>
