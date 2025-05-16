@@ -1,8 +1,14 @@
-import { defineConfig } from 'vite';
+// vite.config.js
+import { defineConfig } from 'vite'
 
 export default defineConfig({
-  build: {
-    target: 'esnext' // Allows modern features like top-level await
-  }
-});
+  server: {
+    allowedHosts: [
+      'devserver-main--iridescent-kleicha-eb6763.netlify.app',
+      // You can add other domains as needed
+      'localhost' // keep localhost for local development
+    ]
+  },
+  // Your other configuration...
+})
 
